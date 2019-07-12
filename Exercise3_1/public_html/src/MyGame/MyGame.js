@@ -58,7 +58,7 @@ MyGame.prototype.initialize = function () {
     //this.mBrain = new Brain(this.kMinionSprite);
 //
 //    // Step D: Create the hero object with texture from the lower-left corner 
-    //this.mHero = new Hero(this.kMinionSprite);
+    this.mHero = new Hero(this.kMinionSprite);
 //
 //    this.mPortalHit = new DyePack(this.kMinionSprite);
 //    this.mPortalHit.setVisibility(false);
@@ -88,8 +88,8 @@ MyGame.prototype.draw = function () {
     this.mCamera.setupViewProjection();
 
     // Step  C: Draw everything
-   // this.mHero.draw(this.mCamera);
-   // this.mBrain.draw(this.mCamera);
+    this.mHero.draw(this.mCamera);
+    //this.mBrain.draw(this.mCamera);
 //    this.mPortal.draw(this.mCamera);
 //    this.mLMinion.draw(this.mCamera);
 //    this.mRMinion.draw(this.mCamera);
@@ -106,7 +106,7 @@ MyGame.prototype.update = function () {
 //    this.mLMinion.update();
 //    this.mRMinion.update();
 //
-//    this.mHero.update();
+   this.mHero.update();
 //
 //    this.mPortal.update(gEngine.Input.keys.Up, gEngine.Input.keys.Down,
 //        gEngine.Input.keys.Left, gEngine.Input.keys.Right, gEngine.Input.keys.P);

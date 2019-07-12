@@ -21,27 +21,27 @@ function Brain(spriteTexture) {
 
     GameObject.call(this, this.mBrain);
 
-    this.setSpeed(0.05);
+    //this.setSpeed(0.05);
 }
 gEngine.Core.inheritPrototype(Brain, GameObject);
-
-Brain.prototype.update = function () {
-    GameObject.prototype.update.call(this);  // default moving forward
-
-    var xf = this.getXform();
-    var fdir = this.getCurrentFrontDir();
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
-        xf.incRotationByDegree(this.kDeltaDegree);
-        vec2.rotate(fdir, fdir, this.kDeltaRad);
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
-        xf.incRotationByRad(-this.kDeltaRad);
-        vec2.rotate(fdir, fdir, -this.kDeltaRad);
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Up)) {
-        this.incSpeedBy(this.kDeltaSpeed);
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Down)) {
-        this.incSpeedBy(-this.kDeltaSpeed);
-    }
-};
+//
+//Brain.prototype.update = function () {
+//    GameObject.prototype.update.call(this);  // default moving forward
+//
+//    var xf = this.getXform();
+//    var fdir = this.getCurrentFrontDir();
+//    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
+//        xf.incRotationByDegree(this.kDeltaDegree);
+//        vec2.rotate(fdir, fdir, this.kDeltaRad);
+//    }
+//    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
+//        xf.incRotationByRad(-this.kDeltaRad);
+//        vec2.rotate(fdir, fdir, -this.kDeltaRad);
+//    }
+//    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Up)) {
+//        this.incSpeedBy(this.kDeltaSpeed);
+//    }
+//    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Down)) {
+//        this.incSpeedBy(-this.kDeltaSpeed);
+//    }
+//};
