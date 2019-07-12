@@ -31,5 +31,6 @@ gEngine.Core.inheritPrototype(Minion, GameObject);
 
 Minion.prototype.update = function () {
     // remember to update this.mMinion's animation
+
     this.mMinion.updateAnimation();
 };

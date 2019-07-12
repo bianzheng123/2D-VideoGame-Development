@@ -12,6 +12,8 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function MyGame() {
+    document.getElementById("debug").style.color="blue";
+
     this.kMinionSprite = "assets/minion_sprite.png";
     this.kMinionPortal = "assets/minion_portal.png";
 
@@ -52,7 +54,7 @@ MyGame.prototype.initialize = function () {
         100,                       // width of camera
         [0, 0, 640, 480]           // viewport (orgX, orgY, width, height)
     );
-    this.mCamera.setBackgroundColor([0.2, 0.2, 0.2, 1]);
+    this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
             // sets the background to gray
 
     //this.mBrain = new Brain(this.kMinionSprite);
@@ -107,6 +109,11 @@ MyGame.prototype.update = function () {
 //    this.mRMinion.update();
 //
    this.mHero.update();
+   
+   if (this.mCamera.isMouseInViewport()) {
+        this.mHero.getXform().setXPos(this.mCamera.mouseWCX());
+        this.mHero.getXform().setYPos(this.mCamera.mouseWCY());
+    }
 //
 //    this.mPortal.update(gEngine.Input.keys.Up, gEngine.Input.keys.Down,
 //        gEngine.Input.keys.Left, gEngine.Input.keys.Right, gEngine.Input.keys.P);
