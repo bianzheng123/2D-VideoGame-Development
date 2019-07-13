@@ -24,6 +24,7 @@ function MyGame() {
 
     // the hero and the support objects
     this.mHero = null;
+    this.mDyePack = null;
     this.mBrain = null;
     this.mPortalHit = null;
     this.mHeroHit = null;
@@ -66,6 +67,9 @@ MyGame.prototype.initialize = function () {
     this.mBg = new GameObject(bgR);
 //    // Step D: Create the hero object with texture from the lower-left corner 
     this.mHero = new Hero(this.kMinionSprite);
+    this.mMinion = new Minion(this.kMinionSprite,30,30);
+    this.mDyePack = new DyePack(this.kMinionSprite);
+    
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -80,6 +84,11 @@ MyGame.prototype.draw = function () {
     // Step  C: Draw everything
     this.mBg.draw(this.mCamera);
     this.mHero.draw(this.mCamera);
+    this.mMinion.draw(this.mCamera);
+    this.mDyePack.draw(this.mCamera);
+    //this.mHero.getXform().setPosition(12,15);
+    //this.mHero.draw(this.mCamera);
+    
 };
 
 // The update function, updates the application state. Make sure to _NOT_ draw
@@ -90,6 +99,7 @@ MyGame.prototype.update = function () {
 //    this.mLMinion.update();
 //    this.mRMinion.update();
 //
+    this.mMinion.update();
    this.mHero.update();
    
    if (this.mCamera.isMouseInViewport()) {
