@@ -19,9 +19,9 @@ function Brain(spriteTexture) {
     this.mBrain.getXform().setPosition(Math.random() * 40 + 40, Math.random() * 5 + 10);
     this.mBrain.getXform().setSize(7.5, 7.5);
     this.mBrain.setElementPixelPositions(600, 700, 0, 180);
-    this.lb=this.mMinion.getXform().getXPos()-3.75;//left bound
+    this.lb=this.mBrain.getXform().getXPos()-3.75;//left bound
     this.rb=this.lb+7.5;//right bound
-    this.bb=this.mMinion.getXform().getYPos()-3.75;//bottom bound
+    this.bb=this.mBrain.getXform().getYPos()-3.75;//bottom bound
     this.tb=this.bb+7.5;//top bound
     this.wlb=this.lb;//whole left bound
     this.wrb=this.lb+20;//whole right bound
@@ -47,9 +47,9 @@ Brain.prototype.update = function () {
     var dy=this.kDeltaSpeed*Math.sin(this.theta);
     this.mBrain.getXform().incXPosBy(dx);
     this.mBrain.getXform().incYPosBy(dy);
-    this.lb=this.mMinion.getXform().getXPos()-3.75;//left bound
+    this.lb=this.mBrain.getXform().getXPos()-3.75;//left bound
     this.rb=this.lb+7.5;//right bound
-    this.bb=this.mMinion.getXform().getYPos()-3.75;//bottom bound
+    this.bb=this.mBrain.getXform().getYPos()-3.75;//bottom bound
     this.tb=this.bb+7.5;//top bound
     this.wlb=this.lb;//whole left bound
     this.wrb=this.lb+20;//whole right bound
