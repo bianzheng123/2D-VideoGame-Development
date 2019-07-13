@@ -24,9 +24,9 @@ function Brain(spriteTexture) {
     this.bb=this.mBrain.getXform().getYPos()-3.75;//bottom bound
     this.tb=this.bb+7.5;//top bound
     this.wlb=this.lb;//whole left bound
-    this.wrb=this.lb+20;//whole right bound
-    this.wtb=this.tb+25;//whole top bound
-    this.wbb=this.bb-10;//whole bottom bound
+    this.wrb=this.lb+18.75;//whole right bound
+    this.wtb=this.tb-3.75+20;//whole top bound
+    this.wbb=this.bb-6.25;//whole bottom bound
     GameObject.call(this, this.mBrain);
 
     //this.setSpeed(0.05);
@@ -52,7 +52,7 @@ Brain.prototype.update = function () {
     this.bb=this.mBrain.getXform().getYPos()-3.75;//bottom bound
     this.tb=this.bb+7.5;//top bound
     this.wlb=this.lb;//whole left bound
-    this.wrb=this.lb+20;//whole right bound
-    this.wtb=this.tb+25;//whole top bound
-    this.wbb=this.bb-10;//whole bottom bound
+    this.wrb=this.lb+18.75;//whole right bound
+    this.wtb=this.tb-3.75+20;//whole top bound
+    this.wbb=this.bb-6.25;//whole bottom bound
 };

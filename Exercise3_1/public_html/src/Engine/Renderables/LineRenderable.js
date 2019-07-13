@@ -24,7 +24,7 @@
  */
 function LineRenderable(x1, y1, x2, y2) {
     Renderable.call(this);
-    Renderable.prototype.setColor.call(this, [0, 0, 0, 1]);
+    Renderable.prototype.setColor.call(this, [1,1,1, 1]);
     Renderable.prototype._setShader.call(this, gEngine.DefaultResources.getLineShader());
 
     this.mPointSize = 1;

@@ -50,6 +50,12 @@ function MyGame() {
     this.mLMinionSet = [];
     this.mRMinionSet = [];
     this.mBrainSet = [];
+    
+    this.mLineSetRightDown = [];
+    this.mLineSetRightUp = [];
+    this.mLineSetLeft = [];
+    this.mLineSetWhole = [];
+    
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -118,6 +124,7 @@ MyGame.prototype.draw = function () {
     
     
     var i,l;
+    var j,line;
     for(i=0;i<this.mDyePackSet.length;i++){
         l = this.mDyePackSet[i];
         l.draw(this.mCamera);
@@ -127,14 +134,30 @@ MyGame.prototype.draw = function () {
     for(i=0;i<this.mLMinionSet.length;i++){
         l = this.mLMinionSet[i];
         l.draw(this.mCamera);
+        for(j=0;j<4;j++){
+            line = this.mLineSetRightDown[4*i+j];
+            line.draw(this.mCamera);
+        }
     }
     for(i=0;i<this.mRMinionSet.length;i++){
         l = this.mRMinionSet[i];
         l.draw(this.mCamera);
+        for(j=0;j<4;j++){
+            line = this.mLineSetRightUp[4*i+j];
+            line.draw(this.mCamera);
+        }
     }
     for(i=0;i<this.mBrainSet.length;i++){
         l = this.mBrainSet[i];
         l.draw(this.mCamera);
+        for(j=0;j<4;j++){
+            line = this.mLineSetLeft[4*i+j];
+            line.draw(this.mCamera);
+        }
+        for(j=0;j<4;j++){
+            line = this.mLineSetWhole[4*i+j];
+            line.draw(this.mCamera);
+        }
     }
     
     
@@ -157,6 +180,46 @@ MyGame.prototype.update = function () {
             this.mNumPatrolSpawned++;
             this.count = 0;
             this.spawnTime = Math.random() * 60 + 120;
+            
+        var l=mBrain;
+        var line;
+        line=new LineRenderable(l.lb,l.tb,l.lb,l.bb);
+        this.mLineSetLeft.push(line);
+        line=new LineRenderable(l.lb,l.bb,l.rb,l.bb);
+        this.mLineSetLeft.push(line);
+        line=new LineRenderable(l.rb,l.bb,l.rb,l.tb);        
+        this.mLineSetLeft.push(line);
+        line=new LineRenderable(l.rb,l.tb,l.lb,l.tb);
+        this.mLineSetLeft.push(line);
+        
+        line=new LineRenderable(l.wlb,l.wtb,l.wlb,l.wbb);
+        this.mLineSetWhole.push(line);
+        line=new LineRenderable(l.wlb,l.wbb,l.wrb,l.wbb);
+        this.mLineSetWhole.push(line);
+        line=new LineRenderable(l.wrb,l.wbb,l.wrb,l.wtb);        
+        this.mLineSetWhole.push(line);
+        line=new LineRenderable(l.wrb,l.wtb,l.wlb,l.wtb);
+        this.mLineSetWhole.push(line);
+        
+        l=mLMinion1;
+        line=new LineRenderable(l.lb,l.tb,l.lb,l.bb);
+        this.mLineSetRightDown.push(line);
+        line=new LineRenderable(l.lb,l.bb,l.rb,l.bb);
+        this.mLineSetRightDown.push(line);
+        line=new LineRenderable(l.rb,l.bb,l.rb,l.tb);        
+        this.mLineSetRightDown.push(line);
+        line=new LineRenderable(l.rb,l.tb,l.lb,l.tb);
+        this.mLineSetRightDown.push(line);        
+        
+        l=mRMinion1;
+        line=new LineRenderable(l.lb,l.tb,l.lb,l.bb);
+        this.mLineSetRightUp.push(line);
+        line=new LineRenderable(l.lb,l.bb,l.rb,l.bb);
+        this.mLineSetRightUp.push(line);
+        line=new LineRenderable(l.rb,l.bb,l.rb,l.tb);        
+        this.mLineSetRightUp.push(line);
+        line=new LineRenderable(l.rb,l.tb,l.lb,l.tb);
+        this.mLineSetRightUp.push(line);
        }else{
            this.count++;
        }
@@ -164,6 +227,7 @@ MyGame.prototype.update = function () {
    
    
    var i,l,J;
+   var j,line;
     for(i=0;i<this.mDyePackSet.length;i++){
         l = this.mDyePackSet[i];
         l.update(); 
@@ -178,16 +242,49 @@ MyGame.prototype.update = function () {
     for(i=0;i<this.mBrainSet.length;i++){
         l = this.mBrainSet[i];
         l.update();
+        line = this.mLineSetLeft[4*i];
+        line.setVertices(l.lb,l.tb,l.lb,l.bb);
+        line = this.mLineSetLeft[4*i+1];
+        line.setVertices(l.lb,l.bb,l.rb,l.bb);        
+        line = this.mLineSetLeft[4*i+2];
+        line.setVertices(l.rb,l.bb,l.rb,l.tb);        
+        line = this.mLineSetLeft[4*i+3];
+        line.setVertices(l.rb,l.tb,l.lb,l.tb);        
+        line = this.mLineSetWhole[4*i];
+        line.setVertices(l.wlb,l.wtb,l.wlb,l.wbb);
+        line = this.mLineSetWhole[4*i+1];
+        line.setVertices(l.wlb,l.wbb,l.wrb,l.wbb);        
+        line = this.mLineSetWhole[4*i+2];
+        line.setVertices(l.wrb,l.wbb,l.wrb,l.wtb);        
+        line = this.mLineSetWhole[4*i+3];
+        line.setVertices(l.wrb,l.wtb,l.wlb,l.wtb);
+        
     }
     for(i=0;i<this.mLMinionSet.length;i++){
         l = this.mLMinionSet[i];
         J = this.mBrainSet[i];
         l.update(J.getXform().getPosition(),true);
+        line = this.mLineSetRightDown[4*i];
+        line.setVertices(l.lb,l.tb,l.lb,l.bb);
+        line = this.mLineSetRightDown[4*i+1];
+        line.setVertices(l.lb,l.bb,l.rb,l.bb);        
+        line = this.mLineSetRightDown[4*i+2];
+        line.setVertices(l.rb,l.bb,l.rb,l.tb);        
+        line = this.mLineSetRightDown[4*i+3];
+        line.setVertices(l.rb,l.tb,l.lb,l.tb);
     }
     for(i=0;i<this.mRMinionSet.length;i++){
         l = this.mRMinionSet[i];
         J = this.mBrainSet[i];
         l.update(J.getXform().getPosition(),false);
+        line = this.mLineSetRightUp[4*i];
+        line.setVertices(l.lb,l.tb,l.lb,l.bb);
+        line = this.mLineSetRightUp[4*i+1];
+        line.setVertices(l.lb,l.bb,l.rb,l.bb);        
+        line = this.mLineSetRightUp[4*i+2];
+        line.setVertices(l.rb,l.bb,l.rb,l.tb);        
+        line = this.mLineSetRightUp[4*i+3];
+        line.setVertices(l.rb,l.tb,l.lb,l.tb);
     }
     
    
@@ -210,8 +307,46 @@ MyGame.prototype.update = function () {
         this.mLMinionSet.push(mLMinion1);
         this.mRMinionSet.push(mRMinion1);
         this.mBrainSet.push(mBrain);
-        
         this.mNumPatrolSpawned++;
+        
+        l=mBrain;
+        line=new LineRenderable(l.lb,l.tb,l.lb,l.bb);
+        this.mLineSetLeft.push(line);
+        line=new LineRenderable(l.lb,l.bb,l.rb,l.bb);
+        this.mLineSetLeft.push(line);
+        line=new LineRenderable(l.rb,l.bb,l.rb,l.tb);        
+        this.mLineSetLeft.push(line);
+        line=new LineRenderable(l.rb,l.tb,l.lb,l.tb);
+        this.mLineSetLeft.push(line);
+        
+        line=new LineRenderable(l.wlb,l.wtb,l.wlb,l.wbb);
+        this.mLineSetWhole.push(line);
+        line=new LineRenderable(l.wlb,l.wbb,l.wrb,l.wbb);
+        this.mLineSetWhole.push(line);
+        line=new LineRenderable(l.wrb,l.wbb,l.wrb,l.wtb);        
+        this.mLineSetWhole.push(line);
+        line=new LineRenderable(l.wrb,l.wtb,l.wlb,l.wtb);
+        this.mLineSetWhole.push(line);
+        
+        l=mLMinion1;
+        line=new LineRenderable(l.lb,l.tb,l.lb,l.bb);
+        this.mLineSetRightDown.push(line);
+        line=new LineRenderable(l.lb,l.bb,l.rb,l.bb);
+        this.mLineSetRightDown.push(line);
+        line=new LineRenderable(l.rb,l.bb,l.rb,l.tb);        
+        this.mLineSetRightDown.push(line);
+        line=new LineRenderable(l.rb,l.tb,l.lb,l.tb);
+        this.mLineSetRightDown.push(line);        
+        
+        l=mRMinion1;
+        line=new LineRenderable(l.lb,l.tb,l.lb,l.bb);
+        this.mLineSetRightUp.push(line);
+        line=new LineRenderable(l.lb,l.bb,l.rb,l.bb);
+        this.mLineSetRightUp.push(line);
+        line=new LineRenderable(l.rb,l.bb,l.rb,l.tb);        
+        this.mLineSetRightUp.push(line);
+        line=new LineRenderable(l.rb,l.tb,l.lb,l.tb);
+        this.mLineSetRightUp.push(line);
     }
     
     if(gEngine.Input.isKeyClicked(gEngine.Input.keys.P)){
