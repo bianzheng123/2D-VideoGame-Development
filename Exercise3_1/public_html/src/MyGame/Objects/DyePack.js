@@ -12,7 +12,8 @@
 function DyePack(spriteTexture) {
     this.kRefWidth = 80;
     this.kRefHeight = 130;
-    this.kDelta = 0.5;
+    this.kDelta = 2;
+    this.kSlowDelta = 0.1;
 
     this.mDyePack = new SpriteRenderable(spriteTexture);
     this.mDyePack.setColor([1, 1, 1, 0.1]);
@@ -26,7 +27,12 @@ gEngine.Core.inheritPrototype(DyePack, GameObject);
 
 DyePack.prototype.update = function () {
     var xform = this.getXform();
-    xform.incXPosBy(this.kDelta);
+    if(this.mDyePack.getXform().getXPos() > 80){
+        xform.incXPosBy(this.kSlowDelta);
+    }else{
+        xform.incXPosBy(this.kDelta);
+    }
+    
 };
 
 //DyePack.prototype.draw = function(){
