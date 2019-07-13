@@ -24,8 +24,15 @@ function Hero(spriteTexture) {
 }
 gEngine.Core.inheritPrototype(Hero, GameObject);
 
-Hero.prototype.update = function () {
-    // control by WASD
+Hero.prototype.update = function (mouseWCX,mouseWCY) {
+    var xform = this.mDye.getXform();
+    if(xform.getXPos() !== mouseWCX){
+        xform.setXPos(xform.getXPos() + (mouseWCX - xform.getXPos()) / 60);
+    }
+    
+    if(xform.getYPos !== mouseWCY){
+        xform.setYPos(xform.getYPos() + (mouseWCY - xform.getYPos()) / 60);
+    }
 
     
 

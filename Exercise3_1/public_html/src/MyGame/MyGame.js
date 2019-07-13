@@ -36,6 +36,10 @@ function MyGame() {
     this.mChoice = 'H';
     
     this.mDyePackSet = [];
+    
+    this.mLMinionSet = [];
+    this.mRMinionSet = [];
+    this.mBrainSet = [];
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -98,6 +102,9 @@ MyGame.prototype.draw = function () {
         l.draw(this.mCamera);
     }
     
+//    var i,l;
+//    for(i=0;i<this.)
+    
 
     //this.mHero.getXform().setPosition(12,15);
     //this.mHero.draw(this.mCamera);
@@ -114,7 +121,6 @@ MyGame.prototype.update = function () {
 //
    //this.mMinion.update();
    this.mBrain.update();
-   this.mHero.update();
    this.mUMinion.update(this.mBrain.getXform().getPosition(),false);
    this.mLMinion.update(this.mBrain.getXform().getPosition(),true);
    
@@ -125,9 +131,7 @@ MyGame.prototype.update = function () {
     }
    
    if (this.mCamera.isMouseInViewport()) {
-       
-        this.mHero.getXform().setXPos(this.mCamera.mouseWCX());
-        this.mHero.getXform().setYPos(this.mCamera.mouseWCY());
+       this.mHero.update(this.mCamera.mouseWCX(),this.mCamera.mouseWCY());
     }
     
     if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Space)) {
