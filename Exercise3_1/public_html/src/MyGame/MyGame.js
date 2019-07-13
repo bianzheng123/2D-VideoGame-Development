@@ -20,7 +20,9 @@ function MyGame() {
     // The camera to view the scene
     this.mCamera = null;
 
-    this.mMsg = null;
+    this.mMsg1 = null;
+    this.mMsg2 = null;
+    this.mMsg3 = null;
 
     // the hero and the support objects
     this.mHero = null;
@@ -39,7 +41,9 @@ function MyGame() {
     this.mUMinion = null;
 
     this.mCollide = null;
-    this.mChoice = 'H';
+    this.mNumPatrolSpawned = 0;
+    this.mNumDyePacksSpawned = 0;
+    this.mStateAuto = "on";
     
     this.mDyePackSet = [];
     
@@ -78,11 +82,22 @@ MyGame.prototype.initialize = function () {
     this.mBg = new GameObject(bgR);
 //    // Step D: Create the hero object with texture from the lower-left corner 
     this.mHero = new Hero(this.kMinionSprite);
-//    this.mBrain = new Brain(this.kMinionSprite);
-//    this.mUMinion = new Minion(this.kMinionSprite,this.mBrain.getXform().getXPos()+10,this.mBrain.getXform().getYPos()+6);
-//    this.mLMinion = new Minion(this.kMinionSprite,this.mBrain.getXform().getXPos()+10,this.mBrain.getXform().getYPos()-6);
+
    
+    this.mMsg1 = new FontRenderable("Status Message");
+    this.mMsg1.setColor([1, 1, 1, 1]);
+    this.mMsg1.getXform().setPosition(1, 11);
+    this.mMsg1.setTextHeight(3);
     
+    this.mMsg2 = new FontRenderable("Status Message");
+    this.mMsg2.setColor([1, 1, 1, 1]);
+    this.mMsg2.getXform().setPosition(1, 8);
+    this.mMsg2.setTextHeight(3);
+    
+    this.mMsg3 = new FontRenderable("Status Message");
+    this.mMsg3.setColor([1, 1, 1, 1]);
+    this.mMsg3.getXform().setPosition(1, 5);
+    this.mMsg3.setTextHeight(3);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -97,10 +112,10 @@ MyGame.prototype.draw = function () {
     // Step  C: Draw everything
     this.mBg.draw(this.mCamera);
     this.mHero.draw(this.mCamera);
+    this.mMsg1.draw(this.mCamera);
+    this.mMsg2.draw(this.mCamera);
+    this.mMsg3.draw(this.mCamera);
     
-//    this.mBrain.draw(this.mCamera);
-//    this.mUMinion.draw(this.mCamera);
-//    this.mLMinion.draw(this.mCamera);
     
     var i,l;
     for(i=0;i<this.mDyePackSet.length;i++){
@@ -128,11 +143,8 @@ MyGame.prototype.draw = function () {
 // The update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MyGame.prototype.update = function () {
-    //var msg = "L/R: Left or Right Minion; H: Dye; B: Brain]: ";
 
-//   this.mBrain.update();
-//   this.mUMinion.update(this.mBrain.getXform().getPosition(),false);
-//   this.mLMinion.update(this.mBrain.getXform().getPosition(),true);
+
    if(this.isSpawning){
        if(this.count >= this.spawnTime){
             var mBrain = new Brain(this.kMinionSprite);
@@ -142,7 +154,7 @@ MyGame.prototype.update = function () {
             this.mLMinionSet.push(mLMinion1);
             this.mRMinionSet.push(mRMinion1);
             this.mBrainSet.push(mBrain);
-            
+            this.mNumPatrolSpawned++;
             this.count = 0;
             this.spawnTime = Math.random() * 60 + 120;
        }else{
@@ -159,6 +171,7 @@ MyGame.prototype.update = function () {
         if(l.getXform().getXPos() > 110){
             var de = this.mDyePackSet.shift();
             de = null;
+            this.mNumDyePacksSpawned--;
         }
     }
     
@@ -186,6 +199,7 @@ MyGame.prototype.update = function () {
         var mDyePack = new DyePack(this.kMinionSprite);
         this.mDyePackSet.push(mDyePack);
         mDyePack.getXform().setPosition(this.mHero.getXform().getXPos(),this.mHero.getXform().getYPos());
+        this.mNumDyePacksSpawned++;
     }
     
     if (gEngine.Input.isKeyReleased(gEngine.Input.keys.C)) {
@@ -196,10 +210,24 @@ MyGame.prototype.update = function () {
         this.mLMinionSet.push(mLMinion1);
         this.mRMinionSet.push(mRMinion1);
         this.mBrainSet.push(mBrain);
+        
+        this.mNumPatrolSpawned++;
     }
     
     if(gEngine.Input.isKeyClicked(gEngine.Input.keys.P)){
         this.count = 0;
         this.isSpawning = !this.isSpawning;
+        if(this.isSpawning === false){
+            this.mStateAuto = "off";
+        }else{
+            this.mStateAuto = "on";
+        }
     }
+    
+    var msg1 = "Number of Patrol units spawned: ";
+    var msg2 = "Number of DyePacks spawned: ";
+    var msg3 = "The state of Auto Spawn mode (on or off): ";
+    this.mMsg1.setText(msg1 + this.mNumPatrolSpawned.toString());
+    this.mMsg2.setText(msg2 + this.mNumDyePacksSpawned.toString());
+    this.mMsg3.setText(msg3 + this.mStateAuto.toString());
 };
