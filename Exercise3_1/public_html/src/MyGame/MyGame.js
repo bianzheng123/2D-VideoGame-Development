@@ -12,10 +12,10 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function MyGame() {
-    document.getElementById("debug").style.color="blue";
 
     this.kMinionSprite = "assets/minion_sprite.png";
     this.kMinionPortal = "assets/minion_portal.png";
+    this.kBG = "assets/galaxy.png";
 
     // The camera to view the scene
     this.mCamera = null;
@@ -40,11 +40,13 @@ gEngine.Core.inheritPrototype(MyGame, Scene);
 MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kMinionSprite);
     gEngine.Textures.loadTexture(this.kMinionPortal);
+    gEngine.Textures.loadTexture(this.kBG);
 };
 
 MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kMinionSprite);
     gEngine.Textures.unloadTexture(this.kMinionPortal);
+    gEngine.Textures.unloadTexture(this.kBG);
 };
 
 MyGame.prototype.initialize = function () {
@@ -52,32 +54,18 @@ MyGame.prototype.initialize = function () {
     this.mCamera = new Camera(
         vec2.fromValues(50, 37.5), // position of the camera
         100,                       // width of camera
-        [0, 0, 640, 480]           // viewport (orgX, orgY, width, height)
+        [10, 10, 780, 580]           // viewport (orgX, orgY, width, height)
     );
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
             // sets the background to gray
-
-    //this.mBrain = new Brain(this.kMinionSprite);
-//
+     //BG
+    var bgR = new SpriteRenderable(this.kBG);
+    bgR.setElementPixelPositions(0, 1023, 0, 1023);
+    bgR.getXform().setSize(150, 150);
+    bgR.getXform().setPosition(50, 35);
+    this.mBg = new GameObject(bgR);
 //    // Step D: Create the hero object with texture from the lower-left corner 
     this.mHero = new Hero(this.kMinionSprite);
-//
-//    this.mPortalHit = new DyePack(this.kMinionSprite);
-//    this.mPortalHit.setVisibility(false);
-//    this.mHeroHit = new DyePack(this.kMinionSprite);
-//    this.mHeroHit.setVisibility(false);
-//
-//    this.mPortal = new TextureObject(this.kMinionPortal, 50, 30, 10, 10);
-//
-//    this.mLMinion = new Minion(this.kMinionSprite, 30, 30);
-//    this.mRMinion = new Minion(this.kMinionSprite, 70, 30);
-//
-//    this.mMsg = new FontRenderable("Status Message");
-//    this.mMsg.setColor([0, 0, 0, 1]);
-//    this.mMsg.getXform().setPosition(1, 2);
-//    this.mMsg.setTextHeight(3);
-//
-//    this.mCollide = this.mHero;
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -90,20 +78,14 @@ MyGame.prototype.draw = function () {
     this.mCamera.setupViewProjection();
 
     // Step  C: Draw everything
+    this.mBg.draw(this.mCamera);
     this.mHero.draw(this.mCamera);
-    //this.mBrain.draw(this.mCamera);
-//    this.mPortal.draw(this.mCamera);
-//    this.mLMinion.draw(this.mCamera);
-//    this.mRMinion.draw(this.mCamera);
-//    this.mPortalHit.draw(this.mCamera);
-//    this.mHeroHit.draw(this.mCamera);
-//    this.mMsg.draw(this.mCamera);
 };
 
 // The update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MyGame.prototype.update = function () {
-//    var msg = "L/R: Left or Right Minion; H: Dye; B: Brain]: ";
+    var msg = "L/R: Left or Right Minion; H: Dye; B: Brain]: ";
 //
 //    this.mLMinion.update();
 //    this.mRMinion.update();
