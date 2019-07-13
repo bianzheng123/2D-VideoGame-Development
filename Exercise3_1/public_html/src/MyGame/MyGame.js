@@ -24,6 +24,10 @@ function MyGame() {
 
     // the hero and the support objects
     this.mHero = null;
+    
+    this.isSpawning = true;
+    this.count = 0;
+    this.spawnTime = Math.random() * 60 + 120;
 
     this.mPortalHit = null;
     this.mHeroHit = null;
@@ -129,6 +133,23 @@ MyGame.prototype.update = function () {
 //   this.mBrain.update();
 //   this.mUMinion.update(this.mBrain.getXform().getPosition(),false);
 //   this.mLMinion.update(this.mBrain.getXform().getPosition(),true);
+   if(this.isSpawning){
+       if(this.count >= this.spawnTime){
+            var mBrain = new Brain(this.kMinionSprite);
+            var mLMinion1 = new Minion(this.kMinionSprite,mBrain.getXform().getXPos() + 10,mBrain.getXform().getYPos() - 6);
+            var mRMinion1 = new Minion(this.kMinionSprite,mBrain.getXform().getXPos() + 10,mBrain.getXform().getYPos() + 6);
+
+            this.mLMinionSet.push(mLMinion1);
+            this.mRMinionSet.push(mRMinion1);
+            this.mBrainSet.push(mBrain);
+            
+            this.count = 0;
+            this.spawnTime = Math.random() * 60 + 120;
+       }else{
+           this.count++;
+       }
+   }
+   
    
    var i,l,J;
     for(i=0;i<this.mDyePackSet.length;i++){
@@ -156,7 +177,6 @@ MyGame.prototype.update = function () {
         l.update(J.getXform().getPosition(),false);
     }
     
-    
    
    if (this.mCamera.isMouseInViewport()) {
        this.mHero.update(this.mCamera.mouseWCX(),this.mCamera.mouseWCY());
@@ -176,7 +196,10 @@ MyGame.prototype.update = function () {
         this.mLMinionSet.push(mLMinion1);
         this.mRMinionSet.push(mRMinion1);
         this.mBrainSet.push(mBrain);
-        
-        
+    }
+    
+    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.P)){
+        this.count = 0;
+        this.isSpawning = !this.isSpawning;
     }
 };

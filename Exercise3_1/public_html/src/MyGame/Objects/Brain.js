@@ -12,11 +12,11 @@
 function Brain(spriteTexture) {
     this.kDeltaDegree = 1;
     this.kDeltaRad = Math.PI * this.kDeltaDegree / 180;
-    this.kDeltaSpeed = 0.1;
+    this.kDeltaSpeed = Math.random() * 0.083 + 0.083;
     this.theta = Math.random()*2*Math.PI;
     this.mBrain = new SpriteRenderable(spriteTexture);
     this.mBrain.setColor([1, 1, 1, 0]);
-    this.mBrain.getXform().setPosition(60, 10);
+    this.mBrain.getXform().setPosition(Math.random() * 40 + 40, Math.random() * 5 + 10);
     this.mBrain.getXform().setSize(7.5, 7.5);
     this.mBrain.setElementPixelPositions(600, 700, 0, 180);
 
