@@ -24,7 +24,6 @@ function MyGame() {
 
     // the hero and the support objects
     this.mHero = null;
-    this.mDyePack = null;
     this.mBrain = null;
     this.mPortalHit = null;
     this.mHeroHit = null;
@@ -35,6 +34,8 @@ function MyGame() {
 
     this.mCollide = null;
     this.mChoice = 'H';
+    
+    this.mDyePackSet = [];
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -68,7 +69,7 @@ MyGame.prototype.initialize = function () {
 //    // Step D: Create the hero object with texture from the lower-left corner 
     this.mHero = new Hero(this.kMinionSprite);
     this.mMinion = new Minion(this.kMinionSprite,30,30);
-    this.mDyePack = new DyePack(this.kMinionSprite);
+   
     
 };
 
@@ -76,7 +77,7 @@ MyGame.prototype.initialize = function () {
 // importantly, make sure to _NOT_ change any state.
 MyGame.prototype.draw = function () {
     // Step A: clear the canvas
-    gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
+    gEngine.Core.clearCanvas([0.8, 0.8, 0.8, 1.0]); // clear to light gray
 
     // Step  B: Activate the drawing Camera
     this.mCamera.setupViewProjection();
@@ -85,7 +86,14 @@ MyGame.prototype.draw = function () {
     this.mBg.draw(this.mCamera);
     this.mHero.draw(this.mCamera);
     this.mMinion.draw(this.mCamera);
-    this.mDyePack.draw(this.mCamera);
+    
+    var i,l;
+    for(i=0;i<this.mDyePackSet.length;i++){
+        l = this.mDyePackSet[i];
+        l.draw(this.mCamera);
+    }
+    
+
     //this.mHero.getXform().setPosition(12,15);
     //this.mHero.draw(this.mCamera);
     
@@ -94,7 +102,7 @@ MyGame.prototype.draw = function () {
 // The update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MyGame.prototype.update = function () {
-    var msg = "L/R: Left or Right Minion; H: Dye; B: Brain]: ";
+    //var msg = "L/R: Left or Right Minion; H: Dye; B: Brain]: ";
 //
 //    this.mLMinion.update();
 //    this.mRMinion.update();
@@ -102,52 +110,22 @@ MyGame.prototype.update = function () {
     this.mMinion.update();
    this.mHero.update();
    
+   var i,l;
+    for(i=0;i<this.mDyePackSet.length;i++){
+        l = this.mDyePackSet[i];
+        l.update();
+    }
+   
    if (this.mCamera.isMouseInViewport()) {
+       
         this.mHero.getXform().setXPos(this.mCamera.mouseWCX());
         this.mHero.getXform().setYPos(this.mCamera.mouseWCY());
     }
-//
-//    this.mPortal.update(gEngine.Input.keys.Up, gEngine.Input.keys.Down,
-//        gEngine.Input.keys.Left, gEngine.Input.keys.Right, gEngine.Input.keys.P);
-//
-//    var h = [];
-//
-//    // Portal intersects with which ever is selected
-//    if (this.mPortal.pixelTouches(this.mCollide, h)) {
-//        this.mPortalHit.setVisibility(true);
-//        this.mPortalHit.getXform().setXPos(h[0]);
-//        this.mPortalHit.getXform().setYPos(h[1]);
-//    } else {
-//        this.mPortalHit.setVisibility(false);
-//    }
-//
-//    // hero always collide with Brain (Brain chases hero)
-//    if (!this.mHero.pixelTouches(this.mBrain, h)) {
-//        this.mBrain.rotateObjPointTo(this.mHero.getXform().getPosition(), 0.05);
-//        GameObject.prototype.update.call(this.mBrain);
-//        this.mHeroHit.setVisibility(false);
-//    } else {
-//        this.mHeroHit.setVisibility(true);
-//        this.mHeroHit.getXform().setPosition(h[0], h[1]);
-//    }
-//
-//    // decide which to collide
-//    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.L)) {
-//        this.mCollide = this.mLMinion;
-//        this.mChoice = 'L';
-//    }
-//    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.R)) {
-//        this.mCollide = this.mRMinion;
-//        this.mChoice = 'R';
-//    }
-//    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.B)) {
-//        this.mCollide = this.mBrain;
-//        this.mChoice = 'B';
-//    }
-//    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.H)) {
-//        this.mCollide = this.mHero;
-//        this.mChoice = 'H';
-//    }
-//
-//    this.mMsg.setText(msg + this.mChoice);
+    
+    if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Space)) {
+        var mDyePack = new DyePack(this.kMinionSprite);
+        this.mDyePackSet.push(mDyePack);
+        mDyePack.getXform().setPosition(this.mHero.getXform().getXPos(),this.mHero.getXform().getYPos());
+    }
+
 };
