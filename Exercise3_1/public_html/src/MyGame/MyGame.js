@@ -24,11 +24,13 @@ function MyGame() {
 
     // the hero and the support objects
     this.mHero = null;
-    this.mBrain = null;
+
     this.mPortalHit = null;
     this.mHeroHit = null;
 
     this.mPortal = null;
+    
+    this.mBrain = null;
     this.mLMinion = null;
     this.mUMinion = null;
 
@@ -72,9 +74,9 @@ MyGame.prototype.initialize = function () {
     this.mBg = new GameObject(bgR);
 //    // Step D: Create the hero object with texture from the lower-left corner 
     this.mHero = new Hero(this.kMinionSprite);
-    this.mBrain = new Brain(this.kMinionSprite);
-    this.mUMinion = new Minion(this.kMinionSprite,this.mBrain.getXform().getXPos()+10,this.mBrain.getXform().getYPos()+6);
-    this.mLMinion = new Minion(this.kMinionSprite,this.mBrain.getXform().getXPos()+10,this.mBrain.getXform().getYPos()-6);
+//    this.mBrain = new Brain(this.kMinionSprite);
+//    this.mUMinion = new Minion(this.kMinionSprite,this.mBrain.getXform().getXPos()+10,this.mBrain.getXform().getYPos()+6);
+//    this.mLMinion = new Minion(this.kMinionSprite,this.mBrain.getXform().getXPos()+10,this.mBrain.getXform().getYPos()-6);
    
     
 };
@@ -90,11 +92,11 @@ MyGame.prototype.draw = function () {
 
     // Step  C: Draw everything
     this.mBg.draw(this.mCamera);
-    this.mBrain.draw(this.mCamera);
-    this.mUMinion.draw(this.mCamera);
-    this.mLMinion.draw(this.mCamera);
     this.mHero.draw(this.mCamera);
-    //this.mMinion.draw(this.mCamera);
+    
+//    this.mBrain.draw(this.mCamera);
+//    this.mUMinion.draw(this.mCamera);
+//    this.mLMinion.draw(this.mCamera);
     
     var i,l;
     for(i=0;i<this.mDyePackSet.length;i++){
@@ -102,12 +104,20 @@ MyGame.prototype.draw = function () {
         l.draw(this.mCamera);
     }
     
-//    var i,l;
-//    for(i=0;i<this.)
-    
 
-    //this.mHero.getXform().setPosition(12,15);
-    //this.mHero.draw(this.mCamera);
+    for(i=0;i<this.mLMinionSet.length;i++){
+        l = this.mLMinionSet[i];
+        l.draw(this.mCamera);
+    }
+    for(i=0;i<this.mRMinionSet.length;i++){
+        l = this.mRMinionSet[i];
+        l.draw(this.mCamera);
+    }
+    for(i=0;i<this.mBrainSet.length;i++){
+        l = this.mBrainSet[i];
+        l.draw(this.mCamera);
+    }
+    
     
 };
 
@@ -115,20 +125,38 @@ MyGame.prototype.draw = function () {
 // anything from this function!
 MyGame.prototype.update = function () {
     //var msg = "L/R: Left or Right Minion; H: Dye; B: Brain]: ";
-//
-//    this.mLMinion.update();
-//    this.mRMinion.update();
-//
-   //this.mMinion.update();
-   this.mBrain.update();
-   this.mUMinion.update(this.mBrain.getXform().getPosition(),false);
-   this.mLMinion.update(this.mBrain.getXform().getPosition(),true);
+
+//   this.mBrain.update();
+//   this.mUMinion.update(this.mBrain.getXform().getPosition(),false);
+//   this.mLMinion.update(this.mBrain.getXform().getPosition(),true);
    
-   var i,l;
+   var i,l,J;
     for(i=0;i<this.mDyePackSet.length;i++){
         l = this.mDyePackSet[i];
+        l.update(); 
+        
+        if(l.getXform().getXPos() > 110){
+            var de = this.mDyePackSet.shift();
+            de = null;
+        }
+    }
+    
+    for(i=0;i<this.mBrainSet.length;i++){
+        l = this.mBrainSet[i];
         l.update();
     }
+    for(i=0;i<this.mLMinionSet.length;i++){
+        l = this.mLMinionSet[i];
+        J = this.mBrainSet[i];
+        l.update(J.getXform().getPosition(),true);
+    }
+    for(i=0;i<this.mRMinionSet.length;i++){
+        l = this.mRMinionSet[i];
+        J = this.mBrainSet[i];
+        l.update(J.getXform().getPosition(),false);
+    }
+    
+    
    
    if (this.mCamera.isMouseInViewport()) {
        this.mHero.update(this.mCamera.mouseWCX(),this.mCamera.mouseWCY());
@@ -139,5 +167,16 @@ MyGame.prototype.update = function () {
         this.mDyePackSet.push(mDyePack);
         mDyePack.getXform().setPosition(this.mHero.getXform().getXPos(),this.mHero.getXform().getYPos());
     }
+    
+    if (gEngine.Input.isKeyReleased(gEngine.Input.keys.C)) {
+        var mBrain = new Brain(this.kMinionSprite);
+        var mLMinion1 = new Minion(this.kMinionSprite,mBrain.getXform().getXPos() + 10,mBrain.getXform().getYPos() - 6);
+        var mRMinion1 = new Minion(this.kMinionSprite,mBrain.getXform().getXPos() + 10,mBrain.getXform().getYPos() + 6);
 
+        this.mLMinionSet.push(mLMinion1);
+        this.mRMinionSet.push(mRMinion1);
+        this.mBrainSet.push(mBrain);
+        
+        
+    }
 };

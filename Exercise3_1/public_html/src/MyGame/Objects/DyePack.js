@@ -27,14 +27,9 @@ gEngine.Core.inheritPrototype(DyePack, GameObject);
 
 DyePack.prototype.update = function () {
     var xform = this.getXform();
-    if(this.mDyePack.getXform().getXPos() > 80){
+    if(this.mDyePack.getXform().getXPos() > 90){
         xform.incXPosBy(this.kSlowDelta);
     }else{
         xform.incXPosBy(this.kDelta);
     }
-    
 };
-
-//DyePack.prototype.draw = function(){
-//    
-//};
