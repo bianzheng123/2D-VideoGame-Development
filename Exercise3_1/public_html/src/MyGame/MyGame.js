@@ -30,7 +30,7 @@ function MyGame() {
 
     this.mPortal = null;
     this.mLMinion = null;
-    this.mRMinion = null;
+    this.mUMinion = null;
 
     this.mCollide = null;
     this.mChoice = 'H';
@@ -68,7 +68,9 @@ MyGame.prototype.initialize = function () {
     this.mBg = new GameObject(bgR);
 //    // Step D: Create the hero object with texture from the lower-left corner 
     this.mHero = new Hero(this.kMinionSprite);
-    this.mMinion = new Minion(this.kMinionSprite,30,30);
+    this.mBrain = new Brain(this.kMinionSprite);
+    this.mUMinion = new Minion(this.kMinionSprite,this.mBrain.getXform().getXPos()+10,this.mBrain.getXform().getYPos()+6);
+    this.mLMinion = new Minion(this.kMinionSprite,this.mBrain.getXform().getXPos()+10,this.mBrain.getXform().getYPos()-6);
    
     
 };
@@ -84,8 +86,11 @@ MyGame.prototype.draw = function () {
 
     // Step  C: Draw everything
     this.mBg.draw(this.mCamera);
+    this.mBrain.draw(this.mCamera);
+    this.mUMinion.draw(this.mCamera);
+    this.mLMinion.draw(this.mCamera);
     this.mHero.draw(this.mCamera);
-    this.mMinion.draw(this.mCamera);
+    //this.mMinion.draw(this.mCamera);
     
     var i,l;
     for(i=0;i<this.mDyePackSet.length;i++){
@@ -107,8 +112,11 @@ MyGame.prototype.update = function () {
 //    this.mLMinion.update();
 //    this.mRMinion.update();
 //
-    this.mMinion.update();
+   //this.mMinion.update();
+   this.mBrain.update();
    this.mHero.update();
+   this.mUMinion.update(this.mBrain.getXform().getPosition(),false);
+   this.mLMinion.update(this.mBrain.getXform().getPosition(),true);
    
    var i,l;
     for(i=0;i<this.mDyePackSet.length;i++){
