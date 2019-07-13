@@ -28,6 +28,14 @@ gEngine.Core.inheritPrototype(Brain, GameObject);
 //
 Brain.prototype.update = function () {
    // GameObject.prototype.update.call(this);  // default moving forward
+   if(!(this.mBrain.getXform().getXPos()>5&&this.mBrain.getXform().getXPos()<84&&this.mBrain.getXform().getYPos()>10&&this.mBrain.getXform().getYPos()<64)){
+       this.theta-=Math.PI;
+        var dx=this.kDeltaSpeed*Math.cos(this.theta);
+        var dy=this.kDeltaSpeed*Math.sin(this.theta);
+        this.mBrain.getXform().incXPosBy(dx);
+        this.mBrain.getXform().incYPosBy(dy);
+        this.theta=Math.random()*2*Math.PI;
+    }
     var dx=this.kDeltaSpeed*Math.cos(this.theta);
     var dy=this.kDeltaSpeed*Math.sin(this.theta);
     this.mBrain.getXform().incXPosBy(dx);
