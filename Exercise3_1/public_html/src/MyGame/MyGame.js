@@ -176,7 +176,17 @@ MyGame.prototype.draw = function () {
 // The update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MyGame.prototype.update = function () {
-
+    var i,l,J;
+    var j,line,B;
+    for(i=0;i<this.mDyePackSet.length;i++){
+        J=this.mDyePackSet[i];
+        for(j=0;j<this.mBrainSet.length;j++){
+            B=this.mBrainSet[j];
+            if(J.collide(B.lb,B.rb,B.bb,B.tb)){
+                B.mBrain.getXform().incXPosBy(5);
+            }
+        }
+    }
 
    if(this.isSpawning){
        if(this.count >= this.spawnTime){
@@ -235,9 +245,6 @@ MyGame.prototype.update = function () {
        }
    }
    
-   
-   var i,l,J;
-   var j,line;
     for(i=0;i<this.mDyePackSet.length;i++){
         l = this.mDyePackSet[i];
         l.update(); 

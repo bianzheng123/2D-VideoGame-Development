@@ -21,6 +21,10 @@ function DyePack(spriteTexture) {
     this.mDyePack.getXform().incRotationByDegree(90);
     this.mDyePack.getXform().setSize(this.kRefWidth / 50, this.kRefHeight / 50);
     this.mDyePack.setElementPixelPositions(510, 595, 23, 153);
+    this.lb=this.mDyePack.getXform().getXPos()-(this.kRefWidth / 100);//left bound
+    this.rb=this.lb+(this.kRefWidth / 50);//right bound
+    this.bb=this.mDyePack.getXform().getYPos()-(this.kRefHeight / 100);//bottom bound
+    this.tb=this.bb+(this.kRefHeight / 50);//top bound
     GameObject.call(this, this.mDyePack);
 }
 gEngine.Core.inheritPrototype(DyePack, GameObject);
@@ -32,4 +36,21 @@ DyePack.prototype.update = function () {
     }else{
         xform.incXPosBy(this.kDelta);
     }
+    this.lb=this.mDyePack.getXform().getXPos()-(this.kRefWidth / 100);//left bound
+    this.rb=this.lb+(this.kRefWidth / 50);//right bound
+    this.bb=this.mDyePack.getXform().getYPos()-(this.kRefHeight / 100);//bottom bound
+    this.tb=this.bb+(this.kRefHeight / 50);//top bound
 };
+DyePack.prototype.in=function(lb,rb,bb,tb,x,y){
+    if(x>=lb&&x<=rb&&y>=bb&&y<=tb){
+        return true;
+    }
+    return false;
+}
+DyePack.prototype.collide=function(lb,rb,bb,tb){
+    return(this.in(lb,rb,bb,tb,this.lb,this.bb)||
+           this.in(lb,rb,bb,tb,this.lb,this.tb)||
+           this.in(lb,rb,bb,tb,this.rb,this.bb)||
+           this.in(lb,rb,bb,tb,this.rb,this.tb) 
+           );
+}
