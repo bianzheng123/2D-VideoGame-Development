@@ -14,9 +14,11 @@ function Brain(spriteTexture) {
     this.kDeltaRad = Math.PI * this.kDeltaDegree / 180;
     this.kDeltaSpeed = Math.random() * 0.083 + 0.083;
     this.theta = Math.random()*2*Math.PI;
+    this.dx=this.kDeltaSpeed*Math.cos(this.theta);
+    this.dy=this.kDeltaSpeed*Math.sin(this.theta);
     this.mBrain = new SpriteRenderable(spriteTexture);
     this.mBrain.setColor([1, 1, 1, 0]);
-    this.mBrain.getXform().setPosition(Math.random() * 40 + 40, Math.random() * 5 + 10);
+    this.mBrain.getXform().setPosition(Math.random() * 35 + 50, Math.random() * 36 + 37.5/2);
     this.mBrain.getXform().setSize(7.5, 7.5);
     this.mBrain.setElementPixelPositions(600, 700, 0, 180);
     
@@ -36,18 +38,15 @@ gEngine.Core.inheritPrototype(Brain, GameObject);
 //
 Brain.prototype.update = function () {
    // GameObject.prototype.update.call(this);  // default moving forward
-   if(!(this.wlb>1&&this.wrb<99&&this.wbb>1&&this.wtb<74)){
-       this.theta-=Math.PI;
-        var dx=this.kDeltaSpeed*Math.cos(this.theta);
-        var dy=this.kDeltaSpeed*Math.sin(this.theta);
-        this.mBrain.getXform().incXPosBy(dx);
-        this.mBrain.getXform().incYPosBy(dy);
-        this.theta=Math.random()*2*Math.PI;
-    }
-    var dx=this.kDeltaSpeed*Math.cos(this.theta);
-    var dy=this.kDeltaSpeed*Math.sin(this.theta);
-    this.mBrain.getXform().incXPosBy(dx);
-    this.mBrain.getXform().incYPosBy(dy);
+    if(!(this.wlb>1&&this.wrb<99)){
+        this.dx=-this.dx;
+     }
+     if(!(this.wbb>1&&this.wtb<74)){
+         this.dy=-this.dy;
+     }
+
+    this.mBrain.getXform().incXPosBy(this.dx);
+    this.mBrain.getXform().incYPosBy(this.dy);
     
     this.lb=this.mBrain.getXform().getXPos()-3.75;//left bound
     this.rb=this.lb+7.5;//right bound
