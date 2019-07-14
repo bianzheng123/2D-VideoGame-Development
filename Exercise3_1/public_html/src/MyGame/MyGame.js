@@ -46,6 +46,7 @@ function MyGame() {
     this.mNumDyePacksSpawned = 0;
     this.mStateAuto = "on";
     
+    this.mDyePackDecSpeed = false;
     this.mDyePackSet = [];
     
     this.mLMinionSet = [];
@@ -128,7 +129,10 @@ MyGame.prototype.draw = function () {
     var j,line;
     for(i=0;i<this.mDyePackSet.length;i++){
         l = this.mDyePackSet[i];
-        l.draw(this.mCamera);
+        if(l !== null){
+            l.draw(this.mCamera);
+        }
+        
     }
     
 
@@ -180,27 +184,27 @@ MyGame.prototype.update = function () {
     var j,line,B;
     for(i=0;i<this.mDyePackSet.length;i++){
         J=this.mDyePackSet[i];
-        if(!J.available){
+        if(J !== null && !J.available){
             //alert("hi");
             continue;
         }
         for(j=0;j<this.mBrainSet.length;j++){
             B=this.mBrainSet[j];
-            if(J.collide(B.lb,B.rb,B.bb,B.tb)){
+            if(J !== null && J.collide(B.lb,B.rb,B.bb,B.tb)){
                 B.mBrain.getXform().incXPosBy(5);
                 J.available=false;
             }
         }
         for(j=0;j<this.mLMinionSet.length;j++){
             B=this.mLMinionSet[j];
-            if(J.collide(B.lb,B.rb,B.bb,B.tb)){
+            if(J !== null && J.collide(B.lb,B.rb,B.bb,B.tb)){
                 B.mMinion.setColor([1,1,1,B.color3+=0.2]);
                 J.available=false;
             }
         }
         for(j=0;j<this.mRMinionSet.length;j++){
             B=this.mRMinionSet[j];
-            if(J.collide(B.lb,B.rb,B.bb,B.tb)){
+            if(J !== null && J.collide(B.lb,B.rb,B.bb,B.tb)){
                 B.mMinion.setColor([1,1,1,B.color3+=0.2]);
                 J.available=false;
             }
@@ -266,12 +270,16 @@ MyGame.prototype.update = function () {
    
     for(i=0;i<this.mDyePackSet.length;i++){
         l = this.mDyePackSet[i];
-        l.update(); 
+        if(this.mDyePackDecSpeed && l !== null){
+            l.setDecSpeed();
+        }
         
-        if(l.getXform().getXPos() > 110){
-            var de = this.mDyePackSet.shift();
-            de = null;
+        if(l !== null && l.canDelete){
             this.mNumDyePacksSpawned--;
+            this.mDyePackSet[i] = null;
+        }
+        if(l !== null){
+            l.update();
         }
     }
     
@@ -393,6 +401,10 @@ MyGame.prototype.update = function () {
         }else{
             this.mStateAuto = "on";
         }
+    }
+    
+    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.D)){
+        this.mDyePackDecSpeed = !this.mDyePackDecSpeed;
     }
     
     if(gEngine.Input.isKeyClicked(gEngine.Input.keys.B)){

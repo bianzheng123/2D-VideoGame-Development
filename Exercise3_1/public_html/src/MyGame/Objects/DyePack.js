@@ -14,6 +14,11 @@ function DyePack(spriteTexture) {
     this.kRefHeight = 130;
     this.kDelta = 2;
     this.kSlowDelta = 0.1;
+    
+    this.speed = this.kDelta;
+    this.isDesSpeed = false;
+    this.canDelete = false;
+    
     this.available=true;
     this.mDyePack = new SpriteRenderable(spriteTexture);
     this.mDyePack.setColor([1, 1, 1, 0.1]);
@@ -31,11 +36,22 @@ gEngine.Core.inheritPrototype(DyePack, GameObject);
 
 DyePack.prototype.update = function () {
     var xform = this.getXform();
-    if(this.mDyePack.getXform().getXPos() > 90){
-        xform.incXPosBy(this.kSlowDelta);
+    
+    if(xform.getXPos() > 90){
+        this.speed = this.kSlowDelta;
     }else{
-        xform.incXPosBy(this.kDelta);
+        if(this.isDesSpeed){
+            this.speed -= 0.1;
+        }else{
+            this.speed = this.kDelta;
+        }
     }
+    
+    if(this.speed < 0 || this.getXform().getXPos() > 110){
+        this.canDelete = true;
+    }
+    xform.incXPosBy(this.speed);
+    
     this.lb=this.mDyePack.getXform().getXPos()-(this.kRefWidth / 100);//left bound
     this.rb=this.lb+(this.kRefWidth / 50);//right bound
     this.bb=this.mDyePack.getXform().getYPos()-(this.kRefHeight / 100);//bottom bound
@@ -46,11 +62,18 @@ DyePack.prototype.in=function(lb,rb,bb,tb,x,y){
         return true;
     }
     return false;
-}
+};
 DyePack.prototype.collide=function(lb,rb,bb,tb){
     return(this.in(lb,rb,bb,tb,this.lb,this.bb)||
            this.in(lb,rb,bb,tb,this.lb,this.tb)||
            this.in(lb,rb,bb,tb,this.rb,this.bb)||
            this.in(lb,rb,bb,tb,this.rb,this.tb) 
            );
-}
+};
+
+DyePack.prototype.setDecSpeed = function(){
+    this.isDesSpeed = true;
+};
+DyePack.prototype.getCanDelete = function(){
+    return this.canDelete;
+};
