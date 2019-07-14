@@ -195,6 +195,9 @@ MyGame.prototype.update = function () {
                 J.available=false;
                 J.isOscillates = true;
             }
+            if(J !== null && J.collide(B.wlb,B.wrb,B.wbb,B.wtb)){
+                J.setDecSpeed();
+            }
         }
         for(j=0;j<this.mLMinionSet.length;j++){
             B=this.mLMinionSet[j];
@@ -213,9 +216,49 @@ MyGame.prototype.update = function () {
             }
         }
     }
-
-   if(this.isSpawning){
-       if(this.count >= this.spawnTime){
+    
+    for(i=0;i<this.mBrainSet.length;i++){
+        if(this.mBrainSet[i]==null){
+            continue;
+        }
+        if(this.mBrainSet[i].wrb>100||this.mLMinionSet[i].color3>=1||this.mRMinionSet[i].color3>=1){
+            this.mBrainSet[i]=null;
+            this.mBrainSet[i]=this.mBrainSet[0];
+            this.mBrainSet[0]=null;
+            this.mBrainSet.shift();
+            this.mLMinionSet[i]=null;
+            this.mLMinionSet[i]=this.mLMinionSet[0];
+            this.mLMinionSet[0]=null;
+            this.mLMinionSet.shift();
+            this.mRMinionSet[i]=null;
+            this.mRMinionSet[i]=this.mRMinionSet[0];
+            this.mRMinionSet[0]=null;
+            this.mRMinionSet.shift();
+            for(j=0;j<4;j++){
+                 this.mLineSetRightDown[4*i+j]=null;
+                 this.mLineSetRightDown[4*i+j]=this.mLineSetRightDown[j];
+                 this.mLineSetRightDown[j]=null;
+                 this.mLineSetRightUp[4*i+j]=null;
+                 this.mLineSetRightUp[4*i+j]=this.mLineSetRightUp[j];
+                 this.mLineSetRightUp[j]=null;
+                 this.mLineSetLeft[4*i+j]=null;
+                 this.mLineSetLeft[4*i+j]=this.mLineSetLeft[j];
+                 this.mLineSetLeft[j]=null;
+                 this.mLineSetWhole[4*i+j]=null;
+                 this.mLineSetWhole[4*i+j]=this.mLineSetWhole[j];
+                 this.mLineSetWhole[j]=null;
+            }
+            for(j=0;j<4;j++){
+                this.mLineSetRightDown.shift();
+                this.mLineSetRightUp.shift();
+                this.mLineSetLeft.shift();
+                this.mLineSetWhole.shift();
+            }
+            
+        }
+    }
+    if(this.isSpawning){
+         if(this.count >= this.spawnTime){
             var mBrain = new Brain(this.kMinionSprite);
             var mLMinion1 = new Minion(this.kMinionSprite,mBrain.getXform().getXPos() + 10,mBrain.getXform().getYPos() - 6);
             var mRMinion1 = new Minion(this.kMinionSprite,mBrain.getXform().getXPos() + 10,mBrain.getXform().getYPos() + 6);
@@ -287,6 +330,9 @@ MyGame.prototype.update = function () {
     }
     
     for(i=0;i<this.mBrainSet.length;i++){
+        if(this.mBrainSet[i]==null){
+            continue;
+        }
         l = this.mBrainSet[i];
         l.update();
         line = this.mLineSetLeft[4*i];
@@ -428,7 +474,7 @@ MyGame.prototype.update = function () {
     var msg1 = "Number of Patrol units spawned: ";
     var msg2 = "Number of DyePacks spawned: ";
     var msg3 = "The state of Auto Spawn mode (on or off): ";
-    this.mMsg1.setText(msg1 + this.mNumPatrolSpawned.toString());
+    this.mMsg1.setText(msg1 + this.mBrainSet.length.toString());
     this.mMsg2.setText(msg2 + this.mNumDyePacksSpawned.toString());
     this.mMsg3.setText(msg3 + this.mStateAuto.toString());
 };
