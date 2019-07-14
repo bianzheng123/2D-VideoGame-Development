@@ -470,6 +470,11 @@ MyGame.prototype.update = function () {
             
         }
     }
+    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.J)){
+        for(j=0;j<this.mBrainSet.length;j++){
+            this.mBrainSet[j].mBrain.getXform().incXPosBy(5);
+        }
+    }
     
     var msg1 = "Number of Patrol units spawned: ";
     var msg2 = "Number of DyePacks spawned: ";
