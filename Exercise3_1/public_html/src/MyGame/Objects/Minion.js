@@ -14,7 +14,8 @@
 function Minion(spriteTexture, atX, atY) {
     this.kDelta = 0.2;
     this.mMinion = new SpriteAnimateRenderable(spriteTexture);
-    this.mMinion.setColor([1, 1, 1, 0]);
+    this.color3=0;
+    this.mMinion.setColor([1, 1, 1, this.color3]);
     this.mMinion.getXform().setPosition(atX, atY);
     this.mMinion.getXform().setSize(10, 8);
     this.mMinion.setSpriteSequence(512, 0,      // first element pixel position: top-left 512 is top of image, 0 is left of image
@@ -60,3 +61,16 @@ Minion.prototype.getBb = function(){
 Minion.prototype.getTb = function(){
     return this.tb;
 };
+Minion.prototype.in=function(lb,rb,bb,tb,x,y){
+    if(x>=lb&&x<=rb&&y>=bb&&y<=tb){
+        return true;
+    }
+    return false;
+}
+Minion.prototype.collide=function(lb,rb,bb,tb){
+    return(this.in(lb,rb,bb,tb,this.lb,this.bb)||
+           this.in(lb,rb,bb,tb,this.lb,this.tb)||
+           this.in(lb,rb,bb,tb,this.rb,this.bb)||
+           this.in(lb,rb,bb,tb,this.rb,this.tb) 
+           );
+}

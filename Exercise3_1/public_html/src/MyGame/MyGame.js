@@ -180,10 +180,29 @@ MyGame.prototype.update = function () {
     var j,line,B;
     for(i=0;i<this.mDyePackSet.length;i++){
         J=this.mDyePackSet[i];
+        if(!J.available){
+            //alert("hi");
+            continue;
+        }
         for(j=0;j<this.mBrainSet.length;j++){
             B=this.mBrainSet[j];
             if(J.collide(B.lb,B.rb,B.bb,B.tb)){
                 B.mBrain.getXform().incXPosBy(5);
+                J.available=false;
+            }
+        }
+        for(j=0;j<this.mLMinionSet.length;j++){
+            B=this.mLMinionSet[j];
+            if(J.collide(B.lb,B.rb,B.bb,B.tb)){
+                B.mMinion.setColor([1,1,1,B.color3+=0.2]);
+                J.available=false;
+            }
+        }
+        for(j=0;j<this.mRMinionSet.length;j++){
+            B=this.mRMinionSet[j];
+            if(J.collide(B.lb,B.rb,B.bb,B.tb)){
+                B.mMinion.setColor([1,1,1,B.color3+=0.2]);
+                J.available=false;
             }
         }
     }

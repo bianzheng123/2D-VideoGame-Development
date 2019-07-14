@@ -14,7 +14,7 @@ function DyePack(spriteTexture) {
     this.kRefHeight = 130;
     this.kDelta = 2;
     this.kSlowDelta = 0.1;
-
+    this.available=true;
     this.mDyePack = new SpriteRenderable(spriteTexture);
     this.mDyePack.setColor([1, 1, 1, 0.1]);
   //  this.mDyePack.getXform().setPosition(35, 50);
