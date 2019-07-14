@@ -193,6 +193,7 @@ MyGame.prototype.update = function () {
             if(J !== null && J.collide(B.lb,B.rb,B.bb,B.tb)){
                 B.mBrain.getXform().incXPosBy(5);
                 J.available=false;
+                J.isOscillates = true;
             }
         }
         for(j=0;j<this.mLMinionSet.length;j++){
@@ -200,6 +201,7 @@ MyGame.prototype.update = function () {
             if(J !== null && J.collide(B.lb,B.rb,B.bb,B.tb)){
                 B.mMinion.setColor([1,1,1,B.color3+=0.2]);
                 J.available=false;
+                J.isOscillates = true;
             }
         }
         for(j=0;j<this.mRMinionSet.length;j++){
@@ -207,6 +209,7 @@ MyGame.prototype.update = function () {
             if(J !== null && J.collide(B.lb,B.rb,B.bb,B.tb)){
                 B.mMinion.setColor([1,1,1,B.color3+=0.2]);
                 J.available=false;
+                J.isOscillates = true;
             }
         }
     }
@@ -409,6 +412,17 @@ MyGame.prototype.update = function () {
     
     if(gEngine.Input.isKeyClicked(gEngine.Input.keys.B)){
         this.isDrawLine = !this.isDrawLine;
+    }
+    
+    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.S)){
+        var i,l;
+        for(i=0;i<this.mDyePackSet.length;i++){
+            l = this.mDyePackSet[i];
+            if(l !== null){
+                l.isOscillates = true;
+            }
+            
+        }
     }
     
     var msg1 = "Number of Patrol units spawned: ";

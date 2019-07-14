@@ -19,6 +19,13 @@ function DyePack(spriteTexture) {
     this.isDesSpeed = false;
     this.canDelete = false;
     
+    this.isOscillates = false; 
+    this.countOscillation = 0;
+    this.xPos = 0;
+    this.yPos = 0;
+    this.XPosOffset = 0;
+    this.YPosOffset = 0;
+    
     this.available=true;
     this.mDyePack = new SpriteRenderable(spriteTexture);
     this.mDyePack.setColor([1, 1, 1, 0.1]);
@@ -26,6 +33,9 @@ function DyePack(spriteTexture) {
     this.mDyePack.getXform().incRotationByDegree(90);
     this.mDyePack.getXform().setSize(this.kRefWidth / 50, this.kRefHeight / 50);
     this.mDyePack.setElementPixelPositions(510, 595, 23, 153);
+    
+    this.mDyePackShake = new ShakePosition(4,0.2,20,300);
+    
     this.lb=this.mDyePack.getXform().getXPos()-(this.kRefWidth / 100);//left bound
     this.rb=this.lb+(this.kRefWidth / 50);//right bound
     this.bb=this.mDyePack.getXform().getYPos()-(this.kRefHeight / 100);//bottom bound
@@ -36,7 +46,7 @@ gEngine.Core.inheritPrototype(DyePack, GameObject);
 
 DyePack.prototype.update = function () {
     var xform = this.getXform();
-    
+
     if(xform.getXPos() > 90){
         this.speed = this.kSlowDelta;
     }else{
@@ -47,7 +57,26 @@ DyePack.prototype.update = function () {
         }
     }
     
-    if(this.speed < 0 || this.getXform().getXPos() > 110){
+    if(this.isOscillates){
+        if(this.countOscillation === 500){
+            this.isOscillates = false;
+            this.countOscillation = 0;
+            this.canDelete = true;
+        }
+
+        this.XPosOffset = 4 * Math.sin(this.countOscillation);
+        this.YPosOffset = 0.2 * Math.sin(this.countOscillation);
+        xform.setXPos(this.xPos + this.XPosOffset);
+        xform.setYPos(this.yPos + this.YPosOffset);
+        this.countOscillation++;
+        console.log(this.XPosOffset);
+    }else{
+        this.xPos = xform.getXPos();
+        this.yPos = xform.getYPos();
+    }
+    
+    
+    if(this.speed < 0.001 || this.getXform().getXPos() > 110){
         this.canDelete = true;
     }
     xform.incXPosBy(this.speed);
