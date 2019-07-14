@@ -19,6 +19,7 @@ function Brain(spriteTexture) {
     this.mBrain.getXform().setPosition(Math.random() * 40 + 40, Math.random() * 5 + 10);
     this.mBrain.getXform().setSize(7.5, 7.5);
     this.mBrain.setElementPixelPositions(600, 700, 0, 180);
+    
     this.lb=this.mBrain.getXform().getXPos()-3.75;//left bound
     this.rb=this.lb+7.5;//right bound
     this.bb=this.mBrain.getXform().getYPos()-3.75;//bottom bound
@@ -47,6 +48,7 @@ Brain.prototype.update = function () {
     var dy=this.kDeltaSpeed*Math.sin(this.theta);
     this.mBrain.getXform().incXPosBy(dx);
     this.mBrain.getXform().incYPosBy(dy);
+    
     this.lb=this.mBrain.getXform().getXPos()-3.75;//left bound
     this.rb=this.lb+7.5;//right bound
     this.bb=this.mBrain.getXform().getYPos()-3.75;//bottom bound
@@ -55,4 +57,34 @@ Brain.prototype.update = function () {
     this.wrb=this.lb+18.75;//whole right bound
     this.wtb=this.tb-3.75+20;//whole top bound
     this.wbb=this.bb-6.25;//whole bottom bound
+};
+
+Brain.prototype.getLb = function(){
+    return this.lb;
+};
+
+Brain.prototype.getRb = function(){
+    return this.rb;
+};
+
+Brain.prototype.getBb = function(){
+    return this.bb;
+};
+
+Brain.prototype.getTb = function(){
+    return this.tb;
+};
+
+//wlb,wrb,wtb,wbb
+Brain.prototype.getWlb = function(){
+    return this.wlb;
+};
+Brain.prototype.getWrb = function(){
+    return this.wrb;
+};
+Brain.prototype.getWtb = function(){
+    return this.wtb;
+};
+Brain.prototype.getWbb = function(){
+    return this.wbb;
 };

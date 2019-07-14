@@ -30,6 +30,7 @@ function MyGame() {
     this.isSpawning = true;
     this.count = 0;
     this.spawnTime = Math.random() * 60 + 120;
+    this.isDrawLine = false;
 
     this.mPortalHit = null;
     this.mHeroHit = null;
@@ -134,30 +135,39 @@ MyGame.prototype.draw = function () {
     for(i=0;i<this.mLMinionSet.length;i++){
         l = this.mLMinionSet[i];
         l.draw(this.mCamera);
-        for(j=0;j<4;j++){
-            line = this.mLineSetRightDown[4*i+j];
-            line.draw(this.mCamera);
+        if(this.isDrawLine){
+            for(j=0;j<4;j++){
+                line = this.mLineSetRightDown[4*i+j];
+                line.draw(this.mCamera);
+            }
         }
+        
     }
     for(i=0;i<this.mRMinionSet.length;i++){
         l = this.mRMinionSet[i];
         l.draw(this.mCamera);
-        for(j=0;j<4;j++){
-            line = this.mLineSetRightUp[4*i+j];
-            line.draw(this.mCamera);
+        if(this.isDrawLine){
+            for(j=0;j<4;j++){
+                line = this.mLineSetRightUp[4*i+j];
+                line.draw(this.mCamera);
+            }
         }
+        
     }
     for(i=0;i<this.mBrainSet.length;i++){
         l = this.mBrainSet[i];
         l.draw(this.mCamera);
-        for(j=0;j<4;j++){
-            line = this.mLineSetLeft[4*i+j];
-            line.draw(this.mCamera);
+        if(this.isDrawLine){
+            for(j=0;j<4;j++){
+                line = this.mLineSetLeft[4*i+j];
+                line.draw(this.mCamera);
+            }
+            for(j=0;j<4;j++){
+                line = this.mLineSetWhole[4*i+j];
+                line.draw(this.mCamera);
+            }
         }
-        for(j=0;j<4;j++){
-            line = this.mLineSetWhole[4*i+j];
-            line.draw(this.mCamera);
-        }
+        
     }
     
     
@@ -181,45 +191,45 @@ MyGame.prototype.update = function () {
             this.count = 0;
             this.spawnTime = Math.random() * 60 + 120;
             
-        var l=mBrain;
-        var line;
-        line=new LineRenderable(l.lb,l.tb,l.lb,l.bb);
-        this.mLineSetLeft.push(line);
-        line=new LineRenderable(l.lb,l.bb,l.rb,l.bb);
-        this.mLineSetLeft.push(line);
-        line=new LineRenderable(l.rb,l.bb,l.rb,l.tb);        
-        this.mLineSetLeft.push(line);
-        line=new LineRenderable(l.rb,l.tb,l.lb,l.tb);
-        this.mLineSetLeft.push(line);
-        
-        line=new LineRenderable(l.wlb,l.wtb,l.wlb,l.wbb);
-        this.mLineSetWhole.push(line);
-        line=new LineRenderable(l.wlb,l.wbb,l.wrb,l.wbb);
-        this.mLineSetWhole.push(line);
-        line=new LineRenderable(l.wrb,l.wbb,l.wrb,l.wtb);        
-        this.mLineSetWhole.push(line);
-        line=new LineRenderable(l.wrb,l.wtb,l.wlb,l.wtb);
-        this.mLineSetWhole.push(line);
-        
-        l=mLMinion1;
-        line=new LineRenderable(l.lb,l.tb,l.lb,l.bb);
-        this.mLineSetRightDown.push(line);
-        line=new LineRenderable(l.lb,l.bb,l.rb,l.bb);
-        this.mLineSetRightDown.push(line);
-        line=new LineRenderable(l.rb,l.bb,l.rb,l.tb);        
-        this.mLineSetRightDown.push(line);
-        line=new LineRenderable(l.rb,l.tb,l.lb,l.tb);
-        this.mLineSetRightDown.push(line);        
-        
-        l=mRMinion1;
-        line=new LineRenderable(l.lb,l.tb,l.lb,l.bb);
-        this.mLineSetRightUp.push(line);
-        line=new LineRenderable(l.lb,l.bb,l.rb,l.bb);
-        this.mLineSetRightUp.push(line);
-        line=new LineRenderable(l.rb,l.bb,l.rb,l.tb);        
-        this.mLineSetRightUp.push(line);
-        line=new LineRenderable(l.rb,l.tb,l.lb,l.tb);
-        this.mLineSetRightUp.push(line);
+            var l=mBrain;
+            var line;
+            line=new LineRenderable(l.lb,l.tb,l.lb,l.bb);
+            this.mLineSetLeft.push(line);
+            line=new LineRenderable(l.lb,l.bb,l.rb,l.bb);
+            this.mLineSetLeft.push(line);
+            line=new LineRenderable(l.rb,l.bb,l.rb,l.tb);        
+            this.mLineSetLeft.push(line);
+            line=new LineRenderable(l.rb,l.tb,l.lb,l.tb);
+            this.mLineSetLeft.push(line);
+
+            line=new LineRenderable(l.wlb,l.wtb,l.wlb,l.wbb);
+            this.mLineSetWhole.push(line);
+            line=new LineRenderable(l.wlb,l.wbb,l.wrb,l.wbb);
+            this.mLineSetWhole.push(line);
+            line=new LineRenderable(l.wrb,l.wbb,l.wrb,l.wtb);        
+            this.mLineSetWhole.push(line);
+            line=new LineRenderable(l.wrb,l.wtb,l.wlb,l.wtb);
+            this.mLineSetWhole.push(line);
+
+            l=mLMinion1;
+            line=new LineRenderable(l.lb,l.tb,l.lb,l.bb);
+            this.mLineSetRightDown.push(line);
+            line=new LineRenderable(l.lb,l.bb,l.rb,l.bb);
+            this.mLineSetRightDown.push(line);
+            line=new LineRenderable(l.rb,l.bb,l.rb,l.tb);        
+            this.mLineSetRightDown.push(line);
+            line=new LineRenderable(l.rb,l.tb,l.lb,l.tb);
+            this.mLineSetRightDown.push(line);        
+
+            l=mRMinion1;
+            line=new LineRenderable(l.lb,l.tb,l.lb,l.bb);
+            this.mLineSetRightUp.push(line);
+            line=new LineRenderable(l.lb,l.bb,l.rb,l.bb);
+            this.mLineSetRightUp.push(line);
+            line=new LineRenderable(l.rb,l.bb,l.rb,l.tb);        
+            this.mLineSetRightUp.push(line);
+            line=new LineRenderable(l.rb,l.tb,l.lb,l.tb);
+            this.mLineSetRightUp.push(line);
        }else{
            this.count++;
        }
@@ -357,6 +367,10 @@ MyGame.prototype.update = function () {
         }else{
             this.mStateAuto = "on";
         }
+    }
+    
+    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.B)){
+        this.isDrawLine = !this.isDrawLine;
     }
     
     var msg1 = "Number of Patrol units spawned: ";

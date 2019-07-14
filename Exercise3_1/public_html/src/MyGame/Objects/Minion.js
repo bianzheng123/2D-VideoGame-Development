@@ -24,6 +24,7 @@ function Minion(spriteTexture, atX, atY) {
     this.mMinion.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateSwing);
     this.mMinion.setAnimationSpeed(30);
                                 // show each element for mAnimSpeed updates
+                                
     this.lb=this.mMinion.getXform().getXPos()-5;//left bound
     this.rb=this.lb+10;//right bound
     this.bb=this.mMinion.getXform().getYPos()-4;//bottom bound
@@ -39,9 +40,23 @@ Minion.prototype.update = function (BrainPos,L) {
     }else{
         this.mMinion.getXform().setPosition(BrainPos[0]+10,BrainPos[1]+6);
     }
+    
     this.lb=this.mMinion.getXform().getXPos()-5;//left bound
     this.rb=this.lb+10;//right bound
     this.bb=this.mMinion.getXform().getYPos()-4;//bottom bound
     this.tb=this.bb+8;//top bound
     this.mMinion.updateAnimation();
+};
+
+Minion.prototype.getLb = function(){
+    return this.lb;
+};
+Minion.prototype.getRb = function(){
+    return this.rb;
+};
+Minion.prototype.getBb = function(){
+    return this.bb;
+};
+Minion.prototype.getTb = function(){
+    return this.tb;
 };
