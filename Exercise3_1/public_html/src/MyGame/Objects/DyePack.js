@@ -58,9 +58,9 @@ DyePack.prototype.update = function () {
     }
     
     if(this.isOscillates){
-        if(this.countOscillation === 500){
-            this.isOscillates = false;
-            this.countOscillation = 0;
+        if(this.countOscillation === 300){
+//            this.isOscillates = false;
+//            this.countOscillation = 0;
             this.canDelete = true;
         }
 
@@ -69,7 +69,6 @@ DyePack.prototype.update = function () {
         xform.setXPos(this.xPos + this.XPosOffset);
         xform.setYPos(this.yPos + this.YPosOffset);
         this.countOscillation++;
-        console.log(this.XPosOffset);
     }else{
         this.xPos = xform.getXPos();
         this.yPos = xform.getYPos();

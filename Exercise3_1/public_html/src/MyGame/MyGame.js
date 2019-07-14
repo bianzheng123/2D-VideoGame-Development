@@ -158,6 +158,7 @@ MyGame.prototype.draw = function () {
         }
         
     }
+    
     for(i=0;i<this.mBrainSet.length;i++){
         l = this.mBrainSet[i];
         l.draw(this.mCamera);
@@ -218,7 +219,7 @@ MyGame.prototype.update = function () {
     }
     
     for(i=0;i<this.mBrainSet.length;i++){
-        if(this.mBrainSet[i]==null){
+        if(this.mBrainSet[i] === null){
             continue;
         }
         if(this.mBrainSet[i].wrb>100||this.mLMinionSet[i].color3>=1||this.mRMinionSet[i].color3>=1){
@@ -257,6 +258,7 @@ MyGame.prototype.update = function () {
             
         }
     }
+    
     if(this.isSpawning){
          if(this.count >= this.spawnTime){
             var mBrain = new Brain(this.kMinionSprite);
@@ -330,7 +332,7 @@ MyGame.prototype.update = function () {
     }
     
     for(i=0;i<this.mBrainSet.length;i++){
-        if(this.mBrainSet[i]==null){
+        if(this.mBrainSet[i]===null){
             continue;
         }
         l = this.mBrainSet[i];
