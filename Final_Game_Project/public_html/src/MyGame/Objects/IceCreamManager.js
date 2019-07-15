@@ -34,7 +34,7 @@ IceCreamManager.prototype.createIceCream = function(mapManager){
     var i,j,l;
     for(i=0;i<mapManager.kWidth;i++){
         for(j=0;j<mapManager.kHeight;j++){
-            l = mapManager.kMapArray[i][j];
+            l = mapManager.MapArray[i][j];
             if(l.kTag === "Grass" && l.mHasIceCream === false){
                 tmp_arr.push(l);
             }

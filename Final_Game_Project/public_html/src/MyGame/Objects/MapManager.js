@@ -14,7 +14,7 @@ function MapManager(spriteTexture,camera) {
     this.kspriteTexture = spriteTexture;
     this.kWidth = 10;
     this.kHeight = 10;
-    this.kMapArray = new Array();//这个是二维数组
+    this.MapArray = new Array();//这个是二维数组
     
     this.mDrawLine = false;
     
@@ -29,7 +29,7 @@ MapManager.prototype.update = function(){
 MapManager.prototype.initialize = function(){
     var i,j,l;
     for(i=0;i<this.kHeight;i++){
-        this.kMapArray[i] = new Array(this.kWidth);
+        this.MapArray[i] = new Array(this.kWidth);
         for(j=0;j<this.kWidth;j++){
             var tmp;
 //            if(i % 2 === 0){
@@ -56,7 +56,7 @@ MapManager.prototype.initialize = function(){
                 tmp = new Sand(this.kspriteTexture,i,j);
             }
             
-            this.kMapArray[i][j] = tmp;
+            this.MapArray[i][j] = tmp;
             
         }
     }
@@ -67,7 +67,7 @@ MapManager.prototype.draw = function () {
     var i,j,l;
     for(i=0;i<this.kHeight;i++){
         for(j=0;j<this.kWidth;j++){
-            l = this.kMapArray[i][j];
+            l = this.MapArray[i][j];
             l.draw(this.kCamera);
             if(l.kTag === "Grass" && this.mDrawLine){
                 l.drawLine();
