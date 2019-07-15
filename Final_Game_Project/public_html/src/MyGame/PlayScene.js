@@ -44,9 +44,9 @@ PlayScene.prototype.unloadScene = function () {
 PlayScene.prototype.initialize = function () {
     // Step A: set up the cameras
     this.mCamera = new Camera(
-        vec2.fromValues(50, 40), // position of the camera
+        vec2.fromValues(0, 0), // position of the camera
         100,                     // width of camera
-        [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
+        [0, 0, 600, 600]         // viewport (orgX, orgY, width, height)
     );
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
             // sets the background to gray
@@ -55,8 +55,8 @@ PlayScene.prototype.initialize = function () {
     //set background
     var bgR = new SpriteRenderable(this.kBG);
     bgR.setElementPixelPositions(0, 1023, 0, 1023);
-    bgR.getXform().setSize(120, 100);
-    bgR.getXform().setPosition(50, 37.5);
+    bgR.getXform().setSize(100, 100);
+    bgR.getXform().setPosition(0, 0);
     this.mBg = new GameObject(bgR);
     
     this.mMapManager = new MapManager();

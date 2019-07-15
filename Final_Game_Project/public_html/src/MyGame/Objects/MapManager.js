@@ -10,14 +10,13 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function MapManager() {
-    this.kMapArray = [];
+    this.kMapArray = new Array;
 }
 
 //gEngine.Core.inheritPrototype(MapManager, GameObject);
 
 MapManager.prototype.initialize = function(spriteTexture){
-    var map1 = new Map(spriteTexture,20,20);
-    this.kMapArray.push(map1);
+//    this.kMapArray.push(map1);
 };
 
 MapManager.prototype.update = function () {
