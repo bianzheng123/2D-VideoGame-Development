@@ -14,13 +14,16 @@
 function PlayScene() {
     //to Upload the background
     this.kBG = "assets/background.png";
+    this.kAtlas = "assets/white.png";
     
     //need the wav file(to play audio)
     
     // The camera to view the scene
     this.mCamera = null;
     
-    this.mbg = null;
+    this.mBg = null;//background
+    this.mMapManager = null;
+    
     
     //To change the Scene
     this.LevelSelect = null;
@@ -30,10 +33,12 @@ gEngine.Core.inheritPrototype(PlayScene, Scene);
 
 PlayScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kBG);
+    gEngine.Textures.loadTexture(this.kAtlas);
 };
 
 PlayScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBG);
+    gEngine.Textures.loadTexture(this.kAtlas);
 };
 
 PlayScene.prototype.initialize = function () {
@@ -53,7 +58,11 @@ PlayScene.prototype.initialize = function () {
     bgR.getXform().setSize(120, 100);
     bgR.getXform().setPosition(50, 37.5);
     this.mBg = new GameObject(bgR);
-    console.log(this.mBg === null);
+    
+    this.mMapManager = new MapManager();
+    this.mMapManager.initialize(this.kAtlas);
+    
+    
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -65,6 +74,8 @@ PlayScene.prototype.draw = function () {
     this.mCamera.setupViewProjection();
     
     this.mBg.draw(this.mCamera);
+    this.mMapManager.draw(this.mCamera);
+    
 };
 
 PlayScene.prototype.update = function () {

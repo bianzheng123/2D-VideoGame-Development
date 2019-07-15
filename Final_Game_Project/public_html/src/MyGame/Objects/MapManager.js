@@ -9,25 +9,28 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function MapManager(spriteTexture) {
-    this.kRefWidth = 80;
-    this.kRefHeight = 130;
-    this.kDelta = 2;
-    this.kSlowDelta = 0.1;
-    
-    this.available=true;
-    this.mPlayer = new SpriteRenderable(spriteTexture);
-    this.mPlayer.setColor([1, 1, 1, 0.1]);
-    this.mDyePack.getXform().setPosition(35, 50);
-    this.mPlayer.getXform().setSize(this.kRefWidth / 50, this.kRefHeight / 50);
-    this.mPlayer.setElementPixelPositions(510, 595, 23, 153);
-    
-    GameObject.call(this, this.mPlayer);
+function MapManager() {
+    this.kMapArray = [];
 }
-gEngine.Core.inheritPrototype(MapManager, GameObject);
+
+//gEngine.Core.inheritPrototype(MapManager, GameObject);
+
+MapManager.prototype.initialize = function(spriteTexture){
+    var map1 = new Map(spriteTexture,20,20);
+    this.kMapArray.push(map1);
+};
 
 MapManager.prototype.update = function () {
     
     
+    
+};
+
+MapManager.prototype.draw = function (mCamera) {
+    var i,l;
+    for(i=0;i<this.kMapArray.length;i++){
+        l = this.kMapArray[i];
+        l.draw(mCamera);
+    }
     
 };
