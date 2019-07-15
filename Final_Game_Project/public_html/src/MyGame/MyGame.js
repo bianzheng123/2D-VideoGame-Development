@@ -38,6 +38,9 @@ MyGame.prototype.unloadScene = function () {
     else if(this.LevelSelect==="Jump"){
         gEngine.Core.startScene(new JumpDemo());
     }
+    else if(this.LevelSelect==="Win"){
+        gEngine.Core.startScene(new Win());
+    }
 };
 
 MyGame.prototype.initialize = function () {
@@ -52,7 +55,8 @@ MyGame.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
     this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[200,400],[300,50],"Playscene Demo",4);
-    this.JumpButton = new UIButton(this.JumpSelect,this,[500,400],[200,50],"Jump Demo",4);
+    this.JumpButton = new UIButton(this.JumpSelect,this,[200,300],[200,50],"Jump Demo",4);
+    this.WinButton = new UIButton(this.WinSelect,this,[200,200],[200,50],"Win",4);
     this.UIText = new UIText("Temp Start Scene",[400,600],8,1,0,[0,0,0,1]);
 };
 
@@ -65,12 +69,14 @@ MyGame.prototype.draw = function () {
     this.mCamera.setupViewProjection();
     this.PlaySceneButton.draw(this.mCamera);
     this.JumpButton.draw(this.mCamera);
+    this.WinButton.draw(this.mCamera);
     this.UIText.draw(this.mCamera);
 };
 
 MyGame.prototype.update = function () {
     this.PlaySceneButton.update();
     this.JumpButton.update();
+    this.WinButton.update();
 };
 
 MyGame.prototype.PlaySceneSelect = function(){
@@ -80,5 +86,10 @@ MyGame.prototype.PlaySceneSelect = function(){
 
 MyGame.prototype.JumpSelect = function(){
     this.LevelSelect="Jump";
+    gEngine.GameLoop.stop();
+};
+
+MyGame.prototype.WinSelect = function(){
+    this.LevelSelect="Win";
     gEngine.GameLoop.stop();
 };
