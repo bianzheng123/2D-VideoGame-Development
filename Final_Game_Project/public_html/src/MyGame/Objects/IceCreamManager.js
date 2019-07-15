@@ -13,6 +13,9 @@ function IceCreamManager(spriteTexture,camera) {
     this.kspriteTexture = spriteTexture;
     this.kCamera = camera;
     this.mIceCreamArray = [];
+    this.kp_no_buff = 0.8;//the probability of no buff;
+    this.kp_speed_up_buff = 0.9;
+    this.kp_fire_buff = 1;
     
 }
 
@@ -22,11 +25,11 @@ IceCreamManager.prototype.update = function (mapManager) {
     }
     
     var i,l;
-        for(i=0;i<this.mIceCreamArray.length;i++){
-            l = this.mIceCreamArray[i];
-            l.update();
+    for(i=0;i<this.mIceCreamArray.length;i++){
+        l = this.mIceCreamArray[i];
+        l.update();
 
-        }
+    }
 };
 
 IceCreamManager.prototype.createIceCream = function(mapManager){
@@ -40,14 +43,25 @@ IceCreamManager.prototype.createIceCream = function(mapManager){
             }
         }
     }
-//    console.log(tmp_arr.length);
+
+    var buff = this.getBuff();
+
     var index = Math.floor(Math.random() * tmp_arr.length);
-//    console.log(index);
     l = tmp_arr[index];
     l.mHasIceCream = true;
-//    console.log(l.kXindex + " " + l.kYindex);
-    var iceCream = new IceCream(this.kspriteTexture,l.kXindex,l.kYindex);
+    var iceCream = new IceCream(this.kspriteTexture,l.kXindex,l.kYindex,buff);
     this.mIceCreamArray.push(iceCream);
+};
+
+IceCreamManager.prototype.getBuff = function(){
+    var ran = Math.random();
+    if(0 <= ran && ran <= this.kp_no_buff){
+        return 0;
+    }else if(this.kp_no_buff <= ran && ran <= this.kp_speed_up_buff){
+        return 1;
+    }else if(this.kp_speed_up_buff <= ran && ran <= this.kp_fire_buff){
+        return 2;
+    }
 };
 
 IceCreamManager.prototype.draw = function(){
@@ -55,8 +69,8 @@ IceCreamManager.prototype.draw = function(){
     for(i=0;i<this.mIceCreamArray.length;i++){
         l = this.mIceCreamArray[i];
         l.draw(this.kCamera);
-        
     }
+    
 };
 
 
