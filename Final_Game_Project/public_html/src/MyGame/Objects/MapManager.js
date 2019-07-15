@@ -23,9 +23,6 @@ MapManager.prototype.initialize = function(){
         this.kMapArray[i] = new Array(this.kwidth);
         for(j=0;j<this.kwidth;j++){
             var tmp;
-//            if(i === 0 && j === 0){
-//                tmp = new Grass(this.kspriteTexture,i,j);
-//            }
             if(i % 2 === 0){
                 if(j % 2 === 0){
                     tmp = new Grass(this.kspriteTexture,i,j);

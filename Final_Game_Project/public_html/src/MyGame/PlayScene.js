@@ -24,6 +24,8 @@ function PlayScene() {
     this.mBg = null;//background
     this.mMapManager = null;
     
+    this.mIceCream = null;
+    
     
     //To change the Scene
     this.LevelSelect = null;
@@ -59,10 +61,10 @@ PlayScene.prototype.initialize = function () {
     bgR.getXform().setPosition(0, 0);
     this.mBg = new GameObject(bgR);
     
-    this.mMapManager = new MapManager(this.kAtlas,this.mCamera);
+    this.mMapManager = new MapManager(this.kAtlas);
     this.mMapManager.initialize();
     
-    
+    this.mIceCream = new IceCream(this.kAtlas,4,4);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -75,9 +77,9 @@ PlayScene.prototype.draw = function () {
     
     this.mBg.draw(this.mCamera);
     this.mMapManager.draw(this.mCamera);
-    
+    this.mIceCream.draw(this.mCamera);
 };
 
 PlayScene.prototype.update = function () {
-    
+    this.mIceCream.update();
 };

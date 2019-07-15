@@ -10,6 +10,8 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function Sand(spriteTexture,Xindex,Yindex) {
+    this.kXindex = Xindex;
+    this.kYindex = Yindex;
     this.kTag = "Sand";
     
     this.mSand = new SpriteRenderable(spriteTexture);
