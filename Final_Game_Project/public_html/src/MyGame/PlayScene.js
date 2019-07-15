@@ -23,8 +23,7 @@ function PlayScene() {
     
     this.mBg = null;//background
     this.mMapManager = null;
-    
-    this.mIceCream = null;
+    this.mIceCreamManager = null;
     
     
     //To change the Scene
@@ -61,10 +60,11 @@ PlayScene.prototype.initialize = function () {
     bgR.getXform().setPosition(0, 0);
     this.mBg = new GameObject(bgR);
     
-    this.mMapManager = new MapManager(this.kAtlas);
+    this.mMapManager = new MapManager(this.kAtlas,this.mCamera);
     this.mMapManager.initialize();
     
-    this.mIceCream = new IceCream(this.kAtlas,4,4);
+    this.mIceCreamManager = new IceCreamManager(this.kAtlas,this.mCamera);
+    
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -76,10 +76,15 @@ PlayScene.prototype.draw = function () {
     this.mCamera.setupViewProjection();
     
     this.mBg.draw(this.mCamera);
-    this.mMapManager.draw(this.mCamera);
-    this.mIceCream.draw(this.mCamera);
+    this.mMapManager.draw();
+    this.mIceCreamManager.draw();
+    
+    
+    
 };
 
 PlayScene.prototype.update = function () {
-    this.mIceCream.update();
+    this.mIceCreamManager.update(this.mMapManager);
+   
+    //press z to create an iceCream
 };

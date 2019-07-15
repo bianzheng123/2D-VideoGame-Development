@@ -9,19 +9,20 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function MapManager(spriteTexture) {
+function MapManager(spriteTexture,camera) {
+    this.kCamera = camera;
     this.kspriteTexture = spriteTexture;
-    this.kwidth = 10;
-    this.kheight = 10;
+    this.kWidth = 10;
+    this.kHeight = 10;
     this.kMapArray = new Array();//这个是二维数组
     
 }
 
 MapManager.prototype.initialize = function(){
     var i,j,l;
-    for(i=0;i<this.kheight;i++){
-        this.kMapArray[i] = new Array(this.kwidth);
-        for(j=0;j<this.kwidth;j++){
+    for(i=0;i<this.kHeight;i++){
+        this.kMapArray[i] = new Array(this.kWidth);
+        for(j=0;j<this.kWidth;j++){
             var tmp;
             if(i % 2 === 0){
                 if(j % 2 === 0){
@@ -43,12 +44,12 @@ MapManager.prototype.initialize = function(){
 
 };
 
-MapManager.prototype.draw = function (mCamera) {
+MapManager.prototype.draw = function () {
     var i,j,l;
-    for(i=0;i<this.kheight;i++){
-        for(j=0;j<this.kwidth;j++){
+    for(i=0;i<this.kHeight;i++){
+        for(j=0;j<this.kWidth;j++){
             l = this.kMapArray[i][j];
-            l.draw(mCamera);
+            l.draw(this.kCamera);
         }
     }
 };

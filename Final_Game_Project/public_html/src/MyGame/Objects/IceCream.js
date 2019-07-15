@@ -26,11 +26,13 @@ function IceCream(spriteTexture,Xindex,Yindex) {
     this.mIceCream.getXform().setPosition(Xindex * 7 - 47,Yindex * 7 - 47);
     this.mIceCream.getXform().setSize(5, 5);
     this.mIceCream.setElementPixelPositions(510, 595, 23, 153);
-    GameObject.call(this, this.mIceCream);
+    GameObject.call(this,this.mIceCream);
+    
 }
 gEngine.Core.inheritPrototype(IceCream, GameObject);
 
 IceCream.prototype.update = function () {
+    console.log("melt");
     this._melt();
 };
 
