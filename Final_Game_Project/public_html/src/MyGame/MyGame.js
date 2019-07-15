@@ -18,9 +18,8 @@ function MyGame() {
     
     // The camera to view the scene
     this.mCamera = null;
-    this.ParticleButton = null;
-    this.PhysicsButton = null;
-    this.UIButton = null;
+    this.PlaySceneButton = null;
+    this.JumpButton = null;
     this.UIText = null;
     this.LevelSelect = null;
 }
@@ -29,21 +28,16 @@ gEngine.Core.inheritPrototype(MyGame, Scene);
 
 MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kUIButton);
-    gEngine.AudioClips.loadAudio(this.kCue);
 };
 
 MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kUIButton);
-    if(this.LevelSelect==="Particle"){
-        gEngine.Core.startScene(new ParticleLevel());
+    if(this.LevelSelect==="PlayScene"){
+        gEngine.Core.startScene(new PlayScene());
     }
-    else if(this.LevelSelect==="Physics"){
-        gEngine.Core.startScene(new RigidShapeDemo());
+    else if(this.LevelSelect==="Jump"){
+        gEngine.Core.startScene(new JumpDemo());
     }
-    else if(this.LevelSelect==="UI"){
-        gEngine.Core.startScene(new UIDemo());
-    }
-    gEngine.AudioClips.unloadAudio(this.kCue);
 };
 
 MyGame.prototype.initialize = function () {
@@ -57,10 +51,9 @@ MyGame.prototype.initialize = function () {
             // sets the background to gray
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
-    this.ParticleButton = new UIButton(this.particleSelect,this,[400,400],[600,100],"Particle Demos",8);
-    this.PhysicsButton = new UIButton(this.physicsSelect,this,[400,300],[500,100],"Physics Demo",8);
-    this.UIButton =  new UIButton(this.uiSelect,this,[400,200],[320,100],"UI Demo",8);
-    this.UIText = new UIText("Game Engine Tech Demo",[400,600],8,1,0,[0,0,0,1]);
+    this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[200,400],[300,50],"Playscene Demo",4);
+    this.JumpButton = new UIButton(this.JumpSelect,this,[500,400],[200,50],"Jump Demo",4);
+    this.UIText = new UIText("Temp Start Scene",[400,600],8,1,0,[0,0,0,1]);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -69,35 +62,23 @@ MyGame.prototype.draw = function () {
     // Step A: clear the canvas
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     
-    
     this.mCamera.setupViewProjection();
-    this.ParticleButton.draw(this.mCamera);
-    this.PhysicsButton.draw(this.mCamera);
-    this.UIButton.draw(this.mCamera);
+    this.PlaySceneButton.draw(this.mCamera);
+    this.JumpButton.draw(this.mCamera);
     this.UIText.draw(this.mCamera);
 };
 
 MyGame.prototype.update = function () {
-    this.ParticleButton.update();
-    this.PhysicsButton.update();
-    this.UIButton.update();
-    
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
-        gEngine.AudioClips.playACue(this.kCue, 0.1);
-    }
+    this.PlaySceneButton.update();
+    this.JumpButton.update();
 };
 
-MyGame.prototype.particleSelect = function(){
-    this.LevelSelect="Particle";
+MyGame.prototype.PlaySceneSelect = function(){
+    this.LevelSelect="PlayScene";
     gEngine.GameLoop.stop();
 };
 
-MyGame.prototype.physicsSelect = function(){
-    this.LevelSelect="Physics";
-    gEngine.GameLoop.stop();
-};
-
-MyGame.prototype.uiSelect= function(){
-    this.LevelSelect="UI";
+MyGame.prototype.JumpSelect = function(){
+    this.LevelSelect="Jump";
     gEngine.GameLoop.stop();
 };

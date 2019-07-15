@@ -123,9 +123,9 @@
         
         <!-- Client game code -->
         <script type="text/javascript" src="src/MyGame/PlayScene.js"></script>
-        <script type="text/javascript" src="src/MyGame/StartScene.js"></script>
-        <script type="text/javascript" src="src/MyGame/LostScene.js"></script>
-        <script type="text/javascript" src="src/MyGame/WinScene.js"></script>
+        <script type="text/javascript" src="src/MyGame/MyGame.js"></script>
+<!--        <script type="text/javascript" src="src/MyGame/LostScene.js"></script>
+        <script type="text/javascript" src="src/MyGame/WinScene.js"></script>-->
         
         <script type="text/javascript" src="src/MyGame/Objects/Grass.js"></script>
         <script type="text/javascript" src="src/MyGame/Objects/IceCream.js"></script>
@@ -142,8 +142,8 @@
     </head>
 
     <body onload="
-        var playScene = new PlayScene();
-        gEngine.Core.initializeEngineCore('GLCanvas', playScene);
+        var myGame = new MyGame();
+        gEngine.Core.initializeEngineCore('GLCanvas', myGame);
      ">
         <div id="LoadingIconParent" style="width: 700px; height:500px;">
                 <canvas id="GLCanvas">
