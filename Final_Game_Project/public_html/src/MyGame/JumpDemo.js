@@ -20,6 +20,7 @@ function JumpDemo() {
     // The camera to view the scene
     this.mCamera = null;
     this.BackButton = null;
+    this.RefreshButton = null;
     this.UIText = null;
     
     this.mHaha = null;
@@ -44,6 +45,9 @@ JumpDemo.prototype.unloadScene = function () {
     if(this.LevelSelect==="back"){
         gEngine.Core.startScene(new MyGame());
     }
+    if(this.LevelSelect==="refresh"){
+        gEngine.Core.startScene(new JumpDemo());
+    }
 };
 
 JumpDemo.prototype.initialize = function () {
@@ -57,6 +61,7 @@ JumpDemo.prototype.initialize = function () {
             // sets the background to gray
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
+    this.RefreshButton = new UIButton(this.RefreshSelect,this,[90,390],[200,50],"refresh",4);
     this.BackButton = new UIButton(this.BackSelect,this,[70,450],[100,50],"back",4);
     this.UIText = new UIText("Jump Demo",[370,500],8,1,0,[0,0,0,1],8);
     
@@ -70,17 +75,23 @@ JumpDemo.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     
     this.mCamera.setupViewProjection();
+    this.RefreshButton.draw(this.mCamera);
     this.BackButton.draw(this.mCamera);
     this.UIText.draw(this.mCamera);
     this.mHaha.draw(this.mCamera);
 };
 
 JumpDemo.prototype.update = function () {
+    this.RefreshButton.update();
     this.BackButton.update();
     this.mHaha.update();
 };
 
 JumpDemo.prototype.BackSelect = function(){
     this.LevelSelect="back";
+    gEngine.GameLoop.stop();
+};
+JumpDemo.prototype.RefreshSelect = function(){
+    this.LevelSelect="refresh";
     gEngine.GameLoop.stop();
 };
