@@ -93,9 +93,13 @@ GameObject.prototype.update = function () {
 
 GameObject.prototype.draw = function (aCamera) {
     if (this.isVisible()) {
-        if (this.mDrawRenderable)
+        if (this.mDrawRenderable){
             this.mRenderComponent.draw(aCamera);
-        if ((this.mRigidBody !== null) && (this.mDrawRigidShape))
+        }
+            
+        if ((this.mRigidBody !== null) && (this.mDrawRigidShape)){
             this.mRigidBody.draw(aCamera);
+        }
+            
     }
 };

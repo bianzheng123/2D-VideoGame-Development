@@ -46,7 +46,7 @@ PlayScene.prototype.initialize = function () {
     this.mCamera = new Camera(
         vec2.fromValues(0, 0), // position of the camera
         100,                     // width of camera
-        [0, 0, 600, 600]         // viewport (orgX, orgY, width, height)
+        [0, 0, 700, 700]         // viewport (orgX, orgY, width, height)
     );
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
             // sets the background to gray
@@ -59,8 +59,8 @@ PlayScene.prototype.initialize = function () {
     bgR.getXform().setPosition(0, 0);
     this.mBg = new GameObject(bgR);
     
-    this.mMapManager = new MapManager();
-    this.mMapManager.initialize(this.kAtlas);
+    this.mMapManager = new MapManager(this.kAtlas,this.mCamera);
+    this.mMapManager.initialize();
     
     
 };

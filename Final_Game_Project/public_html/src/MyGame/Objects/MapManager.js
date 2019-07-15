@@ -9,27 +9,49 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function MapManager() {
-    this.kMapArray = new Array;
+function MapManager(spriteTexture) {
+    this.kspriteTexture = spriteTexture;
+    this.kwidth = 10;
+    this.kheight = 10;
+    this.kMapArray = new Array();//这个是二维数组
+    
 }
 
-//gEngine.Core.inheritPrototype(MapManager, GameObject);
+MapManager.prototype.initialize = function(){
+    var i,j,l;
+    for(i=0;i<this.kheight;i++){
+        this.kMapArray[i] = new Array(this.kwidth);
+        for(j=0;j<this.kwidth;j++){
+            var tmp;
+//            if(i === 0 && j === 0){
+//                tmp = new Grass(this.kspriteTexture,i,j);
+//            }
+            if(i % 2 === 0){
+                if(j % 2 === 0){
+                    tmp = new Grass(this.kspriteTexture,i,j);
+                }else{
+                    tmp = new Sand(this.kspriteTexture,i,j);
+                }
+            }else{
+                if(j % 2 === 0){
+                    tmp = new Sand(this.kspriteTexture,i,j);
+                }else{
+                    tmp = new Grass(this.kspriteTexture,i,j);
+                }
+            }
+            
+            this.kMapArray[i][j] = tmp;
+        }
+    }
 
-MapManager.prototype.initialize = function(spriteTexture){
-//    this.kMapArray.push(map1);
-};
-
-MapManager.prototype.update = function () {
-    
-    
-    
 };
 
 MapManager.prototype.draw = function (mCamera) {
-    var i,l;
-    for(i=0;i<this.kMapArray.length;i++){
-        l = this.kMapArray[i];
-        l.draw(mCamera);
+    var i,j,l;
+    for(i=0;i<this.kheight;i++){
+        for(j=0;j<this.kwidth;j++){
+            l = this.kMapArray[i][j];
+            l.draw(mCamera);
+        }
     }
-    
 };
