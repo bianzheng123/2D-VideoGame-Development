@@ -16,7 +16,15 @@ function MapManager(spriteTexture,camera) {
     this.kHeight = 10;
     this.kMapArray = new Array();//这个是二维数组
     
+    this.mDrawLine = false;
+    
 }
+
+MapManager.prototype.update = function(){
+    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.X)){
+        this.mDrawLine = !this.mDrawLine;
+    }
+};
 
 MapManager.prototype.initialize = function(){
     var i,j,l;
@@ -26,19 +34,20 @@ MapManager.prototype.initialize = function(){
             var tmp;
             if(i % 2 === 0){
                 if(j % 2 === 0){
-                    tmp = new Grass(this.kspriteTexture,i,j);
+                    tmp = new Grass(this.kspriteTexture,i,j,this.kCamera);
                 }else{
-                    tmp = new Sand(this.kspriteTexture,i,j);
+                    tmp = new Sand(this.kspriteTexture,i,j,this.kCamera);
                 }
             }else{
                 if(j % 2 === 0){
-                    tmp = new Sand(this.kspriteTexture,i,j);
+                    tmp = new Sand(this.kspriteTexture,i,j,this.kCamera);
                 }else{
-                    tmp = new Grass(this.kspriteTexture,i,j);
+                    tmp = new Grass(this.kspriteTexture,i,j,this.kCamera);
                 }
             }
             
             this.kMapArray[i][j] = tmp;
+            tmp.initialize();
         }
     }
 
@@ -50,6 +59,10 @@ MapManager.prototype.draw = function () {
         for(j=0;j<this.kWidth;j++){
             l = this.kMapArray[i][j];
             l.draw(this.kCamera);
+            if(this.mDrawLine){
+                l.drawLine();
+            }
+            
         }
     }
 };

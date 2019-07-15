@@ -85,6 +85,6 @@ PlayScene.prototype.draw = function () {
 
 PlayScene.prototype.update = function () {
     this.mIceCreamManager.update(this.mMapManager);
-   
+    this.mMapManager.update();
     //press z to create an iceCream
 };
