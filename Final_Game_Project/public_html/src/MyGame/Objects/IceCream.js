@@ -32,7 +32,7 @@ function IceCream(spriteTexture,Xindex,Yindex) {
 gEngine.Core.inheritPrototype(IceCream, GameObject);
 
 IceCream.prototype.update = function () {
-    console.log("melt");
+//    console.log("melt");
     this._melt();
 };
 

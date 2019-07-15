@@ -45,7 +45,7 @@ IceCreamManager.prototype.createIceCream = function(mapManager){
 //    console.log(index);
     l = tmp_arr[index];
     l.mHasIceCream = true;
-    console.log(l.kXindex + " " + l.kYindex);
+//    console.log(l.kXindex + " " + l.kYindex);
     var iceCream = new IceCream(this.kspriteTexture,l.kXindex,l.kYindex);
     this.mIceCreamArray.push(iceCream);
 };
