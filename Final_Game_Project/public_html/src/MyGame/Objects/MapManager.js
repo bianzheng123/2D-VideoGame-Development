@@ -32,22 +32,32 @@ MapManager.prototype.initialize = function(){
         this.kMapArray[i] = new Array(this.kWidth);
         for(j=0;j<this.kWidth;j++){
             var tmp;
-            if(i % 2 === 0){
-                if(j % 2 === 0){
-                    tmp = new Grass(this.kspriteTexture,i,j,this.kCamera);
-                }else{
-                    tmp = new Sand(this.kspriteTexture,i,j,this.kCamera);
-                }
+//            if(i % 2 === 0){
+//                if(j % 2 === 0){
+//                    tmp = new Grass(this.kspriteTexture,i,j,this.kCamera);
+//                    tmp.initialize();
+//                }else{
+//                    tmp = new Sand(this.kspriteTexture,i,j);
+//                }
+//            }else{
+//                if(j % 2 === 0){
+//                    tmp = new Sand(this.kspriteTexture,i,j);
+//                }else{
+//                    tmp = new Grass(this.kspriteTexture,i,j,this.kCamera);
+//                    tmp.initialize();
+//                }
+//            }
+
+
+             if(i % 2 === 0){
+                tmp = new Grass(this.kspriteTexture,i,j,this.kCamera);
+                tmp.initialize();
             }else{
-                if(j % 2 === 0){
-                    tmp = new Sand(this.kspriteTexture,i,j,this.kCamera);
-                }else{
-                    tmp = new Grass(this.kspriteTexture,i,j,this.kCamera);
-                }
+                tmp = new Sand(this.kspriteTexture,i,j);
             }
             
             this.kMapArray[i][j] = tmp;
-            tmp.initialize();
+            
         }
     }
 
@@ -59,7 +69,7 @@ MapManager.prototype.draw = function () {
         for(j=0;j<this.kWidth;j++){
             l = this.kMapArray[i][j];
             l.draw(this.kCamera);
-            if(this.mDrawLine){
+            if(l.kTag === "Grass" && this.mDrawLine){
                 l.drawLine();
             }
             

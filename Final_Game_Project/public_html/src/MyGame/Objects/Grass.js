@@ -51,11 +51,12 @@ Grass.prototype.initialize = function(){
     this.kBottomLine.setFirstVertex(this.kLeft, this.kBottom);
     this.kBottomLine.setSecondVertex(this.kRight, this.kBottom);
     
+    
 };
 
 Grass.prototype.drawLine = function(){
+    this.kRightLine.draw(this.kCamera);
+    this.kLeftLine.draw(this.kCamera);
     this.kBottomLine.draw(this.kCamera);
     this.kTopLine.draw(this.kCamera);
-    this.kLeftLine.draw(this.kCamera);
-    this.kRightLine.draw(this.kCamera);
 };
