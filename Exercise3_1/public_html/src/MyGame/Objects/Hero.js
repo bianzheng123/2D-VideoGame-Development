@@ -19,7 +19,7 @@ function Hero(spriteTexture) {
     this.mDye.setColor([1,1,1,0]);
     this.mDye.getXform().setPosition(35, 50);
     this.mDye.getXform().setSize(9, 12);
-    this.mDye.setElementPixelPositions(0, 120, 0, 180);
+    this.mDye.setElementPixelPositions(0, 100, 0, 150);
     GameObject.call(this, this.mDye);
 }
 gEngine.Core.inheritPrototype(Hero, GameObject);
