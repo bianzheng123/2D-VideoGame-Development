@@ -14,7 +14,7 @@ function Player(spriteTexture) {
     
     this.kHeight = 16;
     this.kWidth = 8;
-
+    this.kGravityAcceleration = 1;
     this.walkingSpeed = 1;
     this.comaTime = 0; // 0 for not in coma yet
     this.flamming = 0; // 0 for no flamming buff
@@ -42,6 +42,8 @@ function Player(spriteTexture) {
     this.speedY = 0;
     this.speedX = 0;
     this.speedZ = 0;
+    this.expectedX = 0;
+    this.expectedY = 0;
     this.mPlayer = new SpriteRenderable(spriteTexture);
     this.mPlayer.setColor([0.2, 0.5, 0.8, 1]);
     this.mPlayer.getXform().setPosition(10, 25);
@@ -58,10 +60,12 @@ Player.prototype.update = function () {
         this.originalX+=this.speedX;
         this.originalY+=this.speedY;
         this.originalZ+=this.speedZ;
-        this.speedZ-=1;
+        this.speedZ-=this.kGravityAcceleration;
         xform.setXPos(this.originalX);
         xform.setYPos(this.originalY+this.originalZ);
         if(this.originalZ<=0){
+            //xform.setXPos(this.expectedX);
+            xform.setYPos(this.expectedY);
             this.jumping=false;
             this.originalZ=0;
         }
@@ -126,6 +130,9 @@ Player.prototype.update = function () {
         this.originalY = xform.getYPos();
         this.originalZ = 0;
         //alert(this.magnitude+" "+this.speedX+" "+this.speedY);
+        var expectedDist = (this.magnitude*this.magnitude*Math.sin(2*this.theta)) /this.kGravityAcceleration;
+        this.expectedX=this.originalX+expectedDist*Math.cos(Math.PI*this.direction/4);
+        this.expectedY=this.originalY+expectedDist*Math.sin(Math.PI*this.direction/4);
         this.jumping=true;
         //alert(this.speedZ);
     }
