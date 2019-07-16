@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Player(spriteTexture,camera) {
+function Player(spriteTexture) {
     this.DirectionEnum={
         RIGHT: 0,
         TOPRIGHT: 1,
@@ -28,6 +28,7 @@ function Player(spriteTexture,camera) {
     this.mYindex = 0;
     this.mXpos = -30;
     this.mYpos = -30;
+    this.mIsDead = false;
     
     this.walkingSpeed = 1;
     this.comaTime = 0; // 0 for not in coma yet

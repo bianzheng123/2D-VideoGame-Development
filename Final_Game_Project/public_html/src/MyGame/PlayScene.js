@@ -84,7 +84,7 @@ PlayScene.prototype.initialize = function () {
     
     this.mIceCreamManager = new IceCreamManager(this.kAtlas,this.mCamera);
     
-    this.mPlayer = new Player(this.kAtlas,this.mCamera);
+    this.mPlayer = new Player(this.kAtlas);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -173,6 +173,12 @@ PlayScene.prototype._updatePlayerPositionByIndex = function(){
                         l.kYpos - l.kYsize / 2 <= this.mPlayer.mYpos && this.mPlayer.mYpos <= l.kYpos + l.kYsize / 2){
                     this.mPlayer.mXindex = l.kXindex;
                     this.mPlayer.mYindex = l.kYindex;
+                    if(l.kTag === "Grass"){
+                        this.mPlayer.mIsDead = false;
+                    }else{
+                        this.mPlayer.mIsDead = true;
+                    }
+                    console.log(this.mPlayer.mIsDead);
                     break breakpoint;
                 }
                 if(i === this.mMapManager.kHeight - 1 && j === this.mMapManager.kWidth - 1){
