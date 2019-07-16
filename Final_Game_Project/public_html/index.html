@@ -120,6 +120,7 @@
         <script type="text/javascript" src="src/Engine/UI/UITextBox.js"></script>
         <script type="text/javascript" src="src/Engine/UI/UIDropDown.js"></script>
         <script type="text/javascript" src="src/Engine/UI/UIDDButton.js"></script>
+        <script type="text/javascript" src="src/Engine/UI/SelfAdapt.js"></script>
         
         <!-- Client game code -->
         <script type="text/javascript" src="src/MyGame/PlayScene.js"></script>
@@ -143,7 +144,7 @@
         
     </head>
 
-    <body onload="
+    <body id="body" onload="
         var myGame = new MyGame();
         gEngine.Core.initializeEngineCore('GLCanvas', myGame);
      ">
@@ -153,7 +154,14 @@
         Your browser does not support the HTML5 canvas.
         <!-- this message will show only if WebGL clearing failed -->
         </canvas>
-        <script type="text/javascript"> gEngine.LoadingIconConfig.setup(); </script>
+        <script type="text/javascript"> gEngine.LoadingIconConfig.setup(); 
+        selfAdapt();
+        window.onresize = function(){
+            selfAdapt();
+        }
+        document.body.parentNode.style.overflow = "hidden";
+
+        </script>
         </div>
     </body>
 </html>
