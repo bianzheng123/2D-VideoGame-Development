@@ -24,7 +24,7 @@ function Player(spriteTexture) {
     this.kWidth = 5;
     this.kGravityAcceleration = 1;
     
-    this.score = 0;
+    this.temperature = 50;
     
     this.mXindex = 0;
     this.mYindex = 0;
@@ -191,11 +191,41 @@ Player.prototype._death = function(){
 };
 
 Player.prototype._eatIceCream = function(mIceCreamArray){
-//    var i,l;
-//    for(i=0;i<mIceCreamArray.length;i++){
-//        l = mIceCreamArray[i];
-//        if(l.){
-//            
-//        }
-//    }
+    var i,l;
+
+    
+    for(i=0;i<mIceCreamArray.length;i++){
+//        console.log(mIceCreamArray.length);
+        l = mIceCreamArray[i];
+        if(l === null)   continue;
+        var ice_height = mIceCreamArray[i].kWidth;
+        var ice_width = mIceCreamArray[i].kHeight;
+        var this_pos = this.getXform().getPosition();
+        var this_left = this_pos[0] - ice_width / 2;
+        var this_right = this_pos[0] + ice_width / 2;
+        var this_top = this_pos[1] + ice_height / 2;
+        var this_bottom = this_pos[1] - ice_height / 2;
+        
+        var pos = l.getXform().getPosition();
+        var ice_left = pos[0] - l.kWidth / 2;
+        var ice_right = pos[0] + l.kWidth / 2;
+        var ice_top = pos[1] + l.kHeight / 2;
+        var ice_bottom = pos[1] - l.kHeight / 2;
+        
+        
+        if(this_left <= ice_left && ice_left <= this_right && !(ice_top < this_bottom || ice_bottom > this_top)){
+            this.temperature--;
+            mIceCreamArray[i] = null;
+        }else if(this_left <= ice_right && ice_right <= this_right && !(ice_top < this_bottom || ice_bottom > this_top)){
+            this.temperature--;
+            mIceCreamArray[i] = null;
+        }else if(this_bottom <= ice_top && ice_top <= this_top && !(ice_right < this_left || ice_left > this_right)){
+            this.temperature--;
+            mIceCreamArray[i] = null;
+        }else if(this_bottom <= ice_bottom && ice_bottom <= this_top && !(ice_right < this_left || ice_left > this_right)){
+            this.temperature--;
+            mIceCreamArray[i] = null;
+        }
+        console.log("temperature: " + this.temperature);
+    }
 };

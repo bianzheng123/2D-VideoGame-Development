@@ -106,7 +106,7 @@ PlayScene.prototype.draw = function () {
 PlayScene.prototype.update = function () {
     this.mIceCreamManager.update(this.mMapManager);
     this.mMapManager.update();
-    this.mPlayer.update();
+    this.mPlayer.update(this.mIceCreamManager.mIceCreamArray);
     //press z to create an iceCream
     this._updatePlayerPositionByIndex();
     this._setMsg();
@@ -183,7 +183,7 @@ PlayScene.prototype._updatePlayerPositionByIndex = function(){
                     }else{
                         this.mPlayer.mIsDead = true;
                     }
-                    console.log("whether the player is dead: " + this.mPlayer.mIsDead);
+//                    console.log("whether the player is dead: " + this.mPlayer.mIsDead);
                     break breakpoint;
                 }
                 if(i === this.mMapManager.kHeight - 1 && j === this.mMapManager.kWidth - 1){

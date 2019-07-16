@@ -27,7 +27,10 @@ IceCreamManager.prototype.update = function (mapManager) {
     var i,l;
     for(i=0;i<this.mIceCreamArray.length;i++){
         l = this.mIceCreamArray[i];
-        l.update();
+        if(l !== null){
+            l.update();
+        }
+        
 
     }
 };
@@ -68,7 +71,10 @@ IceCreamManager.prototype.draw = function(){
     var i,l;
     for(i=0;i<this.mIceCreamArray.length;i++){
         l = this.mIceCreamArray[i];
-        l.draw(this.kCamera);
+        if(l !== null){
+            l.draw(this.kCamera);
+        }
+        
     }
     
 };
