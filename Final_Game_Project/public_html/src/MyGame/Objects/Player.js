@@ -29,6 +29,8 @@ function Player(spriteTexture) {
     this.mIsDead = false;
     this.mIsDeathCountStart = false;
     this.mCountFrameDeath = 0;
+    this.mLastXpos = 0;
+    this.mLastYpos = 0;//stores the last index of grass which the player stays
     
     this.walkingSpeed = 1;
     this.comaTime = 0; // 0 for not in coma yet
@@ -172,13 +174,16 @@ Player.prototype._death = function(){
         if(this.mCountFrameDeath >= 120){
             this.mIsDeathCountStart = false;
             this.mIsDead = false;
-            this.getXform().setPosition(-47,-47);//这里需要更改
-            this.mYindex = 0;
+            this.getXform().setPosition(this.mLastXpos,this.mLastYpos);//这里需要更改
             this.getXform().incRotationByDegree(-45);
             this.mCountFrameDeath = 0;
         }
         this.mCountFrameDeath++;
     }
+    
+//    console.log("death");
+//    console.log(this.mIsDead + " " + this.mIsDeathCountStart);
+//    console.log(this.mCountFrameDeath);
         
         
         

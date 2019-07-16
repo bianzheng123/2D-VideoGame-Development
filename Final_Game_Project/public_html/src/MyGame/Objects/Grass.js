@@ -15,17 +15,19 @@ function Grass(spriteTexture,Xindex,Yindex,camera) {
     this.kTag = "Grass";
     this.kCamera = camera;
     
-    this.kLeft = Xindex * 7 - 47 - 3.5;
-    this.kRight = Xindex * 7 - 47 + 3.5;
-    this.kTop = Yindex * 7 - 47 + 3.5;
-    this.kBottom = Yindex * 7 - 47 -3.5;
+    this.kXpos = this.kXindex * 7 - 47;
+    this.kYpos = this.kYindex * 7 - 47;
+    
+    this.kLeft = this.kXpos - 3.5;
+    this.kRight = this.kXpos + 3.5;
+    this.kTop = this.kYpos + 3.5;
+    this.kBottom = this.kYpos -3.5;
     this.kLeftLine = null;
     this.kRightLine = null;
     this.kTopLine = null;
     this.kBottomLine = null;
     
-    this.kXpos = this.kXindex * 7 - 47;
-    this.kYpos = this.kYindex * 7 - 47;
+    
     this.kXsize = 7;
     this.kYsize = 7;
     

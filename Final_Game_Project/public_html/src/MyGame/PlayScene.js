@@ -174,8 +174,13 @@ PlayScene.prototype._updatePlayerPositionByIndex = function(){
                         l.kYpos - l.kYsize / 2 <= pos[1] && pos[1] <= l.kYpos + l.kYsize / 2){
                     this.mPlayer.mXindex = l.kXindex;
                     this.mPlayer.mYindex = l.kYindex;
-                    if(l.kTag === "Grass" || this.mPlayer.isJumping){
+                    if(l.kTag === "Grass"){
                         this.mPlayer.mIsDead = false;
+                        this.mPlayer.mLastXpos = l.kXpos;
+                        this.mPlayer.mLastYpos = l.kYpos;
+                    }else if(this.mPlayer.isJumping){
+                        this.mPlayer.mIsDead = false;
+                        console.log("fsdfsd");
                     }else{
                         this.mPlayer.mIsDead = true;
                     }
@@ -188,13 +193,10 @@ PlayScene.prototype._updatePlayerPositionByIndex = function(){
             }
         }
     }
-//    console.log(pos[0] + " " + pos[1]);
-    if(hasIterateAll){
+
+    if(hasIterateAll && !this.mPlayer.isJumping){
         this.mPlayer.mXindex = null;
         this.mPlayer.mYindex = null;
+        this.mPlayer.mIsDead = true;
     }
-};
-
-PlayScene.prototype._getMapPosition = function(){
-    
 };
