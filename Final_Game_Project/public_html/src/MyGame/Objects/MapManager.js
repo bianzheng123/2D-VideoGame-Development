@@ -39,23 +39,6 @@ MapManager.prototype.update = function(){
 
 MapManager.prototype.initialize = function(){
     var i,j,l;
-//    for(i=0;i<this.kHeight;i++){
-//        this.MapArray[i] = new Array(this.kWidth);
-//        for(j=0;j<this.kWidth;j++){
-//            var tmp;
-//
-//
-//             if(i % 2 === 0){
-//                tmp = new Grass(this.kspriteTexture,i,j,this.kCamera);
-//                tmp.initialize();
-//            }else{
-//                tmp = new Sand(this.kspriteTexture,i,j);
-//            }
-//            
-//            this.MapArray[i][j] = tmp;
-//            
-//        }
-//    }
     for(i=0;i<this.kHeight;i++){
          this.MapArray[i] = new Array(this.kWidth);
     }
