@@ -197,7 +197,7 @@ Player.prototype._eatIceCream = function(mIceCreamArray){
     for(i=0;i<mIceCreamArray.length;i++){
 //        console.log(mIceCreamArray.length);
         l = mIceCreamArray[i];
-        if(l === null)   continue;
+        if(l === null || this.isJumping)   continue;
         var ice_height = mIceCreamArray[i].kWidth;
         var ice_width = mIceCreamArray[i].kHeight;
         var this_pos = this.getXform().getPosition();
