@@ -15,7 +15,8 @@ function PlayScene() {
     //to Upload the background
     this.kBG = "assets/background.png";
     this.kAtlas = "assets/white.png";
-    
+    this.kUIButton = "assets/UI/button.png";
+    this.kUIButton = "assets/UI/SimpleButton.png";
     //need the wav file(to play audio)
     
     // The camera to view the scene
@@ -28,7 +29,7 @@ function PlayScene() {
     this.mMsg1 = null;//to show the direction of the player
     this.mMsg2 = null;
     this.mMsg3 = null;
-    
+    this.fullscreenButton = null;
     
     //To change the Scene
     this.LevelSelect = null;
@@ -37,11 +38,13 @@ gEngine.Core.inheritPrototype(PlayScene, Scene);
 
 
 PlayScene.prototype.loadScene = function () {
+    gEngine.Textures.loadTexture(this.kUIButton);
     gEngine.Textures.loadTexture(this.kBG);
     gEngine.Textures.loadTexture(this.kAtlas);
 };
 
 PlayScene.prototype.unloadScene = function () {
+    gEngine.Textures.unloadTexture(this.kUIButton);
     gEngine.Textures.unloadTexture(this.kBG);
     gEngine.Textures.loadTexture(this.kAtlas);
 };
@@ -49,9 +52,9 @@ PlayScene.prototype.unloadScene = function () {
 PlayScene.prototype.initialize = function () {
     // Step A: set up the cameras
     this.mCamera = new Camera(
-        vec2.fromValues(0, 0), // position of the camera
-        100,                     // width of camera
-        [0, 0, 700, 700]         // viewport (orgX, orgY, width, height)
+        vec2.fromValues(-15.5, -10), // position of the camera
+        140,                     // width of camera
+        [10, 10, 975, 585]         // viewport (orgX, orgY, width, height)
     );
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
             // sets the background to gray
@@ -66,6 +69,8 @@ PlayScene.prototype.initialize = function () {
     
     this.mMapManager = new MapManager(this.kAtlas,this.mCamera);
     this.mMapManager.initialize();
+    
+    this.fullscreenButton = new UIButton(this.fullscreenSelect,this,[120,550],[200,40],"Fullscreen",4);
     
     this.mMsg1 = new FontRenderable("Status Message");
     this.mMsg1.setColor([0, 0, 0, 1]);
@@ -94,8 +99,8 @@ PlayScene.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     
     this.mCamera.setupViewProjection();
-    
-    this.mBg.draw(this.mCamera);
+    this.fullscreenButton.draw(this.mCamera);
+    //this.mBg.draw(this.mCamera);
     this.mMapManager.draw();
     this.mIceCreamManager.draw();
     
@@ -110,6 +115,7 @@ PlayScene.prototype.update = function () {
     //press z to create an iceCream
     this._updatePlayerPositionByIndex();
     this._setMsg();
+    this.fullscreenButton.update();
 };
 
 PlayScene.prototype._drawMsg = function(Camera){
@@ -199,3 +205,15 @@ PlayScene.prototype._updatePlayerPositionByIndex = function(){
         this.mPlayer.mIsDead = true;
     }
 };
+PlayScene.prototype.fullscreenSelect=function(){
+    var element=document.documentElement;
+    if(element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if(element.mozRequestFullScreen) {
+      element.mozRequestFullScreen();
+    } else if(element.webkitRequestFullscreen) {
+      element.webkitRequestFullscreen();
+    } else if(element.msRequestFullscreen) {
+      element.msRequestFullscreen();
+    }
+}
