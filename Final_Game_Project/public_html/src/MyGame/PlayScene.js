@@ -170,8 +170,8 @@ PlayScene.prototype._updatePlayerPositionByIndex = function(){
             for(j=0;j<this.mMapManager.kWidth;j++){
                 l = mapArr[i][j];
                 if((!this.mPlayer.isJumping) && 
-                        l.kXpos - l.kXsize / 2 <= pos[0] && pos[0] <= l.kXpos + l.kXsize / 2 &&
-                        l.kYpos - l.kYsize / 2 <= pos[1] && pos[1] <= l.kYpos + l.kYsize / 2){
+                        l.kXpos - l.kXsize / 2 <= pos[0]  && pos[0] <= l.kXpos + l.kXsize / 2 &&
+                        l.kYpos - l.kYsize / 2 <= pos[1] - this.mPlayer.kHeight / 2 && pos[1] - this.mPlayer.kHeight / 2  <= l.kYpos + l.kYsize / 2){
                     this.mPlayer.mXindex = l.kXindex;
                     this.mPlayer.mYindex = l.kYindex;
                     if(l.kTag === "Grass"){
@@ -180,7 +180,6 @@ PlayScene.prototype._updatePlayerPositionByIndex = function(){
                         this.mPlayer.mLastYpos = l.kYpos;
                     }else if(this.mPlayer.isJumping){
                         this.mPlayer.mIsDead = false;
-                        console.log("fsdfsd");
                     }else{
                         this.mPlayer.mIsDead = true;
                     }

@@ -24,6 +24,8 @@ function Player(spriteTexture) {
     this.kWidth = 5;
     this.kGravityAcceleration = 1;
     
+    this.score = 0;
+    
     this.mXindex = 0;
     this.mYindex = 0;
     this.mIsDead = false;
@@ -55,7 +57,7 @@ function Player(spriteTexture) {
     
     this.mPlayer = new SpriteRenderable(spriteTexture);
     this.mPlayer.setColor([0.2, 0.5, 0.8, 1]);
-    this.mPlayer.getXform().setPosition(-30, -30);
+    this.mPlayer.getXform().setPosition(-47, -47);
     this.mPlayer.getXform().setSize(this.kWidth,this.kHeight);
     this.mPlayer.setElementPixelPositions(510, 595, 23, 153);
     
@@ -64,10 +66,11 @@ function Player(spriteTexture) {
 gEngine.Core.inheritPrototype(Player, GameObject);
 
 
-Player.prototype.update = function () {
+Player.prototype.update = function (mIceCreamArray) {
     if(!this.mIsDead){
-        this.walk();
-        this.jump();
+        this._walk();
+        this._jump();
+        this._eatIceCream(mIceCreamArray);
     }else{
         this._death();
         
@@ -75,7 +78,7 @@ Player.prototype.update = function () {
     
 };
 
-Player.prototype.walk = function(){
+Player.prototype._walk = function(){
     var xform = this.getXform();
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)){
         this._changeDir(this.DirectionEnum.LEFT);
@@ -115,7 +118,7 @@ Player.prototype.walk = function(){
     }
 };
 
-Player.prototype.jump = function(){
+Player.prototype._jump = function(){
     var xform = this.getXform();
     
     if(this.isJumping){
@@ -184,8 +187,15 @@ Player.prototype._death = function(){
 //    console.log("death");
 //    console.log(this.mIsDead + " " + this.mIsDeathCountStart);
 //    console.log(this.mCountFrameDeath);
-        
-        
-        
-    
+
+};
+
+Player.prototype._eatIceCream = function(mIceCreamArray){
+//    var i,l;
+//    for(i=0;i<mIceCreamArray.length;i++){
+//        l = mIceCreamArray[i];
+//        if(l.){
+//            
+//        }
+//    }
 };
