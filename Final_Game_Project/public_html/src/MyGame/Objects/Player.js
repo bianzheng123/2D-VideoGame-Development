@@ -20,8 +20,8 @@ function Player(spriteTexture) {
         BOTTOM: 6,
         BOTTOMRIGHT: 7
     };
-    this.kHeight = 16;
-    this.kWidth = 8;
+    this.kHeight = 5;
+    this.kWidth = 5;
     this.kGravityAcceleration = 1;
     
     this.walkingSpeed = 1;
@@ -33,7 +33,7 @@ function Player(spriteTexture) {
     this.normalXPos = 0;
     
     this.direction=this.DirectionEnum.RIGHT;
-    this.jumping = false;
+    this.isJumping = false;
     this.theta = Math.PI/3;
     this.magnitude = 0;//the speed when jumping
     this.originalX = 0;//expected 
@@ -104,7 +104,7 @@ Player.prototype.walk = function(){
 
 Player.prototype.jump = function(){
     var xform = this.getXform();
-    if(this.jumping){
+    if(this.isJumping){
         this.originalX+=this.speedX;
         this.originalY+=this.speedY;
         this.originalZ+=this.speedZ;
@@ -114,19 +114,17 @@ Player.prototype.jump = function(){
         if(this.originalZ<=0){
             //xform.setXPos(this.expectedX);
             xform.setYPos(this.expectedY);
-            this.jumping=false;
+            this.isJumping=false;
             this.originalZ=0;
         }
         //alert("jumping");
     }
     
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)&&!this.jumping){//蓄力的状态
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)&&!this.isJumping){//蓄力的状态
         this.accumulateValue+=0.1;
         var deltaH = -xform.getHeight()/200;
-        xform.incHeightBy(deltaH);
-        xform.incYPosBy(deltaH/2);
     }
-    if((!gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)) && this.accumulateValue !== 0 && !this.jumping){
+    if((!gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)) && this.accumulateValue !== 0 && !this.isJumping){
         //xform.incXPosBy(this.accumulateValue);  
         var deltaH = this.kHeight-xform.getHeight();
         xform.incYPosBy(deltaH/2);
@@ -145,7 +143,7 @@ Player.prototype.jump = function(){
         var expectedDist = (this.magnitude*this.magnitude*Math.sin(2*this.theta)) /this.kGravityAcceleration;
         this.expectedX=this.originalX+expectedDist*Math.cos(Math.PI*this.direction/4);
         this.expectedY=this.originalY+expectedDist*Math.sin(Math.PI*this.direction/4);
-        this.jumping=true;
+        this.isJumping=true;
         //alert(this.speedZ);
     }
 };

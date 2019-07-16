@@ -26,6 +26,7 @@ function PlayScene() {
     this.mIceCreamManager = null;
     this.mPlayer = null;
     this.mMsg1 = null;//to show the direction of the player
+    this.mMsg2 = null;
     
     
     //To change the Scene
@@ -70,6 +71,11 @@ PlayScene.prototype.initialize = function () {
     this.mMsg1.getXform().setPosition(-45, -40);
     this.mMsg1.setTextHeight(3);
     
+    this.mMsg2 = new FontRenderable("Status Message");
+    this.mMsg2.setColor([0, 0, 0, 1]);
+    this.mMsg2.getXform().setPosition(-45, -43);
+    this.mMsg2.setTextHeight(3);
+    
     this.mIceCreamManager = new IceCreamManager(this.kAtlas,this.mCamera);
     
     this.mPlayer = new Player(this.kAtlas);
@@ -88,7 +94,7 @@ PlayScene.prototype.draw = function () {
     this.mIceCreamManager.draw();
     
     this.mPlayer.draw(this.mCamera);
-    this.mMsg1.draw(this.mCamera);
+    this._drawMsg(this.mCamera);
 };
 
 PlayScene.prototype.update = function () {
@@ -97,6 +103,11 @@ PlayScene.prototype.update = function () {
     this.mPlayer.update();
     //press z to create an iceCream
     this._setMsg();
+};
+
+PlayScene.prototype._drawMsg = function(Camera){
+  this.mMsg1.draw(Camera);
+  this.mMsg2.draw(Camera);
 };
 
 PlayScene.prototype._setMsg = function(){
@@ -129,4 +140,11 @@ PlayScene.prototype._setMsg = function(){
     }
     var msg = "now the player direction: " + dir;
     this.mMsg1.setText(msg);  
+    
+    if(-0.01 <= this.mPlayer.accumulateValue && this.mPlayer.accumulateValue <= 0.01){
+        msg = "Is storing force: false";
+    }else{
+        msg = "Is storing force: true";
+    }
+    this.mMsg2.setText(msg);
 };
