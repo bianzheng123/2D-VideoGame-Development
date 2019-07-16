@@ -164,13 +164,14 @@ PlayScene.prototype._updatePlayerPositionByIndex = function(){
     var mapArr = this.mMapManager.MapArray;
     var i,j,l;
     var hasIterateAll = false;
+    var pos = this.mPlayer.getXform().getPosition();
     breakpoint:{
         for(i=0;i<this.mMapManager.kHeight;i++){
             for(j=0;j<this.mMapManager.kWidth;j++){
                 l = mapArr[i][j];
                 if((!this.mPlayer.isJumping) && 
-                        l.kXpos - l.kXsize / 2 <= this.mPlayer.mXpos && this.mPlayer.mXpos <= l.kXpos + l.kXsize / 2 &&
-                        l.kYpos - l.kYsize / 2 <= this.mPlayer.mYpos && this.mPlayer.mYpos <= l.kYpos + l.kYsize / 2){
+                        l.kXpos - l.kXsize / 2 <= pos[0] && pos[0] <= l.kXpos + l.kXsize / 2 &&
+                        l.kYpos - l.kYsize / 2 <= pos[1] && pos[1] <= l.kYpos + l.kYsize / 2){
                     this.mPlayer.mXindex = l.kXindex;
                     this.mPlayer.mYindex = l.kYindex;
                     if(l.kTag === "Grass"){
@@ -178,7 +179,7 @@ PlayScene.prototype._updatePlayerPositionByIndex = function(){
                     }else{
                         this.mPlayer.mIsDead = true;
                     }
-                    console.log(this.mPlayer.mIsDead);
+                    console.log("whether the player is dead: " + this.mPlayer.mIsDead);
                     break breakpoint;
                 }
                 if(i === this.mMapManager.kHeight - 1 && j === this.mMapManager.kWidth - 1){
@@ -187,6 +188,7 @@ PlayScene.prototype._updatePlayerPositionByIndex = function(){
             }
         }
     }
+//    console.log(pos[0] + " " + pos[1]);
     if(hasIterateAll){
         this.mPlayer.mXindex = null;
         this.mPlayer.mYindex = null;

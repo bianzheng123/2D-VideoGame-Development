@@ -21,7 +21,6 @@ function MyGame() {
     // The camera to view the scene
     this.mCamera = null;
     this.PlaySceneButton = null;
-    this.JumpButton = null;
     this.UIText = null;
     this.LevelSelect = null;
 }
@@ -49,9 +48,6 @@ MyGame.prototype.unloadScene = function () {
     if(this.LevelSelect==="PlayScene"){
         gEngine.Core.startScene(new PlayScene());
     }
-    else if(this.LevelSelect==="Jump"){
-        gEngine.Core.startScene(new JumpDemo());
-    }
     else if(this.LevelSelect==="Win"){
         gEngine.Core.startScene(new Win());
     }
@@ -69,7 +65,6 @@ MyGame.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
     this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[200,400],[300,50],"Playscene Demo",4);
-    this.JumpButton = new UIButton(this.JumpSelect,this,[200,300],[200,50],"Jump Demo",4);
     this.WinButton = new UIButton(this.WinSelect,this,[200,200],[200,50],"Win",4);
     this.UIText = new UIText("Temp Start Scene",[400,600],8,1,0,[0,0,0,1]);
 };
@@ -81,21 +76,14 @@ MyGame.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     
     this.mCamera.setupViewProjection();
-    this.PlaySceneButton.draw(this.mCamera);
-    this.JumpButton.draw(this.mCamera);
+    this.PlaySceneButton.draw(this.mCamera); 
     this.WinButton.draw(this.mCamera);
     this.UIText.draw(this.mCamera);
 };
 
 MyGame.prototype.update = function () {
     
-    if(this.JumpButton.mPlayOnButtonAudio===true){
-        gEngine.AudioClips.playACue(this.kOnButton,50);
-        this.JumpButton.mPlayOnButtonAudio=false;
-    }
-    
     this.PlaySceneButton.update();
-    this.JumpButton.update();
     this.WinButton.update();
 };
 
@@ -105,12 +93,6 @@ MyGame.prototype.PlaySceneSelect = function(){
     gEngine.GameLoop.stop();
 };
 
-MyGame.prototype.JumpSelect = function(){
-    this.LevelSelect="Jump";
-  //  console.log('choose jump');
-    this.clickAudio(this.JumpButton);
-    gEngine.GameLoop.stop();
-};
 
 MyGame.prototype.WinSelect = function(){
     this.LevelSelect="Win";
@@ -121,4 +103,4 @@ MyGame.prototype.clickAudio = function (button) {
     //console.log('play click');
      gEngine.AudioClips.playACue(this.kClickButton,40);
      button.mPlayClickButtonAudio = false;
-}
+};

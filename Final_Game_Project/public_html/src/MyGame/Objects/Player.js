@@ -26,11 +26,9 @@ function Player(spriteTexture) {
     
     this.mXindex = 0;
     this.mYindex = 0;
-    this.mXpos = -30;
-    this.mYpos = -30;
     this.mIsDead = false;
     
-    this.walkingSpeed = 1;
+    this.walkingSpeed = 0.1;
     this.comaTime = 0; // 0 for not in coma yet
     this.flamming = 0; // 0 for no flamming buff
     this.temperature = 50; // range is [0, 100]
@@ -53,7 +51,7 @@ function Player(spriteTexture) {
     
     this.mPlayer = new SpriteRenderable(spriteTexture);
     this.mPlayer.setColor([0.2, 0.5, 0.8, 1]);
-    this.mPlayer.getXform().setPosition(this.mXpos, this.mYpos);
+    this.mPlayer.getXform().setPosition(-30, -30);
     this.mPlayer.getXform().setSize(this.kWidth,this.kHeight);
     this.mPlayer.setElementPixelPositions(510, 595, 23, 153);
     
@@ -72,72 +70,70 @@ Player.prototype.walk = function(){
     var xform = this.getXform();
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)){
         this._changeDir(this.DirectionEnum.LEFT);
-        this.mXpos -= this.walkingSpeed;
+        xform.incXPosBy(-this.walkingSpeed);
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)){
         this._changeDir(this.DirectionEnum.RIGHT);
-        this.mXpos += this.walkingSpeed;
+        xform.incXPosBy(this.walkingSpeed);
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
         this._changeDir(this.DirectionEnum.TOP);
-        this.mYpos += this.walkingSpeed;
+        xform.incYPosBy(this.walkingSpeed);
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
         this._changeDir(this.DirectionEnum.BOTTOM);
-        this.mYpos -= this.walkingSpeed;
+        xform.incYPosBy(-this.walkingSpeed);
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
         this._changeDir(this.DirectionEnum.TOPLEFT);
-        this.mXpos += this.walkingSpeed*(1-Math.cos(Math.PI/4));
-        this.mYpos -= this.walkingSpeed*(1-Math.cos(Math.PI/4));
+        xform.incXPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+        xform.incYPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
         this._changeDir(this.DirectionEnum.BOTTOMLEFT);
-        this.mXpos += this.walkingSpeed*(1-Math.cos(Math.PI/4));
-        this.mYpos += this.walkingSpeed*(1-Math.cos(Math.PI/4));
+        xform.incXPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+        xform.incYPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
         this._changeDir(this.DirectionEnum.TOPRIGHT);
-        this.mXpos -= this.walkingSpeed*(1-Math.cos(Math.PI/4));
-        this.mYpos -= this.walkingSpeed*(1-Math.cos(Math.PI/4));
+        xform.incXPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+        xform.incYPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
         this._changeDir(this.DirectionEnum.BOTTOMRIGHT);
-        this.mXpos -= this.walkingSpeed*(1-Math.cos(Math.PI/4));
-        this.mYpos += this.walkingSpeed*(1-Math.cos(Math.PI/4));
+        xform.incXPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+        xform.incYPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
     }
-    xform.setXPos(this.mXpos);
-    xform.setYPos(this.mYpos);
 };
 
 Player.prototype.jump = function(){
     var xform = this.getXform();
-    if(this.isJumping){
+    
+    if(this.jumping){
         this.originalX+=this.speedX;
         this.originalY+=this.speedY;
         this.originalZ+=this.speedZ;
         this.speedZ-=this.kGravityAcceleration;
-        this.mXpos = this.originalX;
-        this.mYpos = this.originalY + this.originalZ;
-        xform.setXPos(this.mXpos);
-        xform.setYPos(this.mYpos);
+        xform.setXPos(this.originalX);
+        xform.setYPos(this.originalY+this.originalZ);
         if(this.originalZ<=0){
             //xform.setXPos(this.expectedX);
             xform.setYPos(this.expectedY);
-            this.isJumping=false;
+            this.jumping=false;
             this.originalZ=0;
         }
         //alert("jumping");
     }
     
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)&&!this.isJumping){//蓄力的状态
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)&&!this.jumping){
         this.accumulateValue+=0.1;
         var deltaH = -xform.getHeight()/200;
     }
-    if((!gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)) && this.accumulateValue !== 0 && !this.isJumping){
+    if((!gEngine.Input.isKeyPressed(gEngine.Input.keys.Space))&&this.accumulateValue!=0&&!this.jumping){
         //xform.incXPosBy(this.accumulateValue);  
         var deltaH = this.kHeight-xform.getHeight();
         xform.incYPosBy(deltaH/2);
+        xform.setSize(this.kWidth,this.kHeight);
         this.normalYPos=xform.getYPos();
         this.normalXPos=xform.getXPos();
         this.magnitude=this.accumulateValue;
@@ -152,7 +148,7 @@ Player.prototype.jump = function(){
         var expectedDist = (this.magnitude*this.magnitude*Math.sin(2*this.theta)) /this.kGravityAcceleration;
         this.expectedX=this.originalX+expectedDist*Math.cos(Math.PI*this.direction/4);
         this.expectedY=this.originalY+expectedDist*Math.sin(Math.PI*this.direction/4);
-        this.isJumping=true;
+        this.jumping=true;
         //alert(this.speedZ);
     }
 };

@@ -48,7 +48,6 @@ gEngine.Core.inheritPrototype(IceCream, GameObject);
 
 
 IceCream.prototype.update = function () {
-//    console.log("melt");
     this._melt();
 };
 
