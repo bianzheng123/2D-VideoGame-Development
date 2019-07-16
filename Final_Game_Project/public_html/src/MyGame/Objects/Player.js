@@ -27,8 +27,10 @@ function Player(spriteTexture) {
     this.mXindex = 0;
     this.mYindex = 0;
     this.mIsDead = false;
+    this.mIsDeathCountStart = false;
+    this.mCountFrameDeath = 0;
     
-    this.walkingSpeed = 0.1;
+    this.walkingSpeed = 1;
     this.comaTime = 0; // 0 for not in coma yet
     this.flamming = 0; // 0 for no flamming buff
     this.temperature = 50; // range is [0, 100]
@@ -61,9 +63,14 @@ gEngine.Core.inheritPrototype(Player, GameObject);
 
 
 Player.prototype.update = function () {
+    if(!this.mIsDead){
+        this.walk();
+        this.jump();
+    }else{
+        this._death();
+        
+    }
     
-    this.walk();
-    this.jump();
 };
 
 Player.prototype.walk = function(){
@@ -109,7 +116,7 @@ Player.prototype.walk = function(){
 Player.prototype.jump = function(){
     var xform = this.getXform();
     
-    if(this.jumping){
+    if(this.isJumping){
         this.originalX+=this.speedX;
         this.originalY+=this.speedY;
         this.originalZ+=this.speedZ;
@@ -119,17 +126,17 @@ Player.prototype.jump = function(){
         if(this.originalZ<=0){
             //xform.setXPos(this.expectedX);
             xform.setYPos(this.expectedY);
-            this.jumping=false;
+            this.isJumping=false;
             this.originalZ=0;
         }
         //alert("jumping");
     }
     
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)&&!this.jumping){
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)&&!this.isJumping){
         this.accumulateValue+=0.1;
         var deltaH = -xform.getHeight()/200;
     }
-    if((!gEngine.Input.isKeyPressed(gEngine.Input.keys.Space))&&this.accumulateValue!=0&&!this.jumping){
+    if((!gEngine.Input.isKeyPressed(gEngine.Input.keys.Space))&&this.accumulateValue!=0&&!this.isJumping){
         //xform.incXPosBy(this.accumulateValue);  
         var deltaH = this.kHeight-xform.getHeight();
         xform.incYPosBy(deltaH/2);
@@ -148,11 +155,32 @@ Player.prototype.jump = function(){
         var expectedDist = (this.magnitude*this.magnitude*Math.sin(2*this.theta)) /this.kGravityAcceleration;
         this.expectedX=this.originalX+expectedDist*Math.cos(Math.PI*this.direction/4);
         this.expectedY=this.originalY+expectedDist*Math.sin(Math.PI*this.direction/4);
-        this.jumping=true;
+        this.isJumping=true;
         //alert(this.speedZ);
     }
 };
 
 Player.prototype._changeDir = function(directionState){
     this.direction = directionState;
+};
+
+Player.prototype._death = function(){
+    if(!this.mIsDeathCountStart){
+        this.getXform().incRotationByDegree(45);
+        this.mIsDeathCountStart = true;
+    }else{
+        if(this.mCountFrameDeath >= 120){
+            this.mIsDeathCountStart = false;
+            this.mIsDead = false;
+            this.getXform().setPosition(-47,-47);//这里需要更改
+            this.mYindex = 0;
+            this.getXform().incRotationByDegree(-45);
+            this.mCountFrameDeath = 0;
+        }
+        this.mCountFrameDeath++;
+    }
+        
+        
+        
+    
 };

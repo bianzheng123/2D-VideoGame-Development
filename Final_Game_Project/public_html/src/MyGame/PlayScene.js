@@ -174,7 +174,7 @@ PlayScene.prototype._updatePlayerPositionByIndex = function(){
                         l.kYpos - l.kYsize / 2 <= pos[1] && pos[1] <= l.kYpos + l.kYsize / 2){
                     this.mPlayer.mXindex = l.kXindex;
                     this.mPlayer.mYindex = l.kYindex;
-                    if(l.kTag === "Grass"){
+                    if(l.kTag === "Grass" || this.mPlayer.isJumping){
                         this.mPlayer.mIsDead = false;
                     }else{
                         this.mPlayer.mIsDead = true;
@@ -193,4 +193,8 @@ PlayScene.prototype._updatePlayerPositionByIndex = function(){
         this.mPlayer.mXindex = null;
         this.mPlayer.mYindex = null;
     }
+};
+
+PlayScene.prototype._getMapPosition = function(){
+    
 };
