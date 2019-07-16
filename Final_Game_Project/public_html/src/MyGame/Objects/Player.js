@@ -69,11 +69,11 @@ function Player(spriteTexture) {
 gEngine.Core.inheritPrototype(Player, GameObject);
 
 
-Player.prototype.update = function (mIceCreamArray) {
+Player.prototype.update = function (mIceCreamArray,mapManager) {
     if(!this.mIsDead){
         this._walk();
         this._jump();
-        this._eatIceCream(mIceCreamArray);
+        this._eatIceCream(mIceCreamArray,mapManager);
         this._increaseTempterature();
     }else{
         this._death();
@@ -187,14 +187,10 @@ Player.prototype._death = function(){
         }
         this.mCountFrameDeath++;
     }
-    
-//    console.log("death");
-//    console.log(this.mIsDead + " " + this.mIsDeathCountStart);
-//    console.log(this.mCountFrameDeath);
 
 };
 
-Player.prototype._eatIceCream = function(mIceCreamArray){
+Player.prototype._eatIceCream = function(mIceCreamArray,mapManager){
     var i,l;
     
     for(i=0;i<mIceCreamArray.length;i++){
@@ -218,15 +214,19 @@ Player.prototype._eatIceCream = function(mIceCreamArray){
         
         if(this_left <= ice_left && ice_left <= this_right && !(ice_top < this_bottom || ice_bottom > this_top)){
             this.temperature--;
+            mapManager.MapArray[l.kYindex][l.kXindex].mHasIceCream = false;
             mIceCreamArray[i] = null;
         }else if(this_left <= ice_right && ice_right <= this_right && !(ice_top < this_bottom || ice_bottom > this_top)){
             this.temperature--;
+            mapManager.MapArray[l.kYindex][l.kXindex].mHasIceCream = false;
             mIceCreamArray[i] = null;
         }else if(this_bottom <= ice_top && ice_top <= this_top && !(ice_right < this_left || ice_left > this_right)){
             this.temperature--;
+            mapManager.MapArray[l.kYindex][l.kXindex].mHasIceCream = false;
             mIceCreamArray[i] = null;
         }else if(this_bottom <= ice_bottom && ice_bottom <= this_top && !(ice_right < this_left || ice_left > this_right)){
             this.temperature--;
+            mapManager.MapArray[l.kYindex][l.kXindex].mHasIceCream = false;
             mIceCreamArray[i] = null;
         }
     }

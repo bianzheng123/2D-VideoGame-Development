@@ -16,12 +16,24 @@ function IceCreamManager(spriteTexture,camera) {
     this.kp_no_buff = 0.8;//the probability of no buff;
     this.kp_speed_up_buff = 0.9;
     this.kp_fire_buff = 1;
+    this.kCreateIceCreamCountMax = 120;//每两秒出现一个冰淇凌
     
+    this.createIceCreamCount = 0;
+    this.isAutoCreate = true;
 }
 
 IceCreamManager.prototype.update = function (mapManager) {
     if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Z)){
         this.createIceCream(mapManager);
+    }
+    
+    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.C)){
+        this.isAutoCreate = !this.isAutoCreate;
+        console.log("isAutoCreateIceCream: " + this.isAutoCreate);
+    }
+    
+    if(this.isAutoCreate){
+        this.autoCreateIceCream(mapManager);
     }
     
     var i,l;
@@ -30,8 +42,16 @@ IceCreamManager.prototype.update = function (mapManager) {
         if(l !== null){
             l.update();
         }
-        
+       
+    }
+};
 
+IceCreamManager.prototype.autoCreateIceCream = function(mapManager){
+    if(this.createIceCreamCount >= this.kCreateIceCreamCountMax){
+        this.createIceCream(mapManager);
+        this.createIceCreamCount = 0;
+    }else{
+        this.createIceCreamCount++;
     }
 };
 
@@ -50,10 +70,16 @@ IceCreamManager.prototype.createIceCream = function(mapManager){
     var buff = this.getBuff();
 
     var index = Math.floor(Math.random() * tmp_arr.length);
-    l = tmp_arr[index];
-    l.mHasIceCream = true;
-    var iceCream = new IceCream(this.kspriteTexture,l.kXindex,l.kYindex,buff);
-    this.mIceCreamArray.push(iceCream);
+    
+    if(tmp_arr.length !== 0){
+        l = tmp_arr[index];
+//        console.log(tmp_arr.length);
+
+        l.mHasIceCream = true;
+        var iceCream = new IceCream(this.kspriteTexture,l.kXindex,l.kYindex,buff);
+        this.mIceCreamArray.push(iceCream);
+    }
+    
 };
 
 IceCreamManager.prototype.getBuff = function(){

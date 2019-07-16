@@ -117,7 +117,7 @@ PlayScene.prototype.draw = function () {
 PlayScene.prototype.update = function () {
     this.mIceCreamManager.update(this.mMapManager);
     this.mMapManager.update();
-    this.mPlayer.update(this.mIceCreamManager.mIceCreamArray);
+    this.mPlayer.update(this.mIceCreamManager.mIceCreamArray,this.mMapManager);
     //press z to create an iceCream
     this._updatePlayerPositionByIndex();
     this._setMsg();
