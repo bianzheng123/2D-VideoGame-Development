@@ -15,7 +15,18 @@ function MapManager(spriteTexture,camera) {
     this.kWidth = 10;
     this.kHeight = 10;
     this.MapArray = new Array();//这个是二维数组
-    
+    this.mMapDesign = [
+        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 0, 1, 0, 1, 0],
+        [0, 1, 0, 0, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 1, 0, 0, 0],
+        [0, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0, 0, 1, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0, 1, 0, 1, 0],
+        [0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ];
     this.mDrawLine = false;
     
 }
@@ -28,36 +39,36 @@ MapManager.prototype.update = function(){
 
 MapManager.prototype.initialize = function(){
     var i,j,l;
-    for(i=0;i<this.kHeight;i++){
-        this.MapArray[i] = new Array(this.kWidth);
-        for(j=0;j<this.kWidth;j++){
-            var tmp;
-//            if(i % 2 === 0){
-//                if(j % 2 === 0){
-//                    tmp = new Grass(this.kspriteTexture,i,j,this.kCamera);
-//                    tmp.initialize();
-//                }else{
-//                    tmp = new Sand(this.kspriteTexture,i,j);
-//                }
+//    for(i=0;i<this.kHeight;i++){
+//        this.MapArray[i] = new Array(this.kWidth);
+//        for(j=0;j<this.kWidth;j++){
+//            var tmp;
+//
+//
+//             if(i % 2 === 0){
+//                tmp = new Grass(this.kspriteTexture,i,j,this.kCamera);
+//                tmp.initialize();
 //            }else{
-//                if(j % 2 === 0){
-//                    tmp = new Sand(this.kspriteTexture,i,j);
-//                }else{
-//                    tmp = new Grass(this.kspriteTexture,i,j,this.kCamera);
-//                    tmp.initialize();
-//                }
+//                tmp = new Sand(this.kspriteTexture,i,j);
 //            }
-
-
-             if(i % 2 === 0){
-                tmp = new Grass(this.kspriteTexture,i,j,this.kCamera);
-                tmp.initialize();
-            }else{
-                tmp = new Sand(this.kspriteTexture,i,j);
+//            
+//            this.MapArray[i][j] = tmp;
+//            
+//        }
+//    }
+    for(i=0;i<this.kHeight;i++){
+         this.MapArray[i] = new Array(this.kWidth);
+    }
+    for(i=0;i<this.kHeight;i++){
+        for(j=0;j<this.kWidth;j++){
+            var temp;
+            if(this.mMapDesign[i][j]===1){
+                temp = new Grass(this.kspriteTexture,i,j,this.kCamera);
+                temp.initialize();
+            }else if(this.mMapDesign[i][j]===0){
+                temp = new Sand(this.kspriteTexture,i,j);
             }
-            
-            this.MapArray[i][j] = tmp;
-            
+            this.MapArray[j][i]=temp;
         }
     }
 
