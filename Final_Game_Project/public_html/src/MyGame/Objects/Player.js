@@ -10,19 +10,7 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function Player(spriteTexture) {
-    this.t = 0;
-    
-    this.kHeight = 16;
-    this.kWidth = 8;
-    this.kGravityAcceleration = 1;
-    this.walkingSpeed = 1;
-    this.comaTime = 0; // 0 for not in coma yet
-    this.flamming = 0; // 0 for no flamming buff
-    this.temperature = 50; // range is [0, 100]
-    this.accumulateValue = 0; // 0 for no accumulating
-    this.normalYPos = 0;
-    this.normalXPos = 0;
-    this.Direction={
+    this.DirectionEnum={
         RIGHT: 0,
         TOPRIGHT: 1,
         TOP: 2,
@@ -32,11 +20,23 @@ function Player(spriteTexture) {
         BOTTOM: 6,
         BOTTOMRIGHT: 7
     };
-    this.direction=this.Direction.RIGHT;
+    this.kHeight = 16;
+    this.kWidth = 8;
+    this.kGravityAcceleration = 1;
+    
+    this.walkingSpeed = 1;
+    this.comaTime = 0; // 0 for not in coma yet
+    this.flamming = 0; // 0 for no flamming buff
+    this.temperature = 50; // range is [0, 100]
+    this.accumulateValue = 0; // 0 for no accumulating
+    this.normalYPos = 0;
+    this.normalXPos = 0;
+    
+    this.direction=this.DirectionEnum.RIGHT;
     this.jumping = false;
     this.theta = Math.PI/3;
-    this.magnitude = 0;
-    this.originalX = 0;
+    this.magnitude = 0;//the speed when jumping
+    this.originalX = 0;//expected 
     this.originalY = 0;
     this.originalZ = 0;
     this.speedY = 0;
@@ -44,6 +44,7 @@ function Player(spriteTexture) {
     this.speedZ = 0;
     this.expectedX = 0;
     this.expectedY = 0;
+    
     this.mPlayer = new SpriteRenderable(spriteTexture);
     this.mPlayer.setColor([0.2, 0.5, 0.8, 1]);
     this.mPlayer.getXform().setPosition(10, 25);
@@ -55,6 +56,52 @@ function Player(spriteTexture) {
 gEngine.Core.inheritPrototype(Player, GameObject);
 
 Player.prototype.update = function () {
+    
+    this.walk();
+    this.jump();
+};
+
+Player.prototype.walk = function(){
+    var xform = this.getXform();
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)){
+        this.changeDir(this.DirectionEnum.LEFT);
+        xform.incXPosBy(-this.walkingSpeed);
+    }
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)){
+        this.changeDir(this.DirectionEnum.RIGHT);
+        xform.incXPosBy(this.walkingSpeed);
+    }
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
+        this.changeDir(this.DirectionEnum.TOP);
+        xform.incYPosBy(this.walkingSpeed);
+    }
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
+        this.changeDir(this.DirectionEnum.BOTTOM);
+        xform.incYPosBy(-this.walkingSpeed);
+    }
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
+        this.changeDir(this.DirectionEnum.TOPLEFT);
+        xform.incXPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+        xform.incYPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+    }
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
+        this.changeDir(this.DirectionEnum.BOTTOMLEFT);
+        xform.incXPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+        xform.incYPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+    }
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
+        this.changeDir(this.DirectionEnum.TOPRIGHT);
+        xform.incXPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+        xform.incYPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+    }
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
+        this.changeDir(this.DirectionEnum.BOTTOMRIGHT);
+        xform.incXPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+        xform.incYPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+    }
+};
+
+Player.prototype.jump = function(){
     var xform = this.getXform();
     if(this.jumping){
         this.originalX+=this.speedX;
@@ -71,50 +118,14 @@ Player.prototype.update = function () {
         }
         //alert("jumping");
     }
-
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)){
-        this.direction=this.Direction.LEFT;
-        xform.incXPosBy(-this.walkingSpeed);
-    }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)){
-        this.direction=this.Direction.RIGHT;
-        xform.incXPosBy(this.walkingSpeed);
-    }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
-        this.direction=this.Direction.TOP;
-        xform.incYPosBy(this.walkingSpeed);
-    }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
-        this.direction=this.Direction.BOTTOM;
-        xform.incYPosBy(-this.walkingSpeed);
-    }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
-        this.direction=this.Direction.TOPLEFT;
-        xform.incXPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
-        xform.incYPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
-    }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
-        this.direction=this.Direction.BOTTOMLEFT;
-        xform.incXPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
-        xform.incYPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
-    }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
-        this.direction=this.Direction.TOPRIGHT;
-        xform.incXPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
-        xform.incYPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
-    }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
-        this.direction=this.Direction.BOTTOMRIGHT;
-        xform.incXPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
-        xform.incYPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
-    }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)&&!this.jumping){
+    
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)&&!this.jumping){//蓄力的状态
         this.accumulateValue+=0.1;
         var deltaH = -xform.getHeight()/200;
         xform.incHeightBy(deltaH);
         xform.incYPosBy(deltaH/2);
     }
-    if((!gEngine.Input.isKeyPressed(gEngine.Input.keys.Space))&&this.accumulateValue!=0&&!this.jumping){
+    if((!gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)) && this.accumulateValue !== 0 && !this.jumping){
         //xform.incXPosBy(this.accumulateValue);  
         var deltaH = this.kHeight-xform.getHeight();
         xform.incYPosBy(deltaH/2);
@@ -136,5 +147,9 @@ Player.prototype.update = function () {
         this.jumping=true;
         //alert(this.speedZ);
     }
+};
 
+Player.prototype.changeDir = function(directionState){
+    this.direction = directionState;
+    
 };

@@ -24,10 +24,7 @@ function JumpDemo() {
     this.UIText = null;
     
     this.mHaha = null;
-    this.mBlock1 = null;
-    this.mBock2 = null;
-    this.mBock3 = null;
-    this.mBock4 = null;
+    this.mMsg = null;
     
     this.LevelSelect = null;
 }
@@ -66,6 +63,11 @@ JumpDemo.prototype.initialize = function () {
     this.UIText = new UIText("Jump Demo",[370,500],8,1,0,[0,0,0,1],8);
     
     this.mHaha = new Player(this.kWhite);
+    
+    this.mMsg = new FontRenderable("Status Message");
+    this.mMsg.setColor([0, 0, 0, 1]);
+    this.mMsg.getXform().setPosition(5, 10);
+    this.mMsg.setTextHeight(3);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -79,12 +81,49 @@ JumpDemo.prototype.draw = function () {
     this.BackButton.draw(this.mCamera);
     this.UIText.draw(this.mCamera);
     this.mHaha.draw(this.mCamera);
+    this.mMsg.draw(this.mCamera);
 };
 
 JumpDemo.prototype.update = function () {
     this.RefreshButton.update();
     this.BackButton.update();
     this.mHaha.update();
+    
+    this.setmMsg();
+    
+};
+
+JumpDemo.prototype.setmMsg = function(){
+    var dir = null;
+    switch(this.mHaha.direction){
+        case this.mHaha.DirectionEnum.RIGHT:
+            dir = "right";
+            break;
+        case this.mHaha.DirectionEnum.TOPRIGHT:
+            dir = "topright";
+            break;
+        case this.mHaha.DirectionEnum.TOP:
+            dir = "top";
+            break;
+        case this.mHaha.DirectionEnum.TOPLEFT:
+            dir = "topleft";
+            break;
+        case this.mHaha.DirectionEnum.LEFT:
+            dir = "left";
+            break;
+        case this.mHaha.DirectionEnum.BOTTOMLEFT:
+            dir = "bottomleft";
+            break;
+        case this.mHaha.DirectionEnum.BOTTOM:
+            dir = "bottom";
+            break;
+        case this.mHaha.DirectionEnum.BOTTOMRIGHT:
+            dir = "bottomright";
+            break;
+    }
+    var msg = "now players direction: " + dir;
+    console.log(dir);
+    this.mMsg.setText(msg);
 };
 
 JumpDemo.prototype.BackSelect = function(){
