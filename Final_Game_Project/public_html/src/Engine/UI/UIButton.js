@@ -44,6 +44,10 @@ function UIButton(callback, context, position, size, text, textSize) {
     
     this.mHover = false;
     this.mClick = false;
+    this.mPreHover = false;
+    
+    this.mPlayClickButtonAudio = false; // when mouse click it
+    this.mPlayOnButtonAudio = false; // when mouse on it
     
     UIElement.call(this, position, size);
 }
@@ -96,17 +100,19 @@ UIButton.prototype.update = function () {
                                 gEngine.Input.getMousePosY());
     this.mHover = this.getUIBBox().containsPoint(mousePos[0], mousePos[1]);
 
+    
     //start simple, just do callback when clicked
     if(gEngine.Input.isButtonClicked(gEngine.Input.mouseButton.Left)){
         if(this.mHover){
             this.mClick = true;
         }
     }
+
     
     if(gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)){
         if(this.mClick) {
             this.mClick = false;
-            
+            this.mPlayClickButtonAudio = true;
             if(this.mHover){
                 if(this.mCallBack !== null)
                     this.mCallBack.call(this.mContext);
@@ -114,6 +120,14 @@ UIButton.prototype.update = function () {
         }
     }
     
+    if(this.mPreHover===false && this.mHover===true){
+        this.mPlayOnButtonAudio = true;
+        
+    }
+    
+    
+    this.mPreHover = this.mHover;
+
     this._setBG();
     this._setTextColor();
 };
@@ -144,6 +158,7 @@ UIButton.prototype.setTextColor = function(color) {
  */
 UIButton.prototype.setHoverTextColor = function(color){
     this.mClickTextColor = color;
+    
 };
 
 /**

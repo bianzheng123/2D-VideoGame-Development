@@ -13,7 +13,7 @@
 
 function Win() {
     //to Upload the background
-    this.kBG = "assets/background.png";
+    this.kBG = "assets/WinScene.png";
     this.kAtlas = "assets/white.png";
     
     //need the wav file(to play audio)
@@ -24,7 +24,8 @@ function Win() {
     this.mBg = null;//background
     this.mMapManager = null;
     this.mIceCreamManager = null;
-    
+    this.BackButton = null;
+    this.RestartButton = null; /////// -tbc-
     
     //To change the Scene
     this.LevelSelect = null;
@@ -40,6 +41,15 @@ Win.prototype.loadScene = function () {
 Win.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBG);
     gEngine.Textures.loadTexture(this.kAtlas);
+     if(this.LevelSelect==="back"){
+        gEngine.Core.startScene(new MyGame());
+    }
+    if(this.LevelSelect==="back"){
+        gEngine.Core.startScene(new MyGame());
+    }
+    if(this.LevelSelect==="restart"){
+        gEngine.Core.startScene(new PlayScene());
+    }
 };
 
 Win.prototype.initialize = function () {
@@ -52,19 +62,16 @@ Win.prototype.initialize = function () {
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
             // sets the background to gray
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
+    this.BackButton = new UIButton(this.BackSelect,this,[70,450],[100,50],"back",4);
+    this.RestartButton = new UIButton(this.RestartSelect,this,[90,350],[150,50],"Retart",4);
     
     //set background
     var bgR = new SpriteRenderable(this.kBG);
     bgR.setElementPixelPositions(0, 1023, 0, 1023);
-    bgR.getXform().setSize(100, 100);
-    bgR.getXform().setPosition(0, 0);
+    bgR.getXform().setSize(50, 50);
+    bgR.getXform().setPosition(-10, 0);
     this.mBg = new GameObject(bgR);
-    
-    this.mMapManager = new MapManager(this.kAtlas,this.mCamera);
-    this.mMapManager.initialize();
-    
-    this.mIceCreamManager = new IceCreamManager(this.kAtlas,this.mCamera);
-    
+
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -76,15 +83,25 @@ Win.prototype.draw = function () {
     this.mCamera.setupViewProjection();
     
     this.mBg.draw(this.mCamera);
-    this.mMapManager.draw();
-    this.mIceCreamManager.draw();
-    
+    this.BackButton.draw(this.mCamera);
+    this.RestartButton.draw(this.mCamera);
     
     
 };
 
 Win.prototype.update = function () {
-    this.mIceCreamManager.update(this.mMapManager);
-   
+
+    this.BackButton.update();
+    this.RestartButton.update();
     //press z to create an iceCream
+};
+
+Win.prototype.BackSelect = function(){
+    this.LevelSelect="back";
+    gEngine.GameLoop.stop();
+};
+
+Win.prototype.RestartSelect = function(){
+    this.LevelSelect="restart";
+    gEngine.GameLoop.stop();
 };
