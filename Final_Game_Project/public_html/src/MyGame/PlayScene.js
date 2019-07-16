@@ -29,6 +29,7 @@ function PlayScene() {
     this.mMsg1 = null;//to show the direction of the player
     this.mMsg2 = null;
     this.mMsg3 = null;
+    this.mMsg4 = null;
     this.fullscreenButton = null;
     
     //To change the Scene
@@ -74,18 +75,23 @@ PlayScene.prototype.initialize = function () {
     
     this.mMsg1 = new FontRenderable("Status Message");
     this.mMsg1.setColor([0, 0, 0, 1]);
-    this.mMsg1.getXform().setPosition(-45, -40);
+    this.mMsg1.getXform().setPosition(-45, -37);
     this.mMsg1.setTextHeight(3);
     
     this.mMsg2 = new FontRenderable("Status Message");
     this.mMsg2.setColor([0, 0, 0, 1]);
-    this.mMsg2.getXform().setPosition(-45, -43);
+    this.mMsg2.getXform().setPosition(-45, -40);
     this.mMsg2.setTextHeight(3);
     
     this.mMsg3 = new FontRenderable("Status Message");
     this.mMsg3.setColor([0, 0, 0, 1]);
-    this.mMsg3.getXform().setPosition(-45, -46);
+    this.mMsg3.getXform().setPosition(-45, -43);
     this.mMsg3.setTextHeight(3);
+    
+    this.mMsg4 = new FontRenderable("Status Message");
+    this.mMsg4.setColor([0, 0, 0, 1]);
+    this.mMsg4.getXform().setPosition(-45, -46);
+    this.mMsg4.setTextHeight(3);
     
     this.mIceCreamManager = new IceCreamManager(this.kAtlas,this.mCamera);
     
@@ -122,6 +128,7 @@ PlayScene.prototype._drawMsg = function(Camera){
   this.mMsg1.draw(Camera);
   this.mMsg2.draw(Camera);
   this.mMsg3.draw(Camera);
+  this.mMsg4.draw(Camera);
 };
 
 PlayScene.prototype._setMsg = function(){
@@ -164,6 +171,9 @@ PlayScene.prototype._setMsg = function(){
     
     msg = "Player position(index) X: " + this.mPlayer.mXindex + ",Y: " + this.mPlayer.mYindex;
     this.mMsg3.setText(msg);
+    
+    msg = "Player temperature: " + this.mPlayer.temperature;
+    this.mMsg4.setText(msg);
 };
 
 PlayScene.prototype._updatePlayerPositionByIndex = function(){

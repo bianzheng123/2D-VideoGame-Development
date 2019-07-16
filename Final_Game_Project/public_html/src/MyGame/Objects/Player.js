@@ -23,27 +23,29 @@ function Player(spriteTexture) {
     this.kHeight = 5;
     this.kWidth = 5;
     this.kGravityAcceleration = 1;
-    
-    this.temperature = 50;
-    
-    this.mXindex = 0;
-    this.mYindex = 0;
-    this.mIsDead = false;
-    this.mIsDeathCountStart = false;
-    this.mCountFrameDeath = 0;
-    this.mLastXpos = 0;
-    this.mLastYpos = 0;//stores the last index of grass which the player stays
+    this.kincTemperatureCountMax = 120;//平均120帧主角上升1°
     
     this.walkingSpeed = 1;
+    this.temperature = 50;//初始温度
+    this.direction=this.DirectionEnum.RIGHT;
+    
+    this.incTemperatureCount = 0;
+    
+    this.mXindex = 0;
+    this.mYindex = 0;//to get its position
+    
+    this.mLastXpos = 0;
+    this.mLastYpos = 0;//stores the last index of grass which the player stays
+    this.mIsDead = false;
+    this.mIsDeathCountStart = false;
+    this.mCountFrameDeath = 0;//for the death part
+    
     this.comaTime = 0; // 0 for not in coma yet
     this.flamming = 0; // 0 for no flamming buff
     this.temperature = 50; // range is [0, 100]
     this.accumulateValue = 0; // 0 for no accumulating
     this.normalYPos = 0;
     this.normalXPos = 0;
-    
-    this.direction=this.DirectionEnum.RIGHT;
-    this.isJumping = false;
     this.theta = Math.PI/3;
     this.magnitude = 0;//the speed when jumping
     this.originalX = 0;//expected 
@@ -53,7 +55,8 @@ function Player(spriteTexture) {
     this.speedX = 0;
     this.speedZ = 0;
     this.expectedX = 0;
-    this.expectedY = 0;
+    this.expectedY = 0;//for the jump part
+    this.isJumping = false;
     
     this.mPlayer = new SpriteRenderable(spriteTexture);
     this.mPlayer.setColor([0.2, 0.5, 0.8, 1]);
@@ -71,6 +74,7 @@ Player.prototype.update = function (mIceCreamArray) {
         this._walk();
         this._jump();
         this._eatIceCream(mIceCreamArray);
+        this._increaseTempterature();
     }else{
         this._death();
         
@@ -192,7 +196,6 @@ Player.prototype._death = function(){
 
 Player.prototype._eatIceCream = function(mIceCreamArray){
     var i,l;
-
     
     for(i=0;i<mIceCreamArray.length;i++){
 //        console.log(mIceCreamArray.length);
@@ -226,6 +229,17 @@ Player.prototype._eatIceCream = function(mIceCreamArray){
             this.temperature--;
             mIceCreamArray[i] = null;
         }
-        console.log("temperature: " + this.temperature);
     }
 };
+
+Player.prototype._increaseTempterature = function(){
+    if(this.incTemperatureCount >= this.kincTemperatureCountMax){
+        this.temperature++;
+        this.incTemperatureCount = 0;
+    }else{
+        this.incTemperatureCount++;
+    }
+};
+    
+
+
