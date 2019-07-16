@@ -12,6 +12,8 @@
 function IceCream(spriteTexture,Xindex,Yindex,buffEnum) {
     this.kXindex = Xindex;
     this.kYindex = Yindex;
+    this.kHeight = 5;
+    this.kWidth = 5;
     this.kBuffEnum = {
         NO_BUFF:0,
         SPEED_UP_BUFF:1,
@@ -29,7 +31,7 @@ function IceCream(spriteTexture,Xindex,Yindex,buffEnum) {
     
     this.mIceCream = new SpriteRenderable(spriteTexture);
     this.mIceCream.getXform().setPosition(Xindex * 7 - 47,Yindex * 7 - 47);
-    this.mIceCream.getXform().setSize(5, 5);
+    this.mIceCream.getXform().setSize(this.kWidth, this.kHeight);
     
     switch(this.mBuff){
         case this.kBuffEnum.NO_BUFF:
