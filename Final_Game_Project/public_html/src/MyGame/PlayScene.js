@@ -24,6 +24,8 @@ function PlayScene() {
     this.mBg = null;//background
     this.mMapManager = null;
     this.mIceCreamManager = null;
+    this.mPlayer = null;
+    this.mMsg1 = null;//to show the direction of the player
     
     
     //To change the Scene
@@ -63,8 +65,14 @@ PlayScene.prototype.initialize = function () {
     this.mMapManager = new MapManager(this.kAtlas,this.mCamera);
     this.mMapManager.initialize();
     
+    this.mMsg1 = new FontRenderable("Status Message");
+    this.mMsg1.setColor([0, 0, 0, 1]);
+    this.mMsg1.getXform().setPosition(-45, -40);
+    this.mMsg1.setTextHeight(3);
+    
     this.mIceCreamManager = new IceCreamManager(this.kAtlas,this.mCamera);
     
+    this.mPlayer = new Player(this.kAtlas);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -79,12 +87,46 @@ PlayScene.prototype.draw = function () {
     this.mMapManager.draw();
     this.mIceCreamManager.draw();
     
-    
-    
+    this.mPlayer.draw(this.mCamera);
+    this.mMsg1.draw(this.mCamera);
 };
 
 PlayScene.prototype.update = function () {
     this.mIceCreamManager.update(this.mMapManager);
     this.mMapManager.update();
+    this.mPlayer.update();
     //press z to create an iceCream
+    this._setMsg();
+};
+
+PlayScene.prototype._setMsg = function(){
+    var dir = null;
+    switch(this.mPlayer.direction){
+        case this.mPlayer.DirectionEnum.RIGHT:
+            dir = "right";
+            break;
+        case this.mPlayer.DirectionEnum.TOPRIGHT:
+            dir = "topright";
+            break;
+        case this.mPlayer.DirectionEnum.TOP:
+            dir = "top";
+            break;
+        case this.mPlayer.DirectionEnum.TOPLEFT:
+            dir = "topleft";
+            break;
+        case this.mPlayer.DirectionEnum.LEFT:
+            dir = "left";
+            break;
+        case this.mPlayer.DirectionEnum.BOTTOMLEFT:
+            dir = "bottomleft";
+            break;
+        case this.mPlayer.DirectionEnum.BOTTOM:
+            dir = "bottom";
+            break;
+        case this.mPlayer.DirectionEnum.BOTTOMRIGHT:
+            dir = "bottomright";
+            break;
+    }
+    var msg = "now the player direction: " + dir;
+    this.mMsg1.setText(msg);  
 };

@@ -47,13 +47,14 @@ function Player(spriteTexture) {
     
     this.mPlayer = new SpriteRenderable(spriteTexture);
     this.mPlayer.setColor([0.2, 0.5, 0.8, 1]);
-    this.mPlayer.getXform().setPosition(10, 25);
+    this.mPlayer.getXform().setPosition(-30, -30);
     this.mPlayer.getXform().setSize(this.kWidth,this.kHeight);
     this.mPlayer.setElementPixelPositions(510, 595, 23, 153);
     
     GameObject.call(this, this.mPlayer);
 }
 gEngine.Core.inheritPrototype(Player, GameObject);
+
 
 Player.prototype.update = function () {
     
