@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Player(spriteTexture) {
+function Player(spriteTexture,camera) {
     this.DirectionEnum={
         RIGHT: 0,
         TOPRIGHT: 1,
@@ -23,6 +23,11 @@ function Player(spriteTexture) {
     this.kHeight = 5;
     this.kWidth = 5;
     this.kGravityAcceleration = 1;
+    
+    this.mXindex = 0;
+    this.mYindex = 0;
+    this.mXpos = -30;
+    this.mYpos = -30;
     
     this.walkingSpeed = 1;
     this.comaTime = 0; // 0 for not in coma yet
@@ -47,7 +52,7 @@ function Player(spriteTexture) {
     
     this.mPlayer = new SpriteRenderable(spriteTexture);
     this.mPlayer.setColor([0.2, 0.5, 0.8, 1]);
-    this.mPlayer.getXform().setPosition(-30, -30);
+    this.mPlayer.getXform().setPosition(this.mXpos, this.mYpos);
     this.mPlayer.getXform().setSize(this.kWidth,this.kHeight);
     this.mPlayer.setElementPixelPositions(510, 595, 23, 153);
     
@@ -65,41 +70,43 @@ Player.prototype.update = function () {
 Player.prototype.walk = function(){
     var xform = this.getXform();
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)){
-        this.changeDir(this.DirectionEnum.LEFT);
-        xform.incXPosBy(-this.walkingSpeed);
+        this._changeDir(this.DirectionEnum.LEFT);
+        this.mXpos -= this.walkingSpeed;
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)){
-        this.changeDir(this.DirectionEnum.RIGHT);
-        xform.incXPosBy(this.walkingSpeed);
+        this._changeDir(this.DirectionEnum.RIGHT);
+        this.mXpos += this.walkingSpeed;
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
-        this.changeDir(this.DirectionEnum.TOP);
-        xform.incYPosBy(this.walkingSpeed);
+        this._changeDir(this.DirectionEnum.TOP);
+        this.mYpos += this.walkingSpeed;
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
-        this.changeDir(this.DirectionEnum.BOTTOM);
-        xform.incYPosBy(-this.walkingSpeed);
+        this._changeDir(this.DirectionEnum.BOTTOM);
+        this.mYpos -= this.walkingSpeed;
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
-        this.changeDir(this.DirectionEnum.TOPLEFT);
-        xform.incXPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
-        xform.incYPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+        this._changeDir(this.DirectionEnum.TOPLEFT);
+        this.mXpos += this.walkingSpeed*(1-Math.cos(Math.PI/4));
+        this.mYpos -= this.walkingSpeed*(1-Math.cos(Math.PI/4));
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
-        this.changeDir(this.DirectionEnum.BOTTOMLEFT);
-        xform.incXPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
-        xform.incYPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+        this._changeDir(this.DirectionEnum.BOTTOMLEFT);
+        this.mXpos += this.walkingSpeed*(1-Math.cos(Math.PI/4));
+        this.mYpos += this.walkingSpeed*(1-Math.cos(Math.PI/4));
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
-        this.changeDir(this.DirectionEnum.TOPRIGHT);
-        xform.incXPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
-        xform.incYPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+        this._changeDir(this.DirectionEnum.TOPRIGHT);
+        this.mXpos -= this.walkingSpeed*(1-Math.cos(Math.PI/4));
+        this.mYpos -= this.walkingSpeed*(1-Math.cos(Math.PI/4));
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
-        this.changeDir(this.DirectionEnum.BOTTOMRIGHT);
-        xform.incXPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
-        xform.incYPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+        this._changeDir(this.DirectionEnum.BOTTOMRIGHT);
+        this.mXpos -= this.walkingSpeed*(1-Math.cos(Math.PI/4));
+        this.mYpos += this.walkingSpeed*(1-Math.cos(Math.PI/4));
     }
+    xform.setXPos(this.mXpos);
+    xform.setYPos(this.mYpos);
 };
 
 Player.prototype.jump = function(){
@@ -109,8 +116,10 @@ Player.prototype.jump = function(){
         this.originalY+=this.speedY;
         this.originalZ+=this.speedZ;
         this.speedZ-=this.kGravityAcceleration;
-        xform.setXPos(this.originalX);
-        xform.setYPos(this.originalY+this.originalZ);
+        this.mXpos = this.originalX;
+        this.mYpos = this.originalY + this.originalZ;
+        xform.setXPos(this.mXpos);
+        xform.setYPos(this.mYpos);
         if(this.originalZ<=0){
             //xform.setXPos(this.expectedX);
             xform.setYPos(this.expectedY);
@@ -128,7 +137,6 @@ Player.prototype.jump = function(){
         //xform.incXPosBy(this.accumulateValue);  
         var deltaH = this.kHeight-xform.getHeight();
         xform.incYPosBy(deltaH/2);
-        xform.setSize(this.kWidth,this.kHeight);
         this.normalYPos=xform.getYPos();
         this.normalXPos=xform.getXPos();
         this.magnitude=this.accumulateValue;
@@ -148,7 +156,6 @@ Player.prototype.jump = function(){
     }
 };
 
-Player.prototype.changeDir = function(directionState){
+Player.prototype._changeDir = function(directionState){
     this.direction = directionState;
-    
 };

@@ -27,6 +27,7 @@ function PlayScene() {
     this.mPlayer = null;
     this.mMsg1 = null;//to show the direction of the player
     this.mMsg2 = null;
+    this.mMsg3 = null;
     
     
     //To change the Scene
@@ -76,9 +77,14 @@ PlayScene.prototype.initialize = function () {
     this.mMsg2.getXform().setPosition(-45, -43);
     this.mMsg2.setTextHeight(3);
     
+    this.mMsg3 = new FontRenderable("Status Message");
+    this.mMsg3.setColor([0, 0, 0, 1]);
+    this.mMsg3.getXform().setPosition(-45, -46);
+    this.mMsg3.setTextHeight(3);
+    
     this.mIceCreamManager = new IceCreamManager(this.kAtlas,this.mCamera);
     
-    this.mPlayer = new Player(this.kAtlas);
+    this.mPlayer = new Player(this.kAtlas,this.mCamera);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -102,12 +108,14 @@ PlayScene.prototype.update = function () {
     this.mMapManager.update();
     this.mPlayer.update();
     //press z to create an iceCream
+    this._updatePlayerPositionByIndex();
     this._setMsg();
 };
 
 PlayScene.prototype._drawMsg = function(Camera){
   this.mMsg1.draw(Camera);
   this.mMsg2.draw(Camera);
+  this.mMsg3.draw(Camera);
 };
 
 PlayScene.prototype._setMsg = function(){
@@ -147,4 +155,34 @@ PlayScene.prototype._setMsg = function(){
         msg = "Is storing force: true";
     }
     this.mMsg2.setText(msg);
+    
+    msg = "Player position(index) X: " + this.mPlayer.mXindex + ",Y: " + this.mPlayer.mYindex;
+    this.mMsg3.setText(msg);
+};
+
+PlayScene.prototype._updatePlayerPositionByIndex = function(){
+    var mapArr = this.mMapManager.MapArray;
+    var i,j,l;
+    var hasIterateAll = false;
+    breakpoint:{
+        for(i=0;i<this.mMapManager.kHeight;i++){
+            for(j=0;j<this.mMapManager.kWidth;j++){
+                l = mapArr[i][j];
+                if((!this.mPlayer.isJumping) && 
+                        l.kXpos - l.kXsize / 2 <= this.mPlayer.mXpos && this.mPlayer.mXpos <= l.kXpos + l.kXsize / 2 &&
+                        l.kYpos - l.kYsize / 2 <= this.mPlayer.mYpos && this.mPlayer.mYpos <= l.kYpos + l.kYsize / 2){
+                    this.mPlayer.mXindex = l.kXindex;
+                    this.mPlayer.mYindex = l.kYindex;
+                    break breakpoint;
+                }
+                if(i === this.mMapManager.kHeight - 1 && j === this.mMapManager.kWidth - 1){
+                    hasIterateAll = true;
+                }
+            }
+        }
+    }
+    if(hasIterateAll){
+        this.mPlayer.mXindex = null;
+        this.mPlayer.mYindex = null;
+    }
 };
