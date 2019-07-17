@@ -29,25 +29,29 @@ function IceCream(spriteTexture,Xindex,Yindex,buffEnum) {
     };
     
     this.mBuff = buffEnum; 
-    this.mState = this.kStateEnum.DROPING;
+    this.mState = this.kStateEnum.FLYING;
     this.mFrameCount = 0;
     
-    this.mTargetPositionX = Xindex * 7 - 47;
-    this.mTargetPositionY = Yindex * 7 - 47;
+    this.mInitialPositionX = 60;
+    this.kFlyingVelocity = 0;//正确的速度在下面
     
     this.kfailingTime = 2;
     
     this.canBeKnocked = false;
     this.failingDistanceX = 20;
     this.failingDistanceY = 20;//在两秒之内完成降落
-    
     this.failingFrameCount = 0;
-    
     this.velocityX = this.failingDistanceX / (this.kfailingTime * 60);
     this.accerlateY = 2 * this.failingDistanceY / (this.kfailingTime * 60 * 60 * this.kfailingTime);
     
+    this.kFlyingVelocity = this.velocityX;//飞行的真实速度
+    
+    this.mTargetPositionX = Xindex * 7 - 47;
+    this.mTargetPositionY = Yindex * 7 - 47;
+    
+    
     this.mIceCream = new SpriteRenderable(spriteTexture);
-    this.mIceCream.getXform().setPosition(this.mTargetPositionX + this.failingDistanceX,this.mTargetPositionY + this.failingDistanceY);
+    this.mIceCream.getXform().setPosition(this.mInitialPositionX ,this.mTargetPositionY + this.failingDistanceY);
     this.mIceCream.getXform().setSize(this.kWidth, this.kHeight);
     
     switch(this.mBuff){
@@ -67,12 +71,28 @@ gEngine.Core.inheritPrototype(IceCream, GameObject);
 
 
 IceCream.prototype.update = function () {
-    if(this.mState === this.kStateEnum.DROPING){
-        this._drop();
-    }else{
-        this._melt();
+    switch(this.mState){
+        case this.kStateEnum.FLYING:
+            this._fly();    break;
+        case this.kStateEnum.DROPING:
+            this._drop();   break;
+        default:
+            this._melt();   break;
     }
     
+};
+
+IceCream.prototype._fly = function(){
+    //this.mTargetPositionX + this.failingDistanceX
+    var xform = this.mIceCream.getXform();
+    var targetXPos = this.mTargetPositionX + this.failingDistanceX;
+    if(targetXPos - 0.1 <= xform.getXPos() && xform.getXPos() <= targetXPos + 0.1){
+        xform.setXPos(targetXPos);
+        this.mState = this.kStateEnum.DROPING;
+    }else{
+        xform.incXPosBy(-this.kFlyingVelocity);
+    }
+    console.log("fsdfsd");
 };
 
 IceCream.prototype._drop = function(){

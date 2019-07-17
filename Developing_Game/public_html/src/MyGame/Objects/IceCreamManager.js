@@ -28,6 +28,7 @@ function IceCreamManager(spriteTexture,camera) {
 IceCreamManager.prototype.update = function (mapManager) {
     if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Z)){
         this.createIceCream(mapManager);
+//        console.log("update");
     }
     
     if(gEngine.Input.isKeyClicked(gEngine.Input.keys.C)){
@@ -88,8 +89,8 @@ IceCreamManager.prototype.createIceCream = function(mapManager){
         l.mHasIceCream = true;
         var iceCream = new IceCream(this.kspriteTexture,l.kXindex,l.kYindex,buff);
         
-        var mCoco = new Coco(this.kspriteTexture,iceCream.mTargetPositionX + iceCream.failingDistanceX,iceCream.mTargetPositionY + iceCream.failingDistanceY);
-        this.mCocoArray.push(mCoco);
+//        var mCoco = new Coco(this.kspriteTexture,iceCream.mTargetPositionX + iceCream.failingDistanceX,iceCream.mTargetPositionY + iceCream.failingDistanceY);
+//        this.mCocoArray.push(mCoco);
         this.mIceCreamArray.push(iceCream);
     }
     
