@@ -90,6 +90,8 @@ IceCreamManager.prototype.getBuff = function(){
         return 1;
     }else if(this.kp_speed_up_buff <= ran && ran <= this.kp_fire_buff){
         return 2;
+    }else{
+        return this.getBuff();
     }
 };
 

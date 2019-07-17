@@ -27,7 +27,8 @@ function PlayScene() {
     this.mIceCreamManager = null;
     this.mShadowManager = null;
     this.mPlayer = null;
-    this.fullscreenButton = null;
+    
+    this.mUIManager = null;
     
     this.stopUpdating = false;
     this.isVictory = false;
@@ -71,12 +72,13 @@ PlayScene.prototype.initialize = function () {
     bgR.getXform().setPosition(0, 0);
     this.mBg = new GameObject(bgR);
     
+    this.mUIManager = new UIManager(this.kAtlas,this.mCamera);
+    this.mUIManager.initialize();
     this.mMapManager = new MapManager(this.kAtlas,this.mCamera);
     this.mMapManager.initialize();
     this.mShadowManager = new ShadowManager(this.kAtlas,this.mCamera);
     this.mShadowManager.initialize();
     
-    this.fullscreenButton = new UIButton(this.fullscreenSelect,this,[120,550],[200,40],"Fullscreen",4);
     
     this.mIceCreamManager = new IceCreamManager(this.kAtlas,this.mCamera);
     
@@ -90,7 +92,7 @@ PlayScene.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     
     this.mCamera.setupViewProjection();
-    this.fullscreenButton.draw(this.mCamera);
+    this.mUIManager.draw(this.mCamera);
     //this.mBg.draw(this.mCamera);
     this.mMapManager.draw();
     this.mIceCreamManager.draw();
@@ -111,8 +113,7 @@ PlayScene.prototype.update = function () {
         
         this.mShadowManager.update([this.mPlayer.originalX,this.mPlayer.originalY],[-100,-20],[-100,-20]);
         //press z to create an iceCream
-        
-        this.fullscreenButton.update();
+        this.mUIManager.update();
         
         this._approachVictory();
         if(this.isVictory){
@@ -221,15 +222,3 @@ PlayScene.prototype._updatePlayerPositionByIndex = function(){
     }
 };
 
-PlayScene.prototype.fullscreenSelect=function(){
-    var element=document.documentElement;
-    if(element.requestFullscreen) {
-      element.requestFullscreen();
-    } else if(element.mozRequestFullScreen) {
-      element.mozRequestFullScreen();
-    } else if(element.webkitRequestFullscreen) {
-      element.webkitRequestFullscreen();
-    } else if(element.msRequestFullscreen) {
-      element.msRequestFullscreen();
-    }
-};
