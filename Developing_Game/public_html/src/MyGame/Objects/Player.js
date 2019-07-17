@@ -62,11 +62,16 @@ function Player(spriteTexture) {
     this.t_pre_isDead = false;
     
     this.mPlayer = new SpriteRenderable(spriteTexture);
-    this.mPlayer.setColor([0.2, 0.5, 0.8, 0]);
+    this.mPlayer.setColor([0.8, 0.6, 0.2, 0]);
     this.mPlayer.getXform().setPosition(-47, -47);
     this.mPlayer.getXform().setSize(this.kWidth,this.kHeight);
+    this.pleft=0;
+    this.pright=105;
+    this.pbottom=0;
+    this.ptop=512-424;
     this.mPlayer.setElementPixelPositions(0, 105, 0, 512-424);
-    
+        
+    this.shakingCount = 0;
     GameObject.call(this, this.mPlayer);
 }
 gEngine.Core.inheritPrototype(Player, GameObject);
@@ -153,9 +158,13 @@ Player.prototype._jump = function(){
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)&&!this.isJumping){
         this.accumulateValue+=0.1;
         var deltaH = -xform.getHeight()/200;
-        var dheight=xform.getHeight()/1.001;
-        xform.incYPosBy(-(xform.getHeight()-dheight)/2);
-        xform.setSize(this.kWidth,dheight);
+        var color=this.mPlayer.getColor();
+        color[3]+=0.003;
+        this.shakingCount++;
+        var shakingMagnitude=this.accumulateValue;
+        var xShift=Math.sin(this.shakingCount/5)*shakingMagnitude;
+        document.getElementById("st7").innerHTML="xShift:"+xShift+"<br /> shakingCount:"+this.shakingCount+"<br /> accumulateValue:"+this.accumulateValue;
+        this.mPlayer.setElementPixelPositions(this.pleft-xShift,this.pright-xShift,this.pbottom-xShift,this.ptop-xShift);
     }
     if((!gEngine.Input.isKeyPressed(gEngine.Input.keys.Space))&&this.accumulateValue!=0&&!this.isJumping){
         //xform.incXPosBy(this.accumulateValue);  
@@ -174,8 +183,7 @@ Player.prototype._jump = function(){
         this.expectedX=this.originalX+expectedDist*Math.cos(Math.PI*this.direction/4);
         this.expectedY=this.originalY+expectedDist*Math.sin(Math.PI*this.direction/4);
         this.isJumping=true;
-        xform.incYPosBy((this.kHeight-xform.getHeight())/2);
-        xform.setSize(this.kWidth,this.kHeight);
+        this.mPlayer.setColor([0.8, 0.6, 0.2, 0]);
     }
 };
 
