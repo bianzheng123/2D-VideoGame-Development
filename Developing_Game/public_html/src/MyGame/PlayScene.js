@@ -80,31 +80,6 @@ PlayScene.prototype.initialize = function () {
     
     this.fullscreenButton = new UIButton(this.fullscreenSelect,this,[120,550],[200,40],"Fullscreen",4);
     
-    this.mMsg1 = new FontRenderable("Status Message");
-    this.mMsg1.setColor([0, 0, 0, 1]);
-    this.mMsg1.getXform().setPosition(-45, -34);
-    this.mMsg1.setTextHeight(3);
-    
-    this.mMsg2 = new FontRenderable("Status Message");
-    this.mMsg2.setColor([0, 0, 0, 1]);
-    this.mMsg2.getXform().setPosition(-45, -37);
-    this.mMsg2.setTextHeight(3);
-    
-    this.mMsg3 = new FontRenderable("Status Message");
-    this.mMsg3.setColor([0, 0, 0, 1]);
-    this.mMsg3.getXform().setPosition(-45, -40);
-    this.mMsg3.setTextHeight(3);
-    
-    this.mMsg4 = new FontRenderable("Status Message");
-    this.mMsg4.setColor([0, 0, 0, 1]);
-    this.mMsg4.getXform().setPosition(-45, -43);
-    this.mMsg4.setTextHeight(3);
-    
-    this.mMsg5 = new FontRenderable("Status Message");
-    this.mMsg5.setColor([0, 0, 0, 1]);
-    this.mMsg5.getXform().setPosition(-45, -46);
-    this.mMsg5.setTextHeight(3);
-    
     this.mIceCreamManager = new IceCreamManager(this.kAtlas,this.mCamera);
     
     this.mPlayer = new Player(this.kAtlas);
@@ -123,7 +98,6 @@ PlayScene.prototype.draw = function () {
     this.mIceCreamManager.draw();
     
     this.mPlayer.draw(this.mCamera);
-    this._drawMsg(this.mCamera);
 };
 
 PlayScene.prototype.update = function () {
@@ -150,14 +124,6 @@ PlayScene.prototype.update = function () {
     
 };
 
-PlayScene.prototype._drawMsg = function(Camera){
-  this.mMsg1.draw(Camera);
-  this.mMsg2.draw(Camera);
-  this.mMsg3.draw(Camera);
-  this.mMsg4.draw(Camera);
-  this.mMsg5.draw(Camera);
-};
-
 PlayScene.prototype._detectLost = function(){
     if(this.mPlayer.temperature >= 100){
         this.isLost = true;
@@ -175,6 +141,7 @@ PlayScene.prototype._approachVictory = function(){
 
 PlayScene.prototype._setMsg = function(){
     var dir = null;
+    var msg;
     switch(this.mPlayer.direction){
         case this.mPlayer.DirectionEnum.RIGHT:  dir = "right";  break;
         case this.mPlayer.DirectionEnum.TOPRIGHT:   dir = "topright";   break;
@@ -185,21 +152,20 @@ PlayScene.prototype._setMsg = function(){
         case this.mPlayer.DirectionEnum.BOTTOM: dir = "bottom"; break;
         case this.mPlayer.DirectionEnum.BOTTOMRIGHT:    dir = "bottomright";    break;
     }
-    var msg = "player direction: " + dir;
-    this.mMsg1.setText(msg);  
+    document.getElementById("st1").innerHTML="player direction: " + dir;
     
     if(-0.01 <= this.mPlayer.accumulateValue && this.mPlayer.accumulateValue <= 0.01){
         msg = "Is storing force: false";
     }else{
         msg = "Is storing force: true";
     }
-    this.mMsg2.setText(msg);
+    document.getElementById("st2").innerHTML=msg;
     
     msg = "Player position(index) X: " + this.mPlayer.mXindex + ",Y: " + this.mPlayer.mYindex;
-    this.mMsg3.setText(msg);
+    document.getElementById("st3").innerHTML=msg
     
     msg = "Player temperature: " + this.mPlayer.temperature;
-    this.mMsg4.setText(msg);
+    document.getElementById("st4").innerHTML=msg;    
     
     if(this.isLost){
         msg = "Gaming State: Lost";
@@ -208,7 +174,7 @@ PlayScene.prototype._setMsg = function(){
     }else{
         msg = "Gaming State: Playing";
     }
-    this.mMsg5.setText(msg);
+    document.getElementById("st5").innerHTML=msg
 };
 
 PlayScene.prototype._updatePlayerPositionByIndex = function(){

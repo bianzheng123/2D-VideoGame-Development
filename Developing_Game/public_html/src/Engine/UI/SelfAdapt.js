@@ -8,5 +8,5 @@ function selfAdapt(){
     div.style.width=length*r+"px";
     canvas.style.height=length+"px";
     canvas.style.width=length*r+"px";
-    div.style.left=((window.innerWidth-length*r)/2)+"px";
+    //div.style.left=((window.innerWidth-length*r)/2)+"px";
 }
