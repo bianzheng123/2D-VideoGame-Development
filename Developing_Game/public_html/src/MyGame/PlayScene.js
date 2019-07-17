@@ -30,7 +30,14 @@ function PlayScene() {
     this.mMsg2 = null;
     this.mMsg3 = null;
     this.mMsg4 = null;
+    this.mMsg5 = null;
     this.fullscreenButton = null;
+    
+    this.stopUpdating = false;
+    this.isVictory = false;
+    this.isLost = false;
+    this._VictoryFrameLast = 10 * 60;//距离胜利还有多少帧
+    
     
     //To change the Scene
     this.LevelSelect = null;
@@ -75,23 +82,28 @@ PlayScene.prototype.initialize = function () {
     
     this.mMsg1 = new FontRenderable("Status Message");
     this.mMsg1.setColor([0, 0, 0, 1]);
-    this.mMsg1.getXform().setPosition(-45, -37);
+    this.mMsg1.getXform().setPosition(-45, -34);
     this.mMsg1.setTextHeight(3);
     
     this.mMsg2 = new FontRenderable("Status Message");
     this.mMsg2.setColor([0, 0, 0, 1]);
-    this.mMsg2.getXform().setPosition(-45, -40);
+    this.mMsg2.getXform().setPosition(-45, -37);
     this.mMsg2.setTextHeight(3);
     
     this.mMsg3 = new FontRenderable("Status Message");
     this.mMsg3.setColor([0, 0, 0, 1]);
-    this.mMsg3.getXform().setPosition(-45, -43);
+    this.mMsg3.getXform().setPosition(-45, -40);
     this.mMsg3.setTextHeight(3);
     
     this.mMsg4 = new FontRenderable("Status Message");
     this.mMsg4.setColor([0, 0, 0, 1]);
-    this.mMsg4.getXform().setPosition(-45, -46);
+    this.mMsg4.getXform().setPosition(-45, -43);
     this.mMsg4.setTextHeight(3);
+    
+    this.mMsg5 = new FontRenderable("Status Message");
+    this.mMsg5.setColor([0, 0, 0, 1]);
+    this.mMsg5.getXform().setPosition(-45, -46);
+    this.mMsg5.setTextHeight(3);
     
     this.mIceCreamManager = new IceCreamManager(this.kAtlas,this.mCamera);
     
@@ -115,13 +127,27 @@ PlayScene.prototype.draw = function () {
 };
 
 PlayScene.prototype.update = function () {
-    this.mIceCreamManager.update(this.mMapManager);
-    this.mMapManager.update();
-    this.mPlayer.update(this.mIceCreamManager.mIceCreamArray,this.mMapManager);
-    //press z to create an iceCream
-    this._updatePlayerPositionByIndex();
-    this._setMsg();
-    this.fullscreenButton.update();
+    if(!this.stopUpdating){
+        this.mIceCreamManager.update(this.mMapManager);
+        this.mMapManager.update();
+        this.mPlayer.update(this.mIceCreamManager.mIceCreamArray,this.mMapManager);
+        //press z to create an iceCream
+        this._updatePlayerPositionByIndex();
+        this.fullscreenButton.update();
+        
+        this._approachVictory();
+        if(this.isVictory){
+            this.stopUpdating = true;
+        }
+        this._detectLost();
+        if(this.isLost){
+            this.stopUpdating = true;
+        }
+        
+        this._setMsg();
+    }
+
+    
 };
 
 PlayScene.prototype._drawMsg = function(Camera){
@@ -129,37 +155,37 @@ PlayScene.prototype._drawMsg = function(Camera){
   this.mMsg2.draw(Camera);
   this.mMsg3.draw(Camera);
   this.mMsg4.draw(Camera);
+  this.mMsg5.draw(Camera);
+};
+
+PlayScene.prototype._detectLost = function(){
+    if(this.mPlayer.temperature >= 100){
+        this.isLost = true;
+    }
+};
+
+//means survive the fixed time to win the game
+PlayScene.prototype._approachVictory = function(){
+    if(this._VictoryFrameLast <= 0){
+        this.isVictory = true;
+    }else{
+        this._VictoryFrameLast--;
+    }
 };
 
 PlayScene.prototype._setMsg = function(){
     var dir = null;
     switch(this.mPlayer.direction){
-        case this.mPlayer.DirectionEnum.RIGHT:
-            dir = "right";
-            break;
-        case this.mPlayer.DirectionEnum.TOPRIGHT:
-            dir = "topright";
-            break;
-        case this.mPlayer.DirectionEnum.TOP:
-            dir = "top";
-            break;
-        case this.mPlayer.DirectionEnum.TOPLEFT:
-            dir = "topleft";
-            break;
-        case this.mPlayer.DirectionEnum.LEFT:
-            dir = "left";
-            break;
-        case this.mPlayer.DirectionEnum.BOTTOMLEFT:
-            dir = "bottomleft";
-            break;
-        case this.mPlayer.DirectionEnum.BOTTOM:
-            dir = "bottom";
-            break;
-        case this.mPlayer.DirectionEnum.BOTTOMRIGHT:
-            dir = "bottomright";
-            break;
+        case this.mPlayer.DirectionEnum.RIGHT:  dir = "right";  break;
+        case this.mPlayer.DirectionEnum.TOPRIGHT:   dir = "topright";   break;
+        case this.mPlayer.DirectionEnum.TOP:    dir = "top";    break;
+        case this.mPlayer.DirectionEnum.TOPLEFT:    dir = "topleft";    break;
+        case this.mPlayer.DirectionEnum.LEFT:   dir = "left";   break;
+        case this.mPlayer.DirectionEnum.BOTTOMLEFT: dir = "bottomleft"; break;
+        case this.mPlayer.DirectionEnum.BOTTOM: dir = "bottom"; break;
+        case this.mPlayer.DirectionEnum.BOTTOMRIGHT:    dir = "bottomright";    break;
     }
-    var msg = "now the player direction: " + dir;
+    var msg = "player direction: " + dir;
     this.mMsg1.setText(msg);  
     
     if(-0.01 <= this.mPlayer.accumulateValue && this.mPlayer.accumulateValue <= 0.01){
@@ -174,6 +200,15 @@ PlayScene.prototype._setMsg = function(){
     
     msg = "Player temperature: " + this.mPlayer.temperature;
     this.mMsg4.setText(msg);
+    
+    if(this.isLost){
+        msg = "Gaming State: Lost";
+    }else if(this.isVictory){
+        msg = "Gaming State: Victory";
+    }else{
+        msg = "Gaming State: Playing";
+    }
+    this.mMsg5.setText(msg);
 };
 
 PlayScene.prototype._updatePlayerPositionByIndex = function(){
@@ -215,6 +250,7 @@ PlayScene.prototype._updatePlayerPositionByIndex = function(){
         this.mPlayer.mIsDead = true;
     }
 };
+
 PlayScene.prototype.fullscreenSelect=function(){
     var element=document.documentElement;
     if(element.requestFullscreen) {
@@ -226,4 +262,4 @@ PlayScene.prototype.fullscreenSelect=function(){
     } else if(element.msRequestFullscreen) {
       element.msRequestFullscreen();
     }
-}
+};

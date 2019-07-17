@@ -24,12 +24,14 @@ function Player(spriteTexture) {
     this.kWidth = 5;
     this.kGravityAcceleration = 1;
     this.kincTemperatureCountMax = 120;//平均120帧主角上升1°
+    this.kTimeToVictory = 10;//10秒之后存活成功
     
     this.walkingSpeed = 1;
-    this.temperature = 50;//初始温度
+    this.temperature = 50;//初始温度, range is [0, 100]
     this.direction=this.DirectionEnum.RIGHT;
-    
-    this.incTemperatureCount = 0;
+
+ 
+    this._incTemperatureFrameCount = 0;
     
     this.mXindex = 0;
     this.mYindex = 0;//to get its position
@@ -42,7 +44,6 @@ function Player(spriteTexture) {
     
     this.comaTime = 0; // 0 for not in coma yet
     this.flamming = 0; // 0 for no flamming buff
-    this.temperature = 50; // range is [0, 100]
     this.accumulateValue = 0; // 0 for no accumulating
     this.normalYPos = 0;
     this.normalXPos = 0;
@@ -77,10 +78,11 @@ Player.prototype.update = function (mIceCreamArray,mapManager) {
         this._increaseTempterature();
     }else{
         this._death();
-        
     }
-    
+
 };
+
+
 
 Player.prototype._walk = function(){
     var xform = this.getXform();
@@ -233,11 +235,11 @@ Player.prototype._eatIceCream = function(mIceCreamArray,mapManager){
 };
 
 Player.prototype._increaseTempterature = function(){
-    if(this.incTemperatureCount >= this.kincTemperatureCountMax){
+    if(this._incTemperatureFrameCount >= this.kincTemperatureCountMax){
         this.temperature++;
-        this.incTemperatureCount = 0;
+        this._incTemperatureFrameCount = 0;
     }else{
-        this.incTemperatureCount++;
+        this._incTemperatureFrameCount++;
     }
 };
     

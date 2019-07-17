@@ -48,9 +48,6 @@ MyGame.prototype.unloadScene = function () {
     if(this.LevelSelect==="PlayScene"){
         gEngine.Core.startScene(new PlayScene());
     }
-    else if(this.LevelSelect==="Win"){
-        gEngine.Core.startScene(new Win());
-    }
 };
 
 MyGame.prototype.initialize = function () {
@@ -65,7 +62,6 @@ MyGame.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
     this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[475,400],[300,50],"Playscene Demo",4);
-    this.WinButton = new UIButton(this.WinSelect,this,[475,200],[200,50],"Win",4);
     this.UIText = new UIText("Temp Start Scene",[475,600],8,1,0,[0,0,0,1]);
 };
 
@@ -77,14 +73,12 @@ MyGame.prototype.draw = function () {
     
     this.mCamera.setupViewProjection();
     this.PlaySceneButton.draw(this.mCamera); 
-    this.WinButton.draw(this.mCamera);
     this.UIText.draw(this.mCamera);
 };
 
 MyGame.prototype.update = function () {
     
     this.PlaySceneButton.update();
-    this.WinButton.update();
 };
 
 MyGame.prototype.PlaySceneSelect = function(){
@@ -93,12 +87,6 @@ MyGame.prototype.PlaySceneSelect = function(){
     gEngine.GameLoop.stop();
 };
 
-
-MyGame.prototype.WinSelect = function(){
-    this.LevelSelect="Win";
-    this.clickAudio(this.WinButton);
-    gEngine.GameLoop.stop();
-};
 MyGame.prototype.clickAudio = function (button) {
     //console.log('play click');
      gEngine.AudioClips.playACue(this.kClickButton,40);
