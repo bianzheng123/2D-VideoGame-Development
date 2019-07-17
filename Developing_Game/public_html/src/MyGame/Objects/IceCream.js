@@ -35,8 +35,8 @@ function IceCream(spriteTexture,Xindex,Yindex,buffEnum) {
     this.kfailingTime = 2;
     this.hasDropped = false;
     this.canBeKnocked = false;
-    this.failingDistanceX = 5;
-    this.failingDistanceY = 5;//在两秒之内完成降落
+    this.failingDistanceX = 20;
+    this.failingDistanceY = 20;//在两秒之内完成降落
     
     this.failingFrameCount = 0;
     
@@ -81,7 +81,7 @@ IceCream.prototype._drop = function(){
         this.canBeKnocked = false;
     }else{
         this.failingFrameCount++;
-        if(this.failingFrameCount >= this.kfailingTime / 2 * 60){
+        if(this.failingFrameCount >= this.kfailingTime * 2 / 3 * 60){
             this.canBeKnocked = true;
         }
         var xform = this.mIceCream.getXform();

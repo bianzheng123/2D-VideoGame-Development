@@ -238,11 +238,11 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
     mapManager.MapArray[l.kYindex][l.kXindex].mHasIceCream = false;
     console.log(mIceCreamArray[i].canBeKnocked);
 //    && this.mXindex === mIceCreamArray[i].kXindex && this.mYindex === mIceCreamArray[i].kYindex
-    if(mIceCreamArray[i].canBeKnocked ){
+    if(mIceCreamArray[i].canBeKnocked){
         this.temperature -= 2;
         this.mIsDead = true;
         console.log("pass");
-    }else{
+    }else if(mIceCreamArray[i].hasDropped){
         this.temperature--;
     }
     
