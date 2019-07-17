@@ -27,7 +27,7 @@ function Player(spriteTexture) {
     this.kTimeToVictory = 10;//10秒之后存活成功
     
     this.walkingSpeed = 1;
-    this.temperature = 50;//初始温度, range is [0, 100]
+    this.temperature = 1;//初始温度, range is [0, 100]
     this.direction=this.DirectionEnum.RIGHT;
 
  

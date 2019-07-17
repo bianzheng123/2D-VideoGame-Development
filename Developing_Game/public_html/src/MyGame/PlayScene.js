@@ -166,7 +166,7 @@ PlayScene.prototype._detectLost = function(){
 
 //means survive the fixed time to win the game
 PlayScene.prototype._approachVictory = function(){
-    if(this._VictoryFrameLast <= 0){
+    if(this._VictoryFrameLast <= 0 || this.mPlayer.temperature <= 0){
         this.isVictory = true;
     }else{
         this._VictoryFrameLast--;
