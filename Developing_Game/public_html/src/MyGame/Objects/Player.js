@@ -144,12 +144,10 @@ Player.prototype._jump = function(){
         xform.setXPos(this.originalX);
         xform.setYPos(this.originalY+this.originalZ);
         if(this.originalZ<=0){
-            //xform.setXPos(this.expectedX);
             xform.setYPos(this.expectedY);
             this.isJumping=false;
             this.originalZ=0;
-        }
-        //alert("jumping");
+        };
     }
     
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)&&!this.isJumping){
@@ -169,12 +167,10 @@ Player.prototype._jump = function(){
         this.speedY = this.magnitude*Math.cos(this.theta)*Math.sin(Math.PI*this.direction/4);
         this.speedZ = this.magnitude*Math.sin(this.theta);
         this.originalZ = 0;
-        //alert(this.magnitude+" "+this.speedX+" "+this.speedY);
         var expectedDist = (this.magnitude*this.magnitude*Math.sin(2*this.theta)) /this.kGravityAcceleration;
         this.expectedX=this.originalX+expectedDist*Math.cos(Math.PI*this.direction/4);
         this.expectedY=this.originalY+expectedDist*Math.sin(Math.PI*this.direction/4);
         this.isJumping=true;
-        //alert(this.speedZ);
     }
 };
 
@@ -236,13 +232,10 @@ Player.prototype._eatIceCream = function(mIceCreamArray,mapManager){
 
 Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
     mapManager.MapArray[l.kYindex][l.kXindex].mHasIceCream = false;
-//    console.log(mIceCreamArray[i].canBeKnocked);
-//    && this.mXindex === mIceCreamArray[i].kXindex && this.mYindex === mIceCreamArray[i].kYindex
     if(mIceCreamArray[i].canBeKnocked){
         this.temperature -= 2;
         this.mIsDead = true;
         mIceCreamArray[i] = null;
-//        console.log("pass");
     }else if(mIceCreamArray[i].hasDropped){
         this.temperature--;
         mIceCreamArray[i] = null;
