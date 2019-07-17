@@ -236,18 +236,20 @@ Player.prototype._eatIceCream = function(mIceCreamArray,mapManager){
 
 Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
     mapManager.MapArray[l.kYindex][l.kXindex].mHasIceCream = false;
-    console.log(mIceCreamArray[i].canBeKnocked);
+//    console.log(mIceCreamArray[i].canBeKnocked);
 //    && this.mXindex === mIceCreamArray[i].kXindex && this.mYindex === mIceCreamArray[i].kYindex
     if(mIceCreamArray[i].canBeKnocked){
         this.temperature -= 2;
         this.mIsDead = true;
-        console.log("pass");
+        mIceCreamArray[i] = null;
+//        console.log("pass");
     }else if(mIceCreamArray[i].hasDropped){
         this.temperature--;
+        mIceCreamArray[i] = null;
     }
     
     
-    mIceCreamArray[i] = null;
+    
 };
 
 Player.prototype._increaseTempterature = function(){

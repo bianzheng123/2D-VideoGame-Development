@@ -160,11 +160,9 @@ PlayScene.prototype._setMsg = function(){
     }
     document.getElementById("st1").innerHTML="player direction: " + dir;
     
-    if(-0.01 <= this.mPlayer.accumulateValue && this.mPlayer.accumulateValue <= 0.01){
-        msg = "Is storing force: false";
-    }else{
-        msg = "Is storing force: true";
-    }
+    var tmp = Number.parseFloat(this.mPlayer.accumulateValue).toFixed(1);
+    msg = "Storing Force Val: " + tmp.toString(); 
+
     document.getElementById("st2").innerHTML=msg;
     
     msg = "Player position(index) X: " + this.mPlayer.mXindex + ",Y: " + this.mPlayer.mYindex;
