@@ -62,10 +62,10 @@ function Player(spriteTexture) {
     this.t_pre_isDead = false;
     
     this.mPlayer = new SpriteRenderable(spriteTexture);
-    this.mPlayer.setColor([0.2, 0.5, 0.8, 1]);
+    this.mPlayer.setColor([0.2, 0.5, 0.8, 0]);
     this.mPlayer.getXform().setPosition(-47, -47);
     this.mPlayer.getXform().setSize(this.kWidth,this.kHeight);
-    this.mPlayer.setElementPixelPositions(510, 595, 23, 153);
+    this.mPlayer.setElementPixelPositions(0, 105, 0, 512-424);
     
     GameObject.call(this, this.mPlayer);
 }

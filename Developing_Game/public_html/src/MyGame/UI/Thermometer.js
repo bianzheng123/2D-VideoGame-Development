@@ -13,8 +13,8 @@ function Thermometer(spriteTexture,camera) {
     this.kCamera = camera;
     this.mThermometer = new SpriteRenderable(spriteTexture);
     this.mThermometer.setColor([1, 0.7, 0.1, 0]);
-    this.mThermometer.getXform().setPosition(-30,24);
-    this.mThermometer.getXform().setSize(40,3);
+    this.mThermometer.getXform().setPosition(-25,23);
+    this.mThermometer.getXform().setSize(50,3);
     this.mThermometer.setElementPixelPositions(0, 975, 0, 64);
    GameObject.call(this, this.mThermometer);
 }
