@@ -98,9 +98,9 @@ PlayScene.prototype.draw = function () {
     this.mCamera.setupViewProjection();
     //this.mBg.draw(this.mCamera);
     this.mMapManager.draw();
-    this.mIceCreamManager.draw();
     this.mShadowManager.draw();
     this.mPlayer.draw(this.mCamera);
+    this.mIceCreamManager.draw();
     this.mUIManager.draw(this.mCamera);
 };
 

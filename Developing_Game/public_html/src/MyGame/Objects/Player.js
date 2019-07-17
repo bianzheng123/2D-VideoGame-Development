@@ -20,8 +20,8 @@ function Player(spriteTexture) {
         BOTTOM: 6,
         BOTTOMRIGHT: 7
     };
-    this.kHeight = 5;
-    this.kWidth = 5;
+    this.kHeight = 6.5;
+    this.kWidth = 6.5;
     this.kGravityAcceleration = 1;
     this.kincTemperatureCountMax = 120;//平均120帧主角上升1°
     this.kTimeToVictory = 100;//10秒之后存活成功
@@ -153,6 +153,9 @@ Player.prototype._jump = function(){
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)&&!this.isJumping){
         this.accumulateValue+=0.1;
         var deltaH = -xform.getHeight()/200;
+        var dheight=xform.getHeight()/1.001;
+        xform.incYPosBy(-(xform.getHeight()-dheight)/2);
+        xform.setSize(this.kWidth,dheight);
     }
     if((!gEngine.Input.isKeyPressed(gEngine.Input.keys.Space))&&this.accumulateValue!=0&&!this.isJumping){
         //xform.incXPosBy(this.accumulateValue);  
@@ -171,6 +174,8 @@ Player.prototype._jump = function(){
         this.expectedX=this.originalX+expectedDist*Math.cos(Math.PI*this.direction/4);
         this.expectedY=this.originalY+expectedDist*Math.sin(Math.PI*this.direction/4);
         this.isJumping=true;
+        xform.incYPosBy((this.kHeight-xform.getHeight())/2);
+        xform.setSize(this.kWidth,this.kHeight);
     }
 };
 
