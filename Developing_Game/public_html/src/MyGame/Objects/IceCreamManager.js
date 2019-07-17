@@ -49,6 +49,9 @@ IceCreamManager.prototype.update = function (mapManager) {
     }//update IceCream
     
     for(i=0;i<this.mCocoArray.length;i++){
+        if(this.mCocoArray[i] !== null && this.mCocoArray[i].mCoco.getXform().getYPos() > 200){
+            this.mCocoArray[i] = null;
+        }
         l = this.mCocoArray[i];
         if(l !== null){
             l.update();
