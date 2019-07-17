@@ -17,6 +17,7 @@ function PlayScene() {
     this.kAtlas = "assets/white.png";
     this.kUIButton = "assets/UI/button.png";
     this.kUIButton = "assets/UI/SimpleButton.png";
+    this.kThermometer ="assets/thermometer.png";
     //need the wav file(to play audio)
     
     // The camera to view the scene
@@ -46,12 +47,15 @@ PlayScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kUIButton);
     gEngine.Textures.loadTexture(this.kBG);
     gEngine.Textures.loadTexture(this.kAtlas);
+    gEngine.Textures.loadTexture(this.kThermometer);
+    
 };
 
 PlayScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kUIButton);
     gEngine.Textures.unloadTexture(this.kBG);
     gEngine.Textures.loadTexture(this.kAtlas);
+    gEngine.Textures.loadTexture(this.kThermometer);
 };
 
 PlayScene.prototype.initialize = function () {
@@ -61,7 +65,7 @@ PlayScene.prototype.initialize = function () {
         140,                     // width of camera
         [10, 10, 975, 585]         // viewport (orgX, orgY, width, height)
     );
-    this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
+    this.mCamera.setBackgroundColor([0.8,0.8,0.8, 1]);
             // sets the background to gray
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
@@ -72,7 +76,7 @@ PlayScene.prototype.initialize = function () {
     bgR.getXform().setPosition(0, 0);
     this.mBg = new GameObject(bgR);
     
-    this.mUIManager = new UIManager(this.kAtlas,this.mCamera);
+    this.mUIManager = new UIManager(this.kAtlas,this.mCamera,this.kThermometer);
     this.mUIManager.initialize();
     this.mMapManager = new MapManager(this.kAtlas,this.mCamera);
     this.mMapManager.initialize();

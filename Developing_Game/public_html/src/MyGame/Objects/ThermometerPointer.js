@@ -12,10 +12,10 @@
 function ThermometerPointer(spriteTexture,camera) {
     this.kCamera = camera;
     this.mThermometerPointer = new SpriteRenderable(spriteTexture);
-    this.mThermometerPointer.setColor([1, 1, 0.1, 1.0]);
+    this.mThermometerPointer.setColor([1, 1, 1, 0]);
     this.mThermometerPointer.getXform().setPosition(-30,24);
     this.mThermometerPointer.getXform().setSize(2,5);
-    this.mThermometerPointer.setElementPixelPositions(510, 595, 23, 153);
+    this.mThermometerPointer.setElementPixelPositions(975, 1000, 0, 64);
    GameObject.call(this, this.mThermometerPointer);
 }
 gEngine.Core.inheritPrototype(ThermometerPointer, GameObject);
