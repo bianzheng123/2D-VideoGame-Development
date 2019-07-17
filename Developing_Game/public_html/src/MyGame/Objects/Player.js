@@ -122,6 +122,10 @@ Player.prototype._walk = function(){
         xform.incXPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
         xform.incYPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
     }
+    if(!this.isJumping){
+        this.originalX = xform.getXPos();
+        this.originalY = xform.getYPos();
+    }
 };
 
 Player.prototype._jump = function(){
@@ -159,8 +163,6 @@ Player.prototype._jump = function(){
         this.speedX = this.magnitude*Math.cos(this.theta)*Math.cos(Math.PI*this.direction/4);
         this.speedY = this.magnitude*Math.cos(this.theta)*Math.sin(Math.PI*this.direction/4);
         this.speedZ = this.magnitude*Math.sin(this.theta);
-        this.originalX = xform.getXPos();
-        this.originalY = xform.getYPos();
         this.originalZ = 0;
         //alert(this.magnitude+" "+this.speedX+" "+this.speedY);
         var expectedDist = (this.magnitude*this.magnitude*Math.sin(2*this.theta)) /this.kGravityAcceleration;

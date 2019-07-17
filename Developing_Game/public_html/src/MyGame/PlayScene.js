@@ -25,18 +25,14 @@ function PlayScene() {
     this.mBg = null;//background
     this.mMapManager = null;
     this.mIceCreamManager = null;
+    this.mShadowManager = null;
     this.mPlayer = null;
-    this.mMsg1 = null;//to show the direction of the player
-    this.mMsg2 = null;
-    this.mMsg3 = null;
-    this.mMsg4 = null;
-    this.mMsg5 = null;
     this.fullscreenButton = null;
     
     this.stopUpdating = false;
     this.isVictory = false;
     this.isLost = false;
-    this._VictoryFrameLast = 10 * 60;//距离胜利还有多少帧
+    this._VictoryFrameLast = 100 * 60;//距离胜利还有多少帧
     
     
     //To change the Scene
@@ -77,6 +73,8 @@ PlayScene.prototype.initialize = function () {
     
     this.mMapManager = new MapManager(this.kAtlas,this.mCamera);
     this.mMapManager.initialize();
+    this.mShadowManager = new ShadowManager(this.kAtlas,this.mCamera);
+    this.mShadowManager.initialize();
     
     this.fullscreenButton = new UIButton(this.fullscreenSelect,this,[120,550],[200,40],"Fullscreen",4);
     
@@ -96,7 +94,7 @@ PlayScene.prototype.draw = function () {
     //this.mBg.draw(this.mCamera);
     this.mMapManager.draw();
     this.mIceCreamManager.draw();
-    
+    this.mShadowManager.draw();
     this.mPlayer.draw(this.mCamera);
 };
 
@@ -105,6 +103,7 @@ PlayScene.prototype.update = function () {
         this.mIceCreamManager.update(this.mMapManager);
         this.mMapManager.update();
         this.mPlayer.update(this.mIceCreamManager.mIceCreamArray,this.mMapManager);
+        this.mShadowManager.update([this.mPlayer.originalX,this.mPlayer.originalY],[-100,-20],[-100,-20]);
         //press z to create an iceCream
         this._updatePlayerPositionByIndex();
         this.fullscreenButton.update();
