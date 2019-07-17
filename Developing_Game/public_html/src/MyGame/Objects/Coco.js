@@ -9,19 +9,31 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Coco(spriteTexture,targetXpos,targetYpos) {
+function Coco(spriteTexture,IceCream) {
+    this.kStateEnum = {
+        BRINGING: 0,
+        NOTBRINGING: 1
+    };
     this.kSpeed = 1;
     this.kHeight = 3;
     this.kWidth = 3;
-    this.kYposDiff = 5;
-    this.kXposDiff = 5;
-    this.kXpos = 200;
+    this.kYposDiff = 3;
+    this.kXposDiff = 3;
+    this.kXOriginalPos = 200;
     
-    this.targetXpos = targetXpos;
-    this.targetYpos = targetYpos;
+    this.mState = this.kStateEnum.BRINGING;
+    this.mIceCream = IceCream;
+    
+    this.kBringingVelocity = this.mIceCream.kFlyingVelocity;
+    this.kNotBringingVelocity = this.mIceCream.kFlyingVelocity * 3;
+    this.kFlyingTheta = 45;
+    
+    
+    this.targetXpos = this.mIceCream.mTargetPositionX + this.mIceCream.failingDistanceX;
+    this.targetYpos = this.mIceCream.mTargetPositionY + this.mIceCream.failingDistanceY;
     
     this.mCoco = new SpriteRenderable(spriteTexture);
-    this.mCoco.getXform().setPosition(this.kXpos - this.kXposDiff,this.targetYpos + this.kYposDiff);
+    this.mCoco.getXform().setPosition(this.kXOriginalPos - this.kXposDiff,this.targetYpos + this.kYposDiff);
     this.mCoco.getXform().setSize(this.kWidth, this.kHeight);
     this.mCoco.setColor([1, 0, 0, 1]);
     this.mCoco.setElementPixelPositions(510, 595, 23, 153);
@@ -30,5 +42,31 @@ function Coco(spriteTexture,targetXpos,targetYpos) {
 }
 gEngine.Core.inheritPrototype(Coco, GameObject);
 
-//Coco.prototyp
+Coco.prototype.update = function(){
+    switch(this.mState){
+        case this.kStateEnum.BRINGING:
+            this._bringing();   break;
+        case this.kStateEnum.NOTBRINGING:
+            this._notBringing();  break;
+    }
+    
+    
+};
+
+Coco.prototype._bringing = function(){
+    var xform = this.mIceCream.getXform();
+    if(this.mIceCream.mState === this.mIceCream.kStateEnum.FLYING){
+        this.mCoco.getXform().setXPos(xform.getXPos() - this.kXposDiff);
+        this.mCoco.getXform().setYPos(xform.getYPos() + this.kYposDiff);
+    }else{
+        this.mState = this.kStateEnum.NOTBRINGING;
+    }
+};
+Coco.prototype._notBringing = function(){
+    var xform = this.mCoco.getXform();
+    xform.incXPosBy(-this.kNotBringingVelocity * Math.cos(this.kFlyingTheta));
+    xform.incYPosBy(this.kNotBringingVelocity * Math.sin(this.kFlyingTheta));
+};
+
+
 

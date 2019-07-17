@@ -92,7 +92,7 @@ IceCream.prototype._fly = function(){
     }else{
         xform.incXPosBy(-this.kFlyingVelocity);
     }
-    console.log("fsdfsd");
+    
 };
 
 IceCream.prototype._drop = function(){

@@ -48,12 +48,12 @@ IceCreamManager.prototype.update = function (mapManager) {
         }
     }//update IceCream
     
-//    for(i=0;i<this.mCocoArray.length;i++){
-//        l = this.mCocoArray[i];
-//        if(l !== null){
-//            l.update();
-//        }
-//    }//update Coco
+    for(i=0;i<this.mCocoArray.length;i++){
+        l = this.mCocoArray[i];
+        if(l !== null){
+            l.update();
+        }
+    }//update Coco
     
 };
 
@@ -89,8 +89,9 @@ IceCreamManager.prototype.createIceCream = function(mapManager){
         l.mHasIceCream = true;
         var iceCream = new IceCream(this.kspriteTexture,l.kXindex,l.kYindex,buff);
         
-//        var mCoco = new Coco(this.kspriteTexture,iceCream.mTargetPositionX + iceCream.failingDistanceX,iceCream.mTargetPositionY + iceCream.failingDistanceY);
-//        this.mCocoArray.push(mCoco);
+        var mCoco = new Coco(this.kspriteTexture,iceCream);
+        this.mCocoArray.push(mCoco);
+        
         this.mIceCreamArray.push(iceCream);
     }
     
@@ -118,12 +119,12 @@ IceCreamManager.prototype.draw = function(){
         }
     }
     
-//    for(i=0;i<this.mCocoArray.length;i++){
-//        l = this.mCocoArray[i];
-//        if(l !== this.mCocoArray[i]){
-//            l.draw(this.kCamera);
-//        }
-//    }
+    for(i=0;i<this.mCocoArray.length;i++){
+        l = this.mCocoArray[i];
+        if(l !== null){
+            l.draw(this.kCamera);
+        }
+    }
     
 };
 
