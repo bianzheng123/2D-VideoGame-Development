@@ -102,10 +102,16 @@ PlayScene.prototype.update = function () {
     if(!this.stopUpdating){
         this.mIceCreamManager.update(this.mMapManager);
         this.mMapManager.update();
+        this._updatePlayerPositionByIndex();
+        if(this.mPlayer.t_pre_isDead === true && this.mPlayer.mIsDead === false){
+            this.mPlayer.mIsDead = true;
+        }
         this.mPlayer.update(this.mIceCreamManager.mIceCreamArray,this.mMapManager);
+        //_updatePlayerPositionByIndex必须要在this.mPlayer.update前面
+        
         this.mShadowManager.update([this.mPlayer.originalX,this.mPlayer.originalY],[-100,-20],[-100,-20]);
         //press z to create an iceCream
-        this._updatePlayerPositionByIndex();
+        
         this.fullscreenButton.update();
         
         this._approachVictory();
@@ -118,6 +124,7 @@ PlayScene.prototype.update = function () {
         }
         
         this._setMsg();
+
     }
 
     
@@ -161,7 +168,7 @@ PlayScene.prototype._setMsg = function(){
     document.getElementById("st2").innerHTML=msg;
     
     msg = "Player position(index) X: " + this.mPlayer.mXindex + ",Y: " + this.mPlayer.mYindex;
-    document.getElementById("st3").innerHTML=msg
+    document.getElementById("st3").innerHTML=msg;
     
     msg = "Player temperature: " + this.mPlayer.temperature;
     document.getElementById("st4").innerHTML=msg;    
@@ -173,7 +180,7 @@ PlayScene.prototype._setMsg = function(){
     }else{
         msg = "Gaming State: Playing";
     }
-    document.getElementById("st5").innerHTML=msg
+    document.getElementById("st5").innerHTML=msg;
 };
 
 PlayScene.prototype._updatePlayerPositionByIndex = function(){

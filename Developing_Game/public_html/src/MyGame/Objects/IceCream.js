@@ -29,8 +29,22 @@ function IceCream(spriteTexture,Xindex,Yindex,buffEnum) {
     this.mState = this.kStateEnum.NOT_MELT;
     this.mFrameCount = 0;
     
+    this.mTargetPositionX = Xindex * 7 - 47;
+    this.mTargetPositionY = Yindex * 7 - 47;
+    
+    this.kfailingTime = 2;
+    this.hasDropped = false;
+    this.canBeKnocked = false;
+    this.failingDistanceX = 5;
+    this.failingDistanceY = 5;//在两秒之内完成降落
+    
+    this.failingFrameCount = 0;
+    
+    this.velocityX = this.failingDistanceX / (this.kfailingTime * 60);
+    this.accerlateY = 2 * this.failingDistanceY / (this.kfailingTime * 60 * 60 * this.kfailingTime);
+    
     this.mIceCream = new SpriteRenderable(spriteTexture);
-    this.mIceCream.getXform().setPosition(Xindex * 7 - 47,Yindex * 7 - 47);
+    this.mIceCream.getXform().setPosition(this.mTargetPositionX + this.failingDistanceX,this.mTargetPositionY + this.failingDistanceY);
     this.mIceCream.getXform().setSize(this.kWidth, this.kHeight);
     
     switch(this.mBuff){
@@ -50,8 +64,32 @@ gEngine.Core.inheritPrototype(IceCream, GameObject);
 
 
 IceCream.prototype.update = function () {
-    this._melt();
+    if(this.hasDropped){
+        this._melt();
+    }else{
+        this._drop();
+    }
+    
 };
+
+IceCream.prototype._drop = function(){
+    var pos = this.mIceCream.getXform().getPosition();
+    if(this.failingFrameCount >= this.kfailingTime * 60){
+        pos[0] = this.mTargetPositionX;
+        pos[1] = this.mTargetPositionY;
+        this.hasDropped = true;
+        this.canBeKnocked = false;
+    }else{
+        this.failingFrameCount++;
+        if(this.failingFrameCount >= this.kfailingTime / 2 * 60){
+            this.canBeKnocked = true;
+        }
+        var xform = this.mIceCream.getXform();
+        xform.incXPosBy(-this.velocityX);
+        xform.incYPosBy(-this.accerlateY * this.failingFrameCount);
+    }
+};
+
 
 IceCream.prototype._melt = function(){
     

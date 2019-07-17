@@ -24,10 +24,10 @@ function Player(spriteTexture) {
     this.kWidth = 5;
     this.kGravityAcceleration = 1;
     this.kincTemperatureCountMax = 120;//平均120帧主角上升1°
-    this.kTimeToVictory = 10;//10秒之后存活成功
+    this.kTimeToVictory = 100;//10秒之后存活成功
     
     this.walkingSpeed = 1;
-    this.temperature = 1;//初始温度, range is [0, 100]
+    this.temperature = 50;//初始温度, range is [0, 100]
     this.direction=this.DirectionEnum.RIGHT;
 
  
@@ -59,6 +59,8 @@ function Player(spriteTexture) {
     this.expectedY = 0;//for the jump part
     this.isJumping = false;
     
+    this.t_pre_isDead = false;
+    
     this.mPlayer = new SpriteRenderable(spriteTexture);
     this.mPlayer.setColor([0.2, 0.5, 0.8, 1]);
     this.mPlayer.getXform().setPosition(-47, -47);
@@ -76,6 +78,9 @@ Player.prototype.update = function (mIceCreamArray,mapManager) {
         this._jump();
         this._eatIceCream(mIceCreamArray,mapManager);
         this._increaseTempterature();
+        if(this.mIsDead === true){
+            this.t_pre_isDead = true;
+        }
     }else{
         this._death();
     }
@@ -188,6 +193,7 @@ Player.prototype._death = function(){
             this.getXform().setPosition(this.mLastXpos,this.mLastYpos);//这里需要更改
             this.getXform().incRotationByDegree(-45);
             this.mCountFrameDeath = 0;
+            this.t_pre_isDead = false;
         }
         this.mCountFrameDeath++;
     }
@@ -217,23 +223,31 @@ Player.prototype._eatIceCream = function(mIceCreamArray,mapManager){
         
         
         if(this_left <= ice_left && ice_left <= this_right && !(ice_top < this_bottom || ice_bottom > this_top)){
-            this.temperature--;
-            mapManager.MapArray[l.kYindex][l.kXindex].mHasIceCream = false;
-            mIceCreamArray[i] = null;
+            this._eatOrKnocked(mapManager,l,mIceCreamArray,i);
         }else if(this_left <= ice_right && ice_right <= this_right && !(ice_top < this_bottom || ice_bottom > this_top)){
-            this.temperature--;
-            mapManager.MapArray[l.kYindex][l.kXindex].mHasIceCream = false;
-            mIceCreamArray[i] = null;
+            this._eatOrKnocked(mapManager,l,mIceCreamArray,i);
         }else if(this_bottom <= ice_top && ice_top <= this_top && !(ice_right < this_left || ice_left > this_right)){
-            this.temperature--;
-            mapManager.MapArray[l.kYindex][l.kXindex].mHasIceCream = false;
-            mIceCreamArray[i] = null;
+            this._eatOrKnocked(mapManager,l,mIceCreamArray,i);
         }else if(this_bottom <= ice_bottom && ice_bottom <= this_top && !(ice_right < this_left || ice_left > this_right)){
-            this.temperature--;
-            mapManager.MapArray[l.kYindex][l.kXindex].mHasIceCream = false;
-            mIceCreamArray[i] = null;
+            this._eatOrKnocked(mapManager,l,mIceCreamArray,i);
         }
     }
+};
+
+Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
+    mapManager.MapArray[l.kYindex][l.kXindex].mHasIceCream = false;
+    console.log(mIceCreamArray[i].canBeKnocked);
+//    && this.mXindex === mIceCreamArray[i].kXindex && this.mYindex === mIceCreamArray[i].kYindex
+    if(mIceCreamArray[i].canBeKnocked ){
+        this.temperature -= 2;
+        this.mIsDead = true;
+        console.log("pass");
+    }else{
+        this.temperature--;
+    }
+    
+    
+    mIceCreamArray[i] = null;
 };
 
 Player.prototype._increaseTempterature = function(){
