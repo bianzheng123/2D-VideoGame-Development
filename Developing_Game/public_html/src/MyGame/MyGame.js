@@ -56,17 +56,17 @@ MyGame.prototype.unloadScene = function () {
 MyGame.prototype.initialize = function () {
     // Step A: set up the cameras
     this.mCamera = new Camera(
-        vec2.fromValues(50, 40), // position of the camera
-        100,                     // width of camera
-        [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
+        vec2.fromValues(-15.5, -10), // position of the camera
+        140,                     // width of camera
+        [10, 10, 975, 585]         // viewport (orgX, orgY, width, height)
     );
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
             // sets the background to gray
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
-    this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[200,400],[300,50],"Playscene Demo",4);
-    this.WinButton = new UIButton(this.WinSelect,this,[200,200],[200,50],"Win",4);
-    this.UIText = new UIText("Temp Start Scene",[400,600],8,1,0,[0,0,0,1]);
+    this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[475,400],[300,50],"Playscene Demo",4);
+    this.WinButton = new UIButton(this.WinSelect,this,[475,200],[200,50],"Win",4);
+    this.UIText = new UIText("Temp Start Scene",[475,600],8,1,0,[0,0,0,1]);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more

@@ -55,9 +55,9 @@ Win.prototype.unloadScene = function () {
 Win.prototype.initialize = function () {
     // Step A: set up the cameras
     this.mCamera = new Camera(
-        vec2.fromValues(0, 0), // position of the camera
-        100,                     // width of camera
-        [0, 0, 700, 700]         // viewport (orgX, orgY, width, height)
+        vec2.fromValues(-15.5, -10), // position of the camera
+        140,                     // width of camera
+        [10, 10, 975, 585]         // viewport (orgX, orgY, width, height)
     );
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
             // sets the background to gray
