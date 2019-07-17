@@ -20,20 +20,23 @@ function IceCream(spriteTexture,Xindex,Yindex,buffEnum) {
         FIRE_BUFF:2
     };
     this.kStateEnum = {
+        
         NOT_MELT: 0,
         HALF_MELT: 1,
-        FULL_MELT: 2
+        FULL_MELT: 2,
+        DROPING: 3,
+        FLYING: 4
     };
     
     this.mBuff = buffEnum; 
-    this.mState = this.kStateEnum.NOT_MELT;
+    this.mState = this.kStateEnum.DROPING;
     this.mFrameCount = 0;
     
     this.mTargetPositionX = Xindex * 7 - 47;
     this.mTargetPositionY = Yindex * 7 - 47;
     
     this.kfailingTime = 2;
-    this.hasDropped = false;
+    
     this.canBeKnocked = false;
     this.failingDistanceX = 20;
     this.failingDistanceY = 20;//在两秒之内完成降落
@@ -64,10 +67,10 @@ gEngine.Core.inheritPrototype(IceCream, GameObject);
 
 
 IceCream.prototype.update = function () {
-    if(this.hasDropped){
-        this._melt();
-    }else{
+    if(this.mState === this.kStateEnum.DROPING){
         this._drop();
+    }else{
+        this._melt();
     }
     
 };
@@ -77,7 +80,7 @@ IceCream.prototype._drop = function(){
     if(this.failingFrameCount >= this.kfailingTime * 60){
         pos[0] = this.mTargetPositionX;
         pos[1] = this.mTargetPositionY;
-        this.hasDropped = true;
+        this.mState = this.kStateEnum.NOT_MELT;
         this.canBeKnocked = false;
     }else{
         this.failingFrameCount++;

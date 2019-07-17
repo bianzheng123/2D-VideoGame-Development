@@ -13,6 +13,9 @@ function IceCreamManager(spriteTexture,camera) {
     this.kspriteTexture = spriteTexture;
     this.kCamera = camera;
     this.mIceCreamArray = [];
+    
+    this.mCocoArray = [];
+    
     this.kp_no_buff = 0.8;//the probability of no buff;
     this.kp_speed_up_buff = 0.9;
     this.kp_fire_buff = 1;
@@ -42,8 +45,15 @@ IceCreamManager.prototype.update = function (mapManager) {
         if(l !== null){
             l.update();
         }
-       
-    }
+    }//update IceCream
+    
+//    for(i=0;i<this.mCocoArray.length;i++){
+//        l = this.mCocoArray[i];
+//        if(l !== null){
+//            l.update();
+//        }
+//    }//update Coco
+    
 };
 
 IceCreamManager.prototype.autoCreateIceCream = function(mapManager){
@@ -66,6 +76,7 @@ IceCreamManager.prototype.createIceCream = function(mapManager){
             }
         }
     }
+    //在这里实现coco
 
     var buff = this.getBuff();
 
@@ -73,10 +84,12 @@ IceCreamManager.prototype.createIceCream = function(mapManager){
     
     if(tmp_arr.length !== 0){
         l = tmp_arr[index];
-//        console.log(tmp_arr.length);
-
+        
         l.mHasIceCream = true;
         var iceCream = new IceCream(this.kspriteTexture,l.kXindex,l.kYindex,buff);
+        
+        var mCoco = new Coco(this.kspriteTexture,iceCream.mTargetPositionX + iceCream.failingDistanceX,iceCream.mTargetPositionY + iceCream.failingDistanceY);
+        this.mCocoArray.push(mCoco);
         this.mIceCreamArray.push(iceCream);
     }
     
@@ -102,8 +115,14 @@ IceCreamManager.prototype.draw = function(){
         if(l !== null){
             l.draw(this.kCamera);
         }
-        
     }
+    
+//    for(i=0;i<this.mCocoArray.length;i++){
+//        l = this.mCocoArray[i];
+//        if(l !== this.mCocoArray[i]){
+//            l.draw(this.kCamera);
+//        }
+//    }
     
 };
 

@@ -236,7 +236,9 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
         this.temperature -= 2;
         this.mIsDead = true;
         mIceCreamArray[i] = null;
-    }else if(mIceCreamArray[i].hasDropped){
+    }else if(mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.NOT_MELT
+            || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.HALF_MELT
+            || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.FULL_MELT){
         this.temperature--;
         mIceCreamArray[i] = null;
     }
