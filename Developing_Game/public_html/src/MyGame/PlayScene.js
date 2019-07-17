@@ -92,12 +92,12 @@ PlayScene.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     
     this.mCamera.setupViewProjection();
-    this.mUIManager.draw(this.mCamera);
     //this.mBg.draw(this.mCamera);
     this.mMapManager.draw();
     this.mIceCreamManager.draw();
     this.mShadowManager.draw();
     this.mPlayer.draw(this.mCamera);
+    this.mUIManager.draw(this.mCamera);
 };
 
 PlayScene.prototype.update = function () {
@@ -113,7 +113,6 @@ PlayScene.prototype.update = function () {
         
         this.mShadowManager.update([this.mPlayer.originalX,this.mPlayer.originalY],[-100,-20],[-100,-20]);
         //press z to create an iceCream
-        this.mUIManager.update();
         
         this._approachVictory();
         if(this.isVictory){
@@ -125,6 +124,7 @@ PlayScene.prototype.update = function () {
         }
         
         this._setMsg();
+        this.mUIManager.update(this);
 
     }
 
