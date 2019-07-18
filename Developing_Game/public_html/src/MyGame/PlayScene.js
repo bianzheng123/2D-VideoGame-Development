@@ -28,6 +28,7 @@ function PlayScene() {
     this.mIceCreamManager = null;
     this.mShadowManager = null;
     this.mPlayer = null;
+    this.mFireManager = null;
     
     this.mUIManager = null;
     
@@ -84,8 +85,8 @@ PlayScene.prototype.initialize = function () {
     
     
     this.mIceCreamManager = new IceCreamManager(this.kAtlas,this.mCamera);
-    
-    this.mPlayer = new Player(this.kAtlas);
+    this.mFireManager = new FireManager(this.kAtlas,this.mCamera,this.mIceCreamManager);
+    this.mPlayer = new Player(this.kAtlas,this.mCamera,this.mFireManager);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -101,6 +102,7 @@ PlayScene.prototype.draw = function () {
     this.mPlayer.draw(this.mCamera);
     this.mIceCreamManager.draw();
     this.mUIManager.draw(this.mCamera);
+    this.mFireManager.draw();
 };
 
 PlayScene.prototype.update = function () {
@@ -128,7 +130,7 @@ PlayScene.prototype.update = function () {
         }
         
         this._setMsg();
-
+        this.mFireManager.update();
     }
     this.mUIManager.update(this);
 
