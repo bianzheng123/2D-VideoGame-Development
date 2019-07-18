@@ -23,7 +23,7 @@ function Sand(spriteTexture,Xindex,Yindex) {
     this.mSand.setColor([1, 0.91, 0.65, 0.1]);
     this.mSand.getXform().setPosition(this.kXpos,this.kYpos);
     this.mSand.getXform().setSize(this.kXsize, this.kYsize);
-    this.mSand.setElementPixelPositions(510, 595, 23, 153);
+    this.mSand.setElementPixelPositions(2046, 2047, 0, 1);
 
     GameObject.call(this, this.mSand);
 }

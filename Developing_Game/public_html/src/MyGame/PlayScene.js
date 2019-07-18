@@ -81,7 +81,7 @@ PlayScene.prototype.initialize = function () {
         140,                     // width of camera
         [10, 10, 975, 585]         // viewport (orgX, orgY, width, height)
     );
-    this.mCamera.setBackgroundColor([0.8,0.8,0.8, 1]);
+    this.mCamera.setBackgroundColor([1,234/255,167/255, 1]);
             // sets the background to gray
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
