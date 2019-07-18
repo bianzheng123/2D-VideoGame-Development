@@ -139,7 +139,7 @@ PlayScene.prototype.update = function () {
         this._setMsg();
         this.mFireManager.update();
     }else{
-        this.mFinishUI.update();
+        this.mFinishUI.update(this.mPlayer.eatIceCreamCount);
     }
     this.mGeneralUI.update();
     this.mPlayUI.update();

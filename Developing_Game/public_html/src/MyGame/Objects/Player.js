@@ -26,7 +26,7 @@ function Player(spriteTexture,camera,fireManager) {
         FLYING_ICE_CREAM:2,
         FALL:3
     };
-    this.
+    this.deathReason = this.DeathEnum.NOTDEAD;
     this.kHeight = 6.5;
     this.kWidth = 6.5;
     this.kGravityAcceleration = 1;
@@ -62,7 +62,7 @@ function Player(spriteTexture,camera,fireManager) {
     this.mCountFrameDeath = 0;//for the death part
     
     this.speed = this.kOriginSpeed;
-    this.temperature = 50;//初始温度, range is [0, 100]
+    this.temperature = 99;//初始温度, range is [0, 100]
     this.direction=this.DirectionEnum.RIGHT;
     
     this.comaTime = 0; // 0 for not in coma yet
@@ -259,6 +259,10 @@ Player.prototype._death = function(){
     if(!this.mIsDeathCountStart){
         this.accumulateValue=0;
         this.mPlayer.setColor([0.8, 0.6, 0.2, 0]);
+//        switch(this.deathReason){
+//            case this.DeathEnum.TRAP:
+//                if(this.direction === this.DirectionEnum.BOTTOM)
+//        }
         this.getXform().incRotationByDegree(45);
         this.mIsDeathCountStart = true;
     }else{

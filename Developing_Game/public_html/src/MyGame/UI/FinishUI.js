@@ -23,10 +23,10 @@ FinishUI.prototype.initialize=function(){
     this.lostScene.getXform().setSize(40,40);
     this.lostScene.setElementPixelPositions(0, 500, 0, 500);
 };
-FinishUI.prototype.update = function(){
+FinishUI.prototype.update = function(iceCreamEatCount){
     this.ReplayButton.update();
     this.MainMenuButton.update();
-    this.UIText.setText("Icecream you ate: 13");
+    this.UIText.setText("Icecream you ate: " + iceCreamEatCount);
 };
 
 FinishUI.prototype.draw = function () {
