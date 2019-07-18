@@ -12,10 +12,10 @@ function PlayUI(spriteTexture,camera,kThermometer,playscene) {
     this.pauseButton = new UIButton(this.pauseSelect,this,[120,500],[150,40],"Pause",4);
 }
 
-PlayUI.prototype.update = function(playscene){
+PlayUI.prototype.update = function(){
     this.thermometer.update();
-    this.thermometerPointer.update(playscene.mPlayer.temperature);
-    var secondLeft=playscene._VictoryFrameLast/60;
+    this.thermometerPointer.update(this.kPlayscene.mPlayer.temperature);
+    var secondLeft=this.kPlayscene._VictoryFrameLast/60;
     var minuteLeft=Math.floor(secondLeft/60);
     secondLeft=Math.floor(secondLeft%60);
     if(!this.kPlayscene.stopUpdating){
