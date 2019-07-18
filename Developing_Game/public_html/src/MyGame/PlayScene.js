@@ -229,6 +229,7 @@ PlayScene.prototype._updatePlayerPositionByIndex = function(){
                         this.mPlayer.mIsDead = false;
                     }else{
                         this.mPlayer.mIsDead = true;
+                        this.mPlayer.deathReason = this.mPlayer.DeathEnum.FALL;
                     }
 //                    console.log("whether the player is dead: " + this.mPlayer.mIsDead);
                     break breakpoint;
@@ -244,6 +245,7 @@ PlayScene.prototype._updatePlayerPositionByIndex = function(){
         this.mPlayer.mXindex = null;
         this.mPlayer.mYindex = null;
         this.mPlayer.mIsDead = true;
+        this.mPlayer.deathReason = this.mPlayer.DeathEnum.FALL;
     }
 };
 
