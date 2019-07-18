@@ -23,10 +23,10 @@ function Player(spriteTexture) {
     this.kHeight = 6.5;
     this.kWidth = 6.5;
     this.kGravityAcceleration = 1;
-    this.kincTemperatureCountMax = 120;//平均120帧主角上升1°
-    this.kTimeToVictory = 100;//10秒之后存活成功
+    this.kincTemperatureCountMax = 60;//平均120帧主角上升1°
+    this.kTimeToVictory = 120;//10秒之后存活成功
     
-    this.walkingSpeed = 1;
+    this.walkingSpeed = 0.2;
     this.temperature = 50;//初始温度, range is [0, 100]
     this.direction=this.DirectionEnum.RIGHT;
 
@@ -161,10 +161,11 @@ Player.prototype._jump = function(){
         var color=this.mPlayer.getColor();
         color[3]+=0.003;
         this.shakingCount++;
-        var shakingMagnitude=this.accumulateValue;
-        var xShift=Math.sin(this.shakingCount/5)*shakingMagnitude;
+        var shakingMagnitude=this.accumulateValue/4;
+        var xShift=(Math.random()>0.5?1:(-1))*Math.sin(this.shakingCount/2)*shakingMagnitude;
+        var yShift=(Math.random()>0.5?1:(-1))*Math.sin(this.shakingCount/2)*shakingMagnitude;
         document.getElementById("st7").innerHTML="xShift:"+xShift+"<br /> shakingCount:"+this.shakingCount+"<br /> accumulateValue:"+this.accumulateValue;
-        this.mPlayer.setElementPixelPositions(this.pleft-xShift,this.pright-xShift,this.pbottom-xShift,this.ptop-xShift);
+        this.mPlayer.setElementPixelPositions(this.pleft-xShift,this.pright-xShift,this.pbottom-yShift,this.ptop-yShift);
     }
     if((!gEngine.Input.isKeyPressed(gEngine.Input.keys.Space))&&this.accumulateValue!=0&&!this.isJumping){
         //xform.incXPosBy(this.accumulateValue);  
@@ -173,7 +174,7 @@ Player.prototype._jump = function(){
         xform.setSize(this.kWidth,this.kHeight);
         this.normalYPos=xform.getYPos();
         this.normalXPos=xform.getXPos();
-        this.magnitude=this.accumulateValue;
+        this.magnitude=this.accumulateValue/2;
         this.accumulateValue=0;
         this.speedX = this.magnitude*Math.cos(this.theta)*Math.cos(Math.PI*this.direction/4);
         this.speedY = this.magnitude*Math.cos(this.theta)*Math.sin(Math.PI*this.direction/4);
@@ -184,6 +185,7 @@ Player.prototype._jump = function(){
         this.expectedY=this.originalY+expectedDist*Math.sin(Math.PI*this.direction/4);
         this.isJumping=true;
         this.mPlayer.setColor([0.8, 0.6, 0.2, 0]);
+        this.mPlayer.setElementPixelPositions(this.pleft,this.pright,this.pbottom,this.ptop);
     }
 };
 
@@ -192,7 +194,10 @@ Player.prototype._changeDir = function(directionState){
 };
 
 Player.prototype._death = function(){
+    
     if(!this.mIsDeathCountStart){
+        this.accumulateValue=0;
+        this.mPlayer.setColor([0.8, 0.6, 0.2, 0]);
         this.getXform().incRotationByDegree(45);
         this.mIsDeathCountStart = true;
     }else{
@@ -246,13 +251,16 @@ Player.prototype._eatIceCream = function(mIceCreamArray,mapManager){
 Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
     mapManager.MapArray[l.kYindex][l.kXindex].mHasIceCream = false;
     if(mIceCreamArray[i].canBeKnocked){
-        this.temperature -= 2;
+        this.temperature -= 1;
         this.mIsDead = true;
         mIceCreamArray[i] = null;
     }else if(mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.NOT_MELT
             || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.HALF_MELT
             || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.FULL_MELT){
-        this.temperature--;
+        this.temperature-=5;
+        if(this.temperature<0){
+            this.temperature=0;
+        }
         mIceCreamArray[i] = null;
     }
     
