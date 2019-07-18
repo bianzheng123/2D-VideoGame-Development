@@ -109,6 +109,7 @@ PlayScene.prototype.update = function () {
         this.mIceCreamManager.update(this.mMapManager);
         this.mMapManager.update();
         this._updatePlayerPositionByIndex();
+//        console.log(this.mPlayer.canEatIceCream);
         if(this.mPlayer.t_pre_isDead === true && this.mPlayer.mIsDead === false){
             this.mPlayer.mIsDead = true;
         }
@@ -186,6 +187,7 @@ PlayScene.prototype._setMsg = function(){
     document.getElementById("st5").innerHTML=msg;
 };
 
+//判断主角是否死亡
 PlayScene.prototype._updatePlayerPositionByIndex = function(){
     var mapArr = this.mMapManager.MapArray;
     var i,j,l;
@@ -197,7 +199,7 @@ PlayScene.prototype._updatePlayerPositionByIndex = function(){
                 l = mapArr[i][j];
                 if((!this.mPlayer.isJumping) && 
                         l.kXpos - l.kXsize / 2 <= pos[0]  && pos[0] <= l.kXpos + l.kXsize / 2 &&
-                        l.kYpos - l.kYsize / 2 <= pos[1] - this.mPlayer.kHeight / 2 && pos[1] - this.mPlayer.kHeight / 2  <= l.kYpos + l.kYsize / 2){
+                        l.kYpos - l.kYsize / 2 <= pos[1] - this.mPlayer.kHeight / 3 && pos[1] - this.mPlayer.kHeight / 3  <= l.kYpos + l.kYsize / 2){
                     this.mPlayer.mXindex = l.kXindex;
                     this.mPlayer.mYindex = l.kYindex;
                     if(l.kTag === "Grass"){

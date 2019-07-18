@@ -58,6 +58,11 @@ function Player(spriteTexture) {
     this.expectedX = 0;
     this.expectedY = 0;//for the jump part
     this.isJumping = false;
+    this.p_isJumping = false;
+    this.wait10FrameCount = 0;
+    this.has10FrameOut = true;
+    this.canEatIceCream = true;
+    this.shouldWaitFrame = false;
     
     this.t_pre_isDead = false;
     
@@ -155,6 +160,15 @@ Player.prototype._jump = function(){
         };
     }
     
+    if(this.isJumping === false && this.p_isJumping === true){
+        this.canEatIceCream = false;
+        this.shouldWaitFrame = true;
+    }//防止死亡后仍然吃到冰淇凌
+    if(this.shouldWaitFrame){
+        this._waitFrame();
+    }
+    this.p_isJumping = this.isJumping;
+    
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)&&!this.isJumping){
         this.accumulateValue+=0.1;
         var deltaH = -xform.getHeight()/200;
@@ -187,6 +201,19 @@ Player.prototype._jump = function(){
         this.mPlayer.setColor([0.8, 0.6, 0.2, 0]);
         this.mPlayer.setElementPixelPositions(this.pleft,this.pright,this.pbottom,this.ptop);
     }
+    
+    
+    
+};
+
+Player.prototype._waitFrame = function(){
+    if(this.wait10FrameCount >= 2){
+        this.canEatIceCream = true;
+        this.wait10FrameCount = 0;
+        this.shouldWaitFrame = false;
+    }else{
+        this.wait10FrameCount++;
+    }
 };
 
 Player.prototype._changeDir = function(directionState){
@@ -194,7 +221,6 @@ Player.prototype._changeDir = function(directionState){
 };
 
 Player.prototype._death = function(){
-    
     if(!this.mIsDeathCountStart){
         this.accumulateValue=0;
         this.mPlayer.setColor([0.8, 0.6, 0.2, 0]);
@@ -204,10 +230,11 @@ Player.prototype._death = function(){
         if(this.mCountFrameDeath >= 120){
             this.mIsDeathCountStart = false;
             this.mIsDead = false;
-            this.getXform().setPosition(this.mLastXpos,this.mLastYpos);//这里需要更改
+            this.getXform().setPosition(this.mLastXpos,this.mLastYpos);
             this.getXform().incRotationByDegree(-45);
             this.mCountFrameDeath = 0;
             this.t_pre_isDead = false;
+            this.canEatIceCream = true;
         }
         this.mCountFrameDeath++;
     }
@@ -250,22 +277,23 @@ Player.prototype._eatIceCream = function(mIceCreamArray,mapManager){
 
 Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
     mapManager.MapArray[l.kYindex][l.kXindex].mHasIceCream = false;
+//    console.log(this.canEatIceCream);
     if(mIceCreamArray[i].canBeKnocked){
         this.temperature -= 1;
         this.mIsDead = true;
         mIceCreamArray[i] = null;
+//        console.log("knocked");
     }else if(mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.NOT_MELT
             || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.HALF_MELT
-            || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.FULL_MELT){
+            || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.FULL_MELT
+            && this.canEatIceCream){
         this.temperature-=5;
         if(this.temperature<0){
             this.temperature=0;
         }
         mIceCreamArray[i] = null;
     }
-    
-    
-    
+
 };
 
 Player.prototype._increaseTempterature = function(){
