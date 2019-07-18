@@ -13,7 +13,7 @@ function IceCream(spriteTexture,Xindex,Yindex,buffNum) {
     this.kXindex = Xindex;
     this.kYindex = Yindex;
     this.kHeight = 7;
-    this.kWidth = 7;
+    this.kWidth = 6;
     this.kHalfMeltTime = 10;
     this.kFullMeltTime = 20;
     this.kNoBuff_NotMelt_PixelPositions = [768,960,0,256];

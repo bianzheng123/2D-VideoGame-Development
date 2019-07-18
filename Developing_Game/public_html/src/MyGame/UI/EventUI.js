@@ -14,7 +14,7 @@ function EventUI(spriteTexture,player,camera) {
     this.mCamera = camera;
     
     this.lightColor = [0,0,0,0];
-    this.darkColor = [0,0,0,0.6];
+    this.darkColor = [0.7,0.7,0.7,0.7];
     
     this.mSpeedUpUI = new SpriteRenderable(spriteTexture);
     this.mSpeedUpUI.setColor([0, 0, 0, 0]);

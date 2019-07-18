@@ -11,8 +11,8 @@
 
 function Fire(spriteTexture,player,IceCreamManager) {
     this.kspeed = 1;
-    this.kXsize = 4;
-    this.kYsize = 4;
+    this.kXsize = 2;
+    this.kYsize = 2;
     this.kRotateValueByFrame = 1;
     
     this.mPlayer = player;
@@ -23,10 +23,10 @@ function Fire(spriteTexture,player,IceCreamManager) {
     this.isDead = false;
     
     this.mFire = new SpriteRenderable(spriteTexture);
-    this.mFire.setColor([0, 0, 1, 0]);
+    this.mFire.setColor([0, 0, 1, 0.1]);
     this.mFire.getXform().setPosition(player.mPlayer.getXform().getXPos(),player.mPlayer.getXform().getYPos());
     this.mFire.getXform().setSize(this.kXsize, this.kYsize);
-    this.mFire.setElementPixelPositions(640,768,256,384);
+    this.mFire.setElementPixelPositions(510, 595, 23, 153);
     
     GameObject.call(this, this.mFire);
 }

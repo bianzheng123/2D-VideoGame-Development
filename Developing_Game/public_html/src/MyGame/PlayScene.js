@@ -125,10 +125,9 @@ PlayScene.prototype.draw = function () {
     this.mGeneralUI.draw(this.mCamera);
     this.mPlayUI.draw(this.mCamera);
     this.mFireManager.draw();
+    this.mFinishUI.draw(this.mCamera);
     this.mPlayerDirectionUI.draw(this.mCamera,this.mPlayer);
     this.mEventUI.draw();
-    this.mFinishUI.draw(this.mCamera);
-
 };
 
 PlayScene.prototype.update = function () {

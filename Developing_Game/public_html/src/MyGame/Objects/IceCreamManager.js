@@ -19,7 +19,7 @@ function IceCreamManager(spriteTexture,camera) {
     this.kp_no_buff = 0.2;//the probability of no buff;
     this.kp_speed_up_buff = 0.9;
     this.kp_fire_buff = 1;
-    this.kCreateIceCreamCountMax = 120;//每两秒出现一个冰淇凌
+    this.kCreateIceCreamCountMax = 300;//每5秒出现一个冰淇凌
     
     this.createIceCreamCount = 0;
     this.isAutoCreate = true;
