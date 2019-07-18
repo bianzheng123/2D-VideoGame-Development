@@ -12,10 +12,21 @@
 function IceCream(spriteTexture,Xindex,Yindex,buffNum) {
     this.kXindex = Xindex;
     this.kYindex = Yindex;
-    this.kHeight = 5;
-    this.kWidth = 5;
+    this.kHeight = 7;
+    this.kWidth = 7;
     this.kHalfMeltTime = 10;
     this.kFullMeltTime = 20;
+    this.kNoBuff_NotMelt_PixelPositions = [768,960,0,256];
+    this.kNoBuff_HalfMelt_PixelPositions = [960,1152,0,256];
+    this.kNoBuff_FullMelt_PixelPositions = [1152,1344,64,192];
+    
+    this.kSpeedUpBuff_NotMelt_PixelPositions = [768,960,256,512];
+    this.kSpeedUpBuff_HalfMelt_PixelPositions = [960,1152,256,512];
+    this.kSpeedUpBuff_FullMelt_PixelPositions = [1152,1344,320,448];
+    
+    this.kFireBuff_NotMelt_PixelPositions = [1344,1536,0,256];
+    this.kFireBuff_HalfMelt_PixelPositions = [1536,1728,0,256];
+    this.kFireBuff_FullMelt_PixelPositions = [1728,1920,64,192];
     this.kBuffEnum = {
         NO_BUFF:0,
         SPEED_UP_BUFF:1,
@@ -58,17 +69,18 @@ function IceCream(spriteTexture,Xindex,Yindex,buffNum) {
     this.mIceCream = new SpriteRenderable(spriteTexture);
     this.mIceCream.getXform().setPosition(this.mInitialPositionX ,this.mTargetPositionY + this.failingDistanceY);
     this.mIceCream.getXform().setSize(this.kWidth, this.kHeight);
+    this.mIceCream.setColor([0,0,0,0]);
     
     switch(this.mBuff){
         case this.kBuffEnum.NO_BUFF:
-            this.mIceCream.setColor([0, 0, 0.7, 1]);    break;
+            this.mIceCream.setElementPixelPositions(this.kNoBuff_NotMelt_PixelPositions[0],this.kNoBuff_NotMelt_PixelPositions[1],this.kNoBuff_NotMelt_PixelPositions[2],this.kNoBuff_NotMelt_PixelPositions[3]);    
+            break;
         case this.kBuffEnum.SPEED_UP_BUFF:
-            this.mIceCream.setColor([0,0.3,0.7,1]); break;
+            this.mIceCream.setElementPixelPositions(this.kSpeedUpBuff_NotMelt_PixelPositions[0],this.kSpeedUpBuff_NotMelt_PixelPositions[1],this.kSpeedUpBuff_NotMelt_PixelPositions[2],this.kSpeedUpBuff_NotMelt_PixelPositions[3]); break;
         case this.kBuffEnum.FIRE_BUFF:
-            this.mIceCream.setColor([0.3,0.3,0.7,1]);   break;
+            this.mIceCream.setElementPixelPositions(this.kFireBuff_NotMelt_PixelPositions[0],this.kFireBuff_NotMelt_PixelPositions[1],this.kFireBuff_NotMelt_PixelPositions[2],this.kFireBuff_NotMelt_PixelPositions[3]);   break;
         
     }
-    this.mIceCream.setElementPixelPositions(510, 595, 23, 153);
     GameObject.call(this,this.mIceCream);
     
     this.icecream = null;
@@ -127,11 +139,12 @@ IceCream.prototype._melt = function(){
         case this.kHalfMeltTime * 60:
             switch(this.mBuff){
                 case this.kBuffEnum.NO_BUFF:
-                    this.mIceCream.setColor([0, 0, 0.3, 1]);    break;
+                    this.mIceCream.setElementPixelPositions(this.kNoBuff_HalfMelt_PixelPositions[0],this.kNoBuff_HalfMelt_PixelPositions[1],this.kNoBuff_HalfMelt_PixelPositions[2],this.kNoBuff_HalfMelt_PixelPositions[3]);    
+                    break;
                 case this.kBuffEnum.SPEED_UP_BUFF:
-                    this.mIceCream.setColor([0,0.3,0.3,1]); break;
+                    this.mIceCream.setElementPixelPositions(this.kSpeedUpBuff_HalfMelt_PixelPositions[0],this.kSpeedUpBuff_HalfMelt_PixelPositions[1],this.kSpeedUpBuff_HalfMelt_PixelPositions[2],this.kSpeedUpBuff_HalfMelt_PixelPositions[3]); break;
                 case this.kBuffEnum.FIRE_BUFF:
-                    this.mIceCream.setColor([0.3,0.3,0.3,1]);   break;
+                    this.mIceCream.setElementPixelPositions(this.kFireBuff_HalfMelt_PixelPositions[0],this.kFireBuff_HalfMelt_PixelPositions[1],this.kFireBuff_HalfMelt_PixelPositions[2],this.kFireBuff_HalfMelt_PixelPositions[3]);   break;
             }
                 
             this.mState = this.kStateEnum.HALF_MELT;
@@ -140,11 +153,11 @@ IceCream.prototype._melt = function(){
         case this.kFullMeltTime * 60:
             switch(this.mBuff){
                 case this.kBuffEnum.NO_BUFF:
-                    this.mIceCream.setColor([0, 0, 0, 1]);    break;
+                    this.mIceCream.setElementPixelPositions(this.kNoBuff_FullMelt_PixelPositions[0],this.kNoBuff_FullMelt_PixelPositions[1],this.kNoBuff_FullMelt_PixelPositions[2],this.kNoBuff_FullMelt_PixelPositions[3]);    break;
                 case this.kBuffEnum.SPEED_UP_BUFF:
-                    this.mIceCream.setColor([0,0.3,0, 1]); break;
+                    this.mIceCream.setElementPixelPositions(this.kSpeedUpBuff_FullMelt_PixelPositions[0],this.kSpeedUpBuff_FullMelt_PixelPositions[1],this.kSpeedUpBuff_FullMelt_PixelPositions[2],this.kSpeedUpBuff_FullMelt_PixelPositions[3]); break;
                 case this.kBuffEnum.FIRE_BUFF:
-                    this.mIceCream.setColor([0.3,0.3,0,1]);   break;
+                    this.mIceCream.setElementPixelPositions(this.kFireBuff_FullMelt_PixelPositions[0],this.kFireBuff_FullMelt_PixelPositions[1],this.kFireBuff_FullMelt_PixelPositions[2],this.kFireBuff_FullMelt_PixelPositions[3]);   break;
             }
             
             this.mState = this.kStateEnum.FULL_MELT;
