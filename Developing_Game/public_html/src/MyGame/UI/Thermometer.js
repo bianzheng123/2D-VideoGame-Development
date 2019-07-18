@@ -15,7 +15,7 @@ function Thermometer(spriteTexture,camera) {
     this.mThermometer.setColor([1, 0.7, 0.1, 0]);
     this.mThermometer.getXform().setPosition(-25,23);
     this.mThermometer.getXform().setSize(50,3);
-    this.mThermometer.setElementPixelPositions(0, 975, 0, 64);
+    this.mThermometer.setElementPixelPositions(0, 1790, 1658, 1757);
    GameObject.call(this, this.mThermometer);
 }
 gEngine.Core.inheritPrototype(Thermometer, GameObject);

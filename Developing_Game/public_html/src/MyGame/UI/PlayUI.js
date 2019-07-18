@@ -1,10 +1,9 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function PlayUI(spriteTexture,camera,kThermometer,playscene) {
+function PlayUI(spriteTexture,camera,playscene) {
     this.kspriteTexture=spriteTexture;
     this.mCamera=camera;
-    this.kThermometer=kThermometer;
     this.kPlayscene=playscene;
     this.thermometer = null;
     this.thermometerPointer =null;
@@ -25,8 +24,8 @@ PlayUI.prototype.update = function(){
 };
 
 PlayUI.prototype.initialize = function(){
-    this.thermometer=new Thermometer(this.kThermometer,this.mCamera);
-    this.thermometerPointer=new ThermometerPointer(this.kThermometer,this.mCamera);
+    this.thermometer=new Thermometer(this.kspriteTexture,this.mCamera);
+    this.thermometerPointer=new ThermometerPointer(this.kspriteTexture,this.mCamera);
     this.countdown = new FontRenderable("3:00");
     this.countdown.setColor([0, 0, 0, 1]);
     this.countdown.getXform().setPosition(5,25);

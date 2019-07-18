@@ -59,7 +59,6 @@ PlayScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kSprite);
     gEngine.Textures.loadTexture(this.kBG);
     gEngine.Textures.loadTexture(this.kAtlas);
-    gEngine.Textures.loadTexture(this.kThermometer);
     
     gEngine.AudioClips.loadAudio(this.kPlayerEatIceCream);
 };
@@ -68,7 +67,6 @@ PlayScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kUIButton);
     gEngine.Textures.unloadTexture(this.kBG);
     gEngine.Textures.unloadTexture(this.kAtlas);
-    gEngine.Textures.unloadTexture(this.kThermometer);
     gEngine.Textures.unloadTexture(this.kSprite);
     
     gEngine.AudioClips.unloadAudio(this.kPlayerEatIceCream);
@@ -94,7 +92,7 @@ PlayScene.prototype.initialize = function () {
     
     this.mGeneralUI = new GeneralUI(this.kAtlas,this.mCamera);
     this.mGeneralUI.initialize();    
-    this.mPlayUI = new PlayUI(this.kAtlas,this.mCamera,this.kThermometer,this);
+    this.mPlayUI = new PlayUI(this.kSprite,this.mCamera,this);
     this.mPlayUI.initialize();
     this.mFinishUI = new FinishUI(this.kSprite,this.mCamera,this);
     this.mFinishUI.initialize();
