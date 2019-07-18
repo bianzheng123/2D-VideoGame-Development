@@ -20,7 +20,6 @@ function Fire(spriteTexture,player,IceCreamManager) {
     this.ktheta = Math.PI / 4;
     this.mIceCreamManager = IceCreamManager;
     
-    
     this.isDead = false;
     
     this.mFire = new SpriteRenderable(spriteTexture);
