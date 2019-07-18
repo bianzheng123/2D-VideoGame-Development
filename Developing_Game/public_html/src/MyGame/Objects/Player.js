@@ -482,7 +482,7 @@ Player.prototype._speedUp = function(){
 
 Player.prototype._increaseTempterature = function(){
     if(this._incTemperatureFrameCount >= this.kincTemperatureCountMax){
-        this.temperature++;
+        this.temperature+=1.1;
         this._incTemperatureFrameCount = 0;
     }else{
         this._incTemperatureFrameCount++;
