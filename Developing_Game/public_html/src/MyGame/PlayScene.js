@@ -81,7 +81,6 @@ PlayScene.prototype.initialize = function () {
     this.mMapManager = new MapManager(this.kAtlas,this.mCamera);
     this.mMapManager.initialize();
     this.mShadowManager = new ShadowManager(this.kAtlas,this.mCamera);
-    this.mShadowManager.initialize();
     
     
     this.mIceCreamManager = new IceCreamManager(this.kAtlas,this.mCamera);
