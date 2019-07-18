@@ -27,6 +27,7 @@ function Player(spriteTexture,camera,fireManager) {
         FALL:3
     };
     this.deathReason = this.DeathEnum.NOTDEAD;
+    
     this.kHeight = 6.5;
     this.kWidth = 6.5;
     this.kGravityAcceleration = 1;
@@ -259,21 +260,81 @@ Player.prototype._death = function(){
     if(!this.mIsDeathCountStart){
         this.accumulateValue=0;
         this.mPlayer.setColor([0.8, 0.6, 0.2, 0]);
-//        switch(this.deathReason){
-//            case this.DeathEnum.TRAP:
-//                if(this.direction === this.DirectionEnum.BOTTOM)
-//        }
-        this.getXform().incRotationByDegree(45);
+        switch(this.deathReason){
+            case this.DeathEnum.FALL:
+                if(this.direction === this.DirectionEnum.BOTTOM || 
+                    this.direction === this.DirectionEnum.BOTTOMRIGHT ||
+                    this.direction === this.DirectionEnum.RIGHT ||
+                    this.direction === this.DirectionEnum.TOPRIGHT){
+                    this.getXform().incRotationByDegree(-45);
+                }else{
+                    this.getXform().incRotationByDegree(45);
+                }
+                break;
+            case this.DeathEnum.FLYING_ICE_CREAM:
+                if(this.direction === this.DirectionEnum.BOTTOM || 
+                    this.direction === this.DirectionEnum.BOTTOMRIGHT ||
+                    this.direction === this.DirectionEnum.RIGHT ||
+                    this.direction === this.DirectionEnum.TOPRIGHT){
+                    this.getXform().incRotationByDegree(45);
+                }else{
+                    this.getXform().incRotationByDegree(-45);
+                }
+                break;
+            case this.DeathEnum.TRAP:
+                if(this.direction === this.DirectionEnum.BOTTOM || 
+                    this.direction === this.DirectionEnum.BOTTOMRIGHT ||
+                    this.direction === this.DirectionEnum.RIGHT ||
+                    this.direction === this.DirectionEnum.TOPRIGHT){
+                    this.getXform().incRotationByDegree(-45);
+                }else{
+                    this.getXform().incRotationByDegree(45);
+                }
+                break;
+        }
+        
         this.mIsDeathCountStart = true;
     }else{
         if(this.mCountFrameDeath >= 120){
             this.mIsDeathCountStart = false;
             this.mIsDead = false;
             this.getXform().setPosition(this.mLastXpos,this.mLastYpos);
-            this.getXform().incRotationByDegree(-45);
+            switch(this.deathReason){
+                case this.DeathEnum.FALL:
+                    if(this.direction === this.DirectionEnum.BOTTOM || 
+                        this.direction === this.DirectionEnum.BOTTOMRIGHT ||
+                        this.direction === this.DirectionEnum.RIGHT ||
+                        this.direction === this.DirectionEnum.TOPRIGHT){
+                        this.getXform().incRotationByDegree(45);
+                    }else{
+                        this.getXform().incRotationByDegree(-45);
+                    }
+                    break;
+                case this.DeathEnum.FLYING_ICE_CREAM:
+                    if(this.direction === this.DirectionEnum.BOTTOM || 
+                        this.direction === this.DirectionEnum.BOTTOMRIGHT ||
+                        this.direction === this.DirectionEnum.RIGHT ||
+                        this.direction === this.DirectionEnum.TOPRIGHT){
+                        this.getXform().incRotationByDegree(-45);
+                    }else{
+                        this.getXform().incRotationByDegree(45);
+                    }
+                    break;
+                case this.DeathEnum.TRAP:
+                    if(this.direction === this.DirectionEnum.BOTTOM || 
+                        this.direction === this.DirectionEnum.BOTTOMRIGHT ||
+                        this.direction === this.DirectionEnum.RIGHT ||
+                        this.direction === this.DirectionEnum.TOPRIGHT){
+                        this.getXform().incRotationByDegree(45);
+                    }else{
+                        this.getXform().incRotationByDegree(-45);
+                    }
+                    break;
+            }
             this.mCountFrameDeath = 0;
             this.t_pre_isDead = false;
             this.canEatIceCream = true;
+            this.deathReason = this.DeathEnum.NOTDEAD;
         }
         this.mCountFrameDeath++;
     }
@@ -318,6 +379,7 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
     if(mIceCreamArray[i].canBeKnocked){//knocked
         this.temperature -= 1;
         this.mIsDead = true;
+        this.deathReason = this.DeathEnum.FLYING_ICE_CREAM;
         mIceCreamArray[i] = null;
     }else if(mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.NOT_MELT
             || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.HALF_MELT
@@ -338,6 +400,7 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
             case l.kStateEnum.FULL_MELT:
                 this.temperature -= l.kDecTemperatureEnum.FULL_MELT;    
                 this.mIsDead = true;
+                this.deathReason = this.DeathEnum.TRAP;
                 break;
         }
         if(l.mState !== l.kStateEnum.FULL_MELT){
