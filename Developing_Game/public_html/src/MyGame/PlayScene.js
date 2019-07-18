@@ -14,7 +14,7 @@
 function PlayScene() {
     //to Upload the background
     this.kBG = "assets/background.png";
-    this.kPlayerPicture = "assets/sprite.png";
+    this.kSprite = "assets/sprite.png";
     this.kAtlas = "assets/white.png";
     this.kUIButton = "assets/UI/button.png";
     this.kUIButton = "assets/UI/SimpleButton.png";
@@ -53,7 +53,7 @@ gEngine.Core.inheritPrototype(PlayScene, Scene);
 
 PlayScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kUIButton);
-    gEngine.Textures.loadTexture(this.kPlayerPicture);
+    gEngine.Textures.loadTexture(this.kSprite);
     gEngine.Textures.loadTexture(this.kBG);
     gEngine.Textures.loadTexture(this.kAtlas);
     gEngine.Textures.loadTexture(this.kThermometer);
@@ -65,7 +65,7 @@ PlayScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBG);
     gEngine.Textures.unloadTexture(this.kAtlas);
     gEngine.Textures.unloadTexture(this.kThermometer);
-    gEngine.Textures.unloadTexture(this.kPlayerPicture);
+    gEngine.Textures.unloadTexture(this.kSprite);
 };
 
 PlayScene.prototype.initialize = function () {
@@ -99,10 +99,10 @@ PlayScene.prototype.initialize = function () {
     
     this.mIceCreamManager = new IceCreamManager(this.kAtlas,this.mCamera);
     this.mFireManager = new FireManager(this.kAtlas,this.mCamera,this.mIceCreamManager);
-    this.mPlayer = new Player(this.kPlayerPicture,this.mCamera,this.mFireManager);
+    this.mPlayer = new Player(this.kSprite,this.mCamera,this.mFireManager);
     this.mPlayer.initialize();
     
-    this.mPlayerDirectionUI = new PlayerDirectionUI(this.kAtlas,this.mPlayer);
+    this.mPlayerDirectionUI = new PlayerDirectionUI(this.kSprite,this.mPlayer);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more

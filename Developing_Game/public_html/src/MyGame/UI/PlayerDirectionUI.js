@@ -10,7 +10,7 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function PlayerDirectionUI(spriteTexture,player) {
-    this.val = 10;
+    this.val = 6;
     this.directionPositionEnum = {
         RIGHT:[this.val,0],
         TOPRIGHT:[this.val,this.val],
@@ -27,8 +27,8 @@ function PlayerDirectionUI(spriteTexture,player) {
     this.mPlayerDirectionUI.setColor([0, 0, 0, 0]);
     var relative_dirRight = this.directionPositionEnum.RIGHT;
     this.mPlayerDirectionUI.getXform().setPosition(this.mPlayer.getXform().getXPos() + relative_dirRight[0], this.mPlayer.getXform().getYPos() + relative_dirRight[1]);
-    this.mPlayerDirectionUI.getXform().setSize(this.kWidth,this.kHeight);
-    this.mPlayerDirectionUI.setElementPixelPositions(0, 331, 1790, 2048);
+    this.mPlayerDirectionUI.getXform().setSize(5,5);
+    this.mPlayerDirectionUI.setElementPixelPositions(513, 640, 256, 384);
     
         
     GameObject.call(this, this.mPlayerDirectionUI);
@@ -111,7 +111,8 @@ PlayerDirectionUI.prototype.update = function(){
             
     }
     this.pre_dir = dir;
-    console.log(this.mPlayerDirectionUI.getXform().getPosition());
+//    console.log(this.mPlayerDirectionUI.getXform().getPosition() + " " + this.mPlayer.getXform().getPosition());
+    
 //    console.log(dir);
 };
 
