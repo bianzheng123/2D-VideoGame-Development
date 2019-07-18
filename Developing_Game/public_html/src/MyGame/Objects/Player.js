@@ -225,7 +225,7 @@ Player.prototype._jump = function(){
         var color=this.mPlayer.getColor();
         color[3]+=0.003;
         this.shakingCount++;
-        var shakingMagnitude=this.accumulateValue/4;
+        var shakingMagnitude=this.accumulateValue/2;
         var xShift=(Math.random()>0.5?1:(-1))*Math.sin(this.shakingCount/2)*shakingMagnitude;
         var yShift=(Math.random()>0.5?1:(-1))*Math.sin(this.shakingCount/2)*shakingMagnitude;
 //        document.getElementById("st7").innerHTML="xShift:"+xShift+"<br /> shakingCount:"+this.shakingCount+"<br /> accumulateValue:"+this.accumulateValue;
@@ -406,6 +406,7 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
         this.temperature -= 1;
         this.mIsDead = true;
         this.deathReason = this.DeathEnum.FLYING_ICE_CREAM;
+        mIceCreamArray[i].shadow.destroy();
         mIceCreamArray[i] = null;
     }else if(mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.NOT_MELT
             || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.HALF_MELT
@@ -447,7 +448,8 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
         }
         if(this.temperature<0){
             this.temperature=0;
-        }
+        }        
+        mIceCreamArray[i].shadow.destroy();
         mIceCreamArray[i] = null;
         l = null;
     }

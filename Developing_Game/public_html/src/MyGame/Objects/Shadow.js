@@ -15,3 +15,6 @@ gEngine.Core.inheritPrototype(Shadow, GameObject);
 Shadow.prototype.update = function (originalX,originalY) {
     this.mShadow.getXform().setPosition(originalX,originalY);
 };
+Shadow.prototype.destroy=function(){
+    this.mShadow.setElementPixelPositions(2046, 2047, 0, 1);
+}
