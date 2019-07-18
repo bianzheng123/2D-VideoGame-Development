@@ -27,6 +27,7 @@ function Player(spriteTexture,camera,fireManager) {
         FALL:3
     };
     this.deathReason = this.DeathEnum.NOTDEAD;
+    this.kPictureArray = new Array(6);//这个以后搞
     
     this.kHeight = 6.5;
     this.kWidth = 6.5;
@@ -98,13 +99,17 @@ function Player(spriteTexture,camera,fireManager) {
     this.pright=105;
     this.pbottom=0;
     this.ptop=512-424;
-    this.mPlayer.setElementPixelPositions(0, 105, 0, 512-424);
+    this.mPlayer.setElementPixelPositions(0, 331, 1790, 2048);
         
     this.shakingCount = 0;
     GameObject.call(this, this.mPlayer);
 }
 gEngine.Core.inheritPrototype(Player, GameObject);
 
+Player.prototype.initialize = function(){
+    this.kPictureArray[0] = [0,331,1790,2048];
+    this.kPictureArray[1] = [];
+};
 
 Player.prototype.update = function (mIceCreamArray,mapManager) {
     if(!this.mIsDead){

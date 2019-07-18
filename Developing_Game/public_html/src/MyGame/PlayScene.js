@@ -14,6 +14,7 @@
 function PlayScene() {
     //to Upload the background
     this.kBG = "assets/background.png";
+    this.kPlayerPicture = "assets/sprite.png";
     this.kAtlas = "assets/white.png";
     this.kUIButton = "assets/UI/button.png";
     this.kUIButton = "assets/UI/SimpleButton.png";
@@ -33,6 +34,7 @@ function PlayScene() {
     this.mGeneralUI = null;
     this.mPlayUI = null;
     this.mFinishUI = null;
+    this.mPlayerDirectionUI = null;
     
     this.timeLast = 0;
     this.timeLastFrameCount = 0;
@@ -51,6 +53,7 @@ gEngine.Core.inheritPrototype(PlayScene, Scene);
 
 PlayScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kUIButton);
+    gEngine.Textures.loadTexture(this.kPlayerPicture);
     gEngine.Textures.loadTexture(this.kBG);
     gEngine.Textures.loadTexture(this.kAtlas);
     gEngine.Textures.loadTexture(this.kThermometer);
@@ -60,8 +63,9 @@ PlayScene.prototype.loadScene = function () {
 PlayScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kUIButton);
     gEngine.Textures.unloadTexture(this.kBG);
-    gEngine.Textures.loadTexture(this.kAtlas);
-    gEngine.Textures.loadTexture(this.kThermometer);
+    gEngine.Textures.unloadTexture(this.kAtlas);
+    gEngine.Textures.unloadTexture(this.kThermometer);
+    gEngine.Textures.unloadTexture(this.kPlayerPicture);
 };
 
 PlayScene.prototype.initialize = function () {
@@ -95,7 +99,10 @@ PlayScene.prototype.initialize = function () {
     
     this.mIceCreamManager = new IceCreamManager(this.kAtlas,this.mCamera);
     this.mFireManager = new FireManager(this.kAtlas,this.mCamera,this.mIceCreamManager);
-    this.mPlayer = new Player(this.kAtlas,this.mCamera,this.mFireManager);
+    this.mPlayer = new Player(this.kPlayerPicture,this.mCamera,this.mFireManager);
+    this.mPlayer.initialize();
+    
+    this.mPlayerDirectionUI = new PlayerDirectionUI(this.kAtlas,this.mPlayer);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -114,6 +121,7 @@ PlayScene.prototype.draw = function () {
     this.mPlayUI.draw(this.mCamera);
     this.mFireManager.draw();
     this.mFinishUI.draw(this.mCamera);
+    this.mPlayerDirectionUI.draw(this.mCamera,this.mPlayer);
 };
 
 PlayScene.prototype.update = function () {
@@ -145,6 +153,7 @@ PlayScene.prototype.update = function () {
         
         this._setMsg();
         this.mFireManager.update();
+        this.mPlayerDirectionUI.update();
     }else{
         this.mFinishUI.update(this.mPlayer.eatIceCreamCount);
     }
