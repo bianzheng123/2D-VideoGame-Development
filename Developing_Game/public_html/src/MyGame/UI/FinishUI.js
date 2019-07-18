@@ -4,8 +4,9 @@
 function FinishUI(spriteTexture,camera,playscene) {
     this.kPlayscene=playscene;
     this.kspriteTexture=spriteTexture;
-    this.mCamera=camera;
-    this.UIText = new UIText("text",[500,200],4,1,0,[0,0,0,1]);
+    this.mCamera=camera;//UIText
+    this.timeLast = new UIText("text",[500,225],4,1,0,[0,0,0,1]);
+    this.iceCreamEatCountText = new UIText("text",[500,200],4,1,0,[0,0,0,1]);
     this.ReplayButton = new UIButton(this.replaySelect,this,[500,130],[200,40],"Replay",4);
     this.MainMenuButton = new UIButton(this.replayMainMenu,this,[500,80],[200,40],"Main Menu",4);
     this.winScene=null;
@@ -26,14 +27,16 @@ FinishUI.prototype.initialize=function(){
 FinishUI.prototype.update = function(iceCreamEatCount){
     this.ReplayButton.update();
     this.MainMenuButton.update();
-    this.UIText.setText("Icecream you ate: " + iceCreamEatCount);
+    this.iceCreamEatCountText.setText("Icecream you ate: " + iceCreamEatCount);
+    this.timeLast.setText("Time you have survived: " + this.kPlayscene.timeLast);
 };
 
 FinishUI.prototype.draw = function () {
     if(this.kPlayscene.isVictory||this.kPlayscene.isLost){
         this.ReplayButton.draw(this.mCamera);
         this.MainMenuButton.draw(this.mCamera); 
-        this.UIText.draw(this.mCamera);
+        this.iceCreamEatCountText.draw(this.mCamera);
+        this.timeLast.draw(this.mCamera);
     }      
     if(this.kPlayscene.isVictory){
         this.winScene.draw(this.mCamera);
@@ -46,7 +49,7 @@ FinishUI.prototype.draw = function () {
 };
 FinishUI.prototype.replaySelect=function(){
     gEngine.Core.startScene(new PlayScene());
-}
+};
 FinishUI.prototype.replayMainMenu=function(){
     gEngine.Core.startScene(new MyGame());
-}
+};

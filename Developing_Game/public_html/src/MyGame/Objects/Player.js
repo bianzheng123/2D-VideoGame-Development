@@ -62,7 +62,7 @@ function Player(spriteTexture,camera,fireManager) {
     this.mCountFrameDeath = 0;//for the death part
     
     this.speed = this.kOriginSpeed;
-    this.temperature = 99;//初始温度, range is [0, 100]
+    this.temperature = 50;//初始温度, range is [0, 100]
     this.direction=this.DirectionEnum.RIGHT;
     
     this.comaTime = 0; // 0 for not in coma yet

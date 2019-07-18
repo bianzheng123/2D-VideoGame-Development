@@ -33,6 +33,10 @@ function PlayScene() {
     this.mGeneralUI = null;
     this.mPlayUI = null;
     this.mFinishUI = null;
+    
+    this.timeLast = 0;
+    this.timeLastFrameCount = 0;
+    
     this.stopUpdating = false;
     this.isVictory = false;
     this.isLost = false;
@@ -114,6 +118,9 @@ PlayScene.prototype.draw = function () {
 
 PlayScene.prototype.update = function () {
     if(!this.stopUpdating){
+        this.timeLastFrameCount++;
+        this.timeLast = Number.parseFloat(this.timeLastFrameCount / 60).toFixed(1);
+        
         this.mIceCreamManager.update(this.mMapManager);
         this.mMapManager.update();
         this._updatePlayerPositionByIndex();
