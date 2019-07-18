@@ -20,12 +20,21 @@ function Player(spriteTexture,camera,fireManager) {
         BOTTOM: 6,
         BOTTOMRIGHT: 7
     };
+    this.DeathEnum = {
+        NOTDEAD:0,
+        TRAP:1,
+        FLYING_ICE_CREAM:2,
+        FALL:3
+    };
+    this.
     this.kHeight = 6.5;
     this.kWidth = 6.5;
     this.kGravityAcceleration = 1;
     this.kspriteTexture = spriteTexture;
     this.kincTemperatureCountMax = 60;//平均120帧主角上升1°
     this.kTimeToVictory = 120;//10秒之后存活成功
+    
+    this.eatIceCreamCount = 0;
     
     this.kSpeedUpSpeed = 0.4;
     this.kOriginSpeed = 0.2;
@@ -315,9 +324,13 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
 
         switch(l.mState){
             case l.kStateEnum.NOT_MELT:
-                this.temperature -= l.kDecTemperatureEnum.NOT_MELT; break;
+                this.temperature -= l.kDecTemperatureEnum.NOT_MELT; 
+                this.eatIceCreamCount++;
+                break;
             case l.kStateEnum.HALF_MELT:
-                this.temperature -= l.kDecTemperatureEnum.HALF_MELT;    break;
+                this.temperature -= l.kDecTemperatureEnum.HALF_MELT;
+                this.eatIceCreamCount++;
+                break;
             case l.kStateEnum.FULL_MELT:
                 this.temperature -= l.kDecTemperatureEnum.FULL_MELT;    
                 this.mIsDead = true;

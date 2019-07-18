@@ -14,8 +14,8 @@ function IceCream(spriteTexture,Xindex,Yindex,buffNum) {
     this.kYindex = Yindex;
     this.kHeight = 5;
     this.kWidth = 5;
-    this.kHalfMeltTime = 3;
-    this.kFullMeltTime = 5;
+    this.kHalfMeltTime = 10;
+    this.kFullMeltTime = 20;
     this.kBuffEnum = {
         NO_BUFF:0,
         SPEED_UP_BUFF:1,
