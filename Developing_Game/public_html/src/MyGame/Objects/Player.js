@@ -460,7 +460,7 @@ Player.prototype._sprayFire = function(){
         this._SprayFireFrameCount = 0;
         this.isSprayFire = false;
     }else{
-        if(gEngine.Input.isKeyClicked(gEngine.Input.keys.F)){
+        if(gEngine.Input.isKeyClicked(gEngine.Input.keys.J)){
             this.kFireManager.createFire(this);
         }
         this._SprayFireFrameCount++;
