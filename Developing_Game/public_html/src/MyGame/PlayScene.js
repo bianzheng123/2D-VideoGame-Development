@@ -32,7 +32,7 @@ function PlayScene() {
     
     this.mGeneralUI = null;
     this.mPlayUI = null;
-    
+    this.mFinishUI = null;
     this.stopUpdating = false;
     this.isVictory = false;
     this.isLost = false;
@@ -78,11 +78,12 @@ PlayScene.prototype.initialize = function () {
     bgR.getXform().setPosition(0, 0);
     this.mBg = new GameObject(bgR);
     
-    this.mGeneralUI = new GeneralUI(this.kspriteTexture,this.mCamera);
+    this.mGeneralUI = new GeneralUI(this.kAtlas,this.mCamera);
     this.mGeneralUI.initialize();    
-    this.mPlayUI = new PlayUI(this.kspriteTexture,this.mCamera,this.kThermometer,this);
+    this.mPlayUI = new PlayUI(this.kAtlas,this.mCamera,this.kThermometer,this);
     this.mPlayUI.initialize();
-    
+    this.mFinishUI = new FinishUI(this.kAtlas,this.mCamera,this);
+    this.mFinishUI.initialize();
     this.mMapManager = new MapManager(this.kAtlas,this.mCamera);
     this.mMapManager.initialize();
     this.mShadowManager = new ShadowManager(this.kAtlas,this.mCamera);
@@ -108,6 +109,7 @@ PlayScene.prototype.draw = function () {
     this.mGeneralUI.draw(this.mCamera);
     this.mPlayUI.draw(this.mCamera);
     this.mFireManager.draw();
+    this.mFinishUI.draw(this.mCamera);
 };
 
 PlayScene.prototype.update = function () {
@@ -136,6 +138,8 @@ PlayScene.prototype.update = function () {
         
         this._setMsg();
         this.mFireManager.update();
+    }else{
+        this.mFinishUI.update();
     }
     this.mGeneralUI.update();
     this.mPlayUI.update();
