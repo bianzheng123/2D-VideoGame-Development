@@ -58,12 +58,12 @@ MyGame.prototype.initialize = function () {
         140,                     // width of camera
         [10, 10, 975, 585]         // viewport (orgX, orgY, width, height)
     );
-    this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
+    this.mCamera.setBackgroundColor([1,234/255,167/255, 1]);
             // sets the background to gray
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
-    this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[475,400],[300,50],"Playscene Demo",4);
-    this.UITitle = new UIText("Temp Start Scene",[475,600],8,1,0,[0,0,0,1]);
+    this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[475,300],[300,50],"start game",6);
+    this.UITitle = new UIText("Haha & Coco (alpha)",[475,450],8,1,0,[0,0,0,1]);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
