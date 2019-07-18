@@ -20,17 +20,21 @@ function Player(spriteTexture) {
         BOTTOM: 6,
         BOTTOMRIGHT: 7
     };
+    this.kSpeedUpSpeed = 1;
+    this.kOriginSpeed = 0.2;
+    this.kSpeedUpTime = 3;
     this.kHeight = 6.5;
     this.kWidth = 6.5;
     this.kGravityAcceleration = 1;
     this.kincTemperatureCountMax = 60;//平均120帧主角上升1°
     this.kTimeToVictory = 120;//10秒之后存活成功
     
-    this.walkingSpeed = 0.2;
+    this.speed = this.kOriginSpeed;
     this.temperature = 50;//初始温度, range is [0, 100]
     this.direction=this.DirectionEnum.RIGHT;
-
  
+    this.isSpeedUp = false;
+    this._SpeedUpFrameCount = 0;
     this._incTemperatureFrameCount = 0;
     
     this.mXindex = 0;
@@ -59,8 +63,8 @@ function Player(spriteTexture) {
     this.expectedY = 0;//for the jump part
     this.isJumping = false;
     this.p_isJumping = false;
-    this.wait10FrameCount = 0;
-    this.has10FrameOut = true;
+    this.waitFrameCount = 0;
+    this.hasFrameOut = true;
     this.canEatIceCream = true;
     this.shouldWaitFrame = false;
     
@@ -91,6 +95,10 @@ Player.prototype.update = function (mIceCreamArray,mapManager) {
         if(this.mIsDead === true){
             this.t_pre_isDead = true;
         }
+        if(this.isSpeedUp){
+            this._speedUp();
+        }
+        console.log(this.speed);
     }else{
         this._death();
     }
@@ -103,39 +111,39 @@ Player.prototype._walk = function(){
     var xform = this.getXform();
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)){
         this._changeDir(this.DirectionEnum.LEFT);
-        xform.incXPosBy(-this.walkingSpeed);
+        xform.incXPosBy(-this.speed);
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)){
         this._changeDir(this.DirectionEnum.RIGHT);
-        xform.incXPosBy(this.walkingSpeed);
+        xform.incXPosBy(this.speed);
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
         this._changeDir(this.DirectionEnum.TOP);
-        xform.incYPosBy(this.walkingSpeed);
+        xform.incYPosBy(this.speed);
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
         this._changeDir(this.DirectionEnum.BOTTOM);
-        xform.incYPosBy(-this.walkingSpeed);
+        xform.incYPosBy(-this.speed);
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
         this._changeDir(this.DirectionEnum.TOPLEFT);
-        xform.incXPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
-        xform.incYPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+        xform.incXPosBy(this.speed*(1-Math.cos(Math.PI/4)));
+        xform.incYPosBy(-this.speed*(1-Math.cos(Math.PI/4)));
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
         this._changeDir(this.DirectionEnum.BOTTOMLEFT);
-        xform.incXPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
-        xform.incYPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+        xform.incXPosBy(this.speed*(1-Math.cos(Math.PI/4)));
+        xform.incYPosBy(this.speed*(1-Math.cos(Math.PI/4)));
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
         this._changeDir(this.DirectionEnum.TOPRIGHT);
-        xform.incXPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
-        xform.incYPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+        xform.incXPosBy(-this.speed*(1-Math.cos(Math.PI/4)));
+        xform.incYPosBy(-this.speed*(1-Math.cos(Math.PI/4)));
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
         this._changeDir(this.DirectionEnum.BOTTOMRIGHT);
-        xform.incXPosBy(-this.walkingSpeed*(1-Math.cos(Math.PI/4)));
-        xform.incYPosBy(this.walkingSpeed*(1-Math.cos(Math.PI/4)));
+        xform.incXPosBy(-this.speed*(1-Math.cos(Math.PI/4)));
+        xform.incYPosBy(this.speed*(1-Math.cos(Math.PI/4)));
     }
     if(!this.isJumping){
         this.originalX = xform.getXPos();
@@ -207,12 +215,12 @@ Player.prototype._jump = function(){
 };
 
 Player.prototype._waitFrame = function(){
-    if(this.wait10FrameCount >= 2){
+    if(this.waitFrameCount >= 2){
         this.canEatIceCream = true;
-        this.wait10FrameCount = 0;
+        this.waitFrameCount = 0;
         this.shouldWaitFrame = false;
     }else{
-        this.wait10FrameCount++;
+        this.waitFrameCount++;
     }
 };
 
@@ -243,8 +251,6 @@ Player.prototype._death = function(){
 
 Player.prototype._eatIceCream = function(mIceCreamArray,mapManager){
     var i,l;
-    console.log(mIceCreamArray.length);
-    console.log("fsdf1");
     for(i=0;i<mIceCreamArray.length;i++){
 //        console.log(mIceCreamArray.length);
         l = mIceCreamArray[i];
@@ -299,10 +305,18 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
                 this.mIsDead = true;
                 break;
         }
-//        switch(l.){
-//            
-//        }
-        console.log(l === null);
+        if(l.mState !== l.kStateEnum.FULL_MELT){
+            switch(l.mBuff){
+                case l.kBuffEnum.NO_BUFF:   
+                    break;
+                case l.kBuffEnum.SPEED_UP_BUFF: 
+                    this.isSpeedUp = true;
+                    this._SpeedUpFrameCount = 0;
+                    break;
+                case l.kBuffEnum.FIRE_BUFF: 
+                    break;
+            }
+        }
         if(this.temperature<0){
             this.temperature=0;
         }
@@ -310,6 +324,18 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
         l = null;
     }
 
+};
+
+Player.prototype._speedUp = function(){
+    if(this._SpeedUpFrameCount >= this.kSpeedUpTime * 60){
+        this._SpeedUpFrameCount = 0;
+        this.speed = this.kOriginSpeed;
+        this.isSpeedUp = false;
+    }else{
+        this.speed = this.kSpeedUpSpeed;
+        this._SpeedUpFrameCount++;
+        console.log(this._SpeedUpFrameCount);
+    }
 };
 
 

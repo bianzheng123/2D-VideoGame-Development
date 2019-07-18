@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function IceCream(spriteTexture,Xindex,Yindex,buffEnum) {
+function IceCream(spriteTexture,Xindex,Yindex,buffNum) {
     this.kXindex = Xindex;
     this.kYindex = Yindex;
     this.kHeight = 5;
@@ -33,7 +33,7 @@ function IceCream(spriteTexture,Xindex,Yindex,buffEnum) {
         HALF_MELT: 3,
         FULL_MELT: -1
     };
-    this.mBuff = buffEnum; 
+    this.mBuff = buffNum; 
     this.mState = this.kStateEnum.FLYING;
     this.mFrameCount = 0;
     

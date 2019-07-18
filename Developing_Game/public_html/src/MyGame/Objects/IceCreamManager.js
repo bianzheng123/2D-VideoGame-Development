@@ -16,7 +16,7 @@ function IceCreamManager(spriteTexture,camera) {
     this.mCocoArray = [];
     this.mCocoShadowArray = [];
     this.mIcecreamShadowArray = [];
-    this.kp_no_buff = 0.8;//the probability of no buff;
+    this.kp_no_buff = 0.2;//the probability of no buff;
     this.kp_speed_up_buff = 0.9;
     this.kp_fire_buff = 1;
     this.kCreateIceCreamCountMax = 120;//每两秒出现一个冰淇凌
@@ -57,7 +57,7 @@ IceCreamManager.prototype.update = function (mapManager) {
         l = this.mCocoArray[i];
         if(l !== null){
             l.update();
-            l.shadow.update(l.mCoco.getXform().getXPos(),l.mCoco.getXform().getYPos()-25)
+            l.shadow.update(l.mCoco.getXform().getXPos(),l.mCoco.getXform().getYPos()-25);
         }
     }//update Coco
     
