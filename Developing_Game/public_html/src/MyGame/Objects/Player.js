@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Player(spriteTexture,camera,fireManager) {
+function Player(spriteTexture) {
     this.DirectionEnum={
         RIGHT: 0,
         TOPRIGHT: 1,
@@ -20,27 +20,21 @@ function Player(spriteTexture,camera,fireManager) {
         BOTTOM: 6,
         BOTTOMRIGHT: 7
     };
+    this.kSpeedUpSpeed = 1;
+    this.kOriginSpeed = 0.2;
+    this.kSpeedUpTime = 3;
     this.kHeight = 6.5;
     this.kWidth = 6.5;
     this.kGravityAcceleration = 1;
-    this.kspriteTexture = spriteTexture;
     this.kincTemperatureCountMax = 60;//平均120帧主角上升1°
     this.kTimeToVictory = 120;//10秒之后存活成功
     
-    this.kSpeedUpSpeed = 0.4;
-    this.kOriginSpeed = 0.2;
-    this.kSpeedUpTime = 5;//for the speed up buff
-    
-    this.kSprayFireTime = 5;//喷火
-
+    this.speed = this.kOriginSpeed;
+    this.temperature = 50;//初始温度, range is [0, 100]
+    this.direction=this.DirectionEnum.RIGHT;
+ 
     this.isSpeedUp = false;
     this._SpeedUpFrameCount = 0;
-    
-    this.kFireManager = fireManager;
-    this.kCamera = camera;
-    this.isSprayFire = false;
-    this._SprayFireFrameCount = 0;//for init fire
-    
     this._incTemperatureFrameCount = 0;
     
     this.mXindex = 0;
@@ -51,10 +45,6 @@ function Player(spriteTexture,camera,fireManager) {
     this.mIsDead = false;
     this.mIsDeathCountStart = false;
     this.mCountFrameDeath = 0;//for the death part
-    
-    this.speed = this.kOriginSpeed;
-    this.temperature = 50;//初始温度, range is [0, 100]
-    this.direction=this.DirectionEnum.RIGHT;
     
     this.comaTime = 0; // 0 for not in coma yet
     this.flamming = 0; // 0 for no flamming buff
@@ -108,15 +98,7 @@ Player.prototype.update = function (mIceCreamArray,mapManager) {
         if(this.isSpeedUp){
             this._speedUp();
         }
-        if(this.isSprayFire){
-            this._sprayFire();
-        }
-        
-        if(gEngine.Input.isKeyPressed(gEngine.Input.keys.G)){
-            this.isSprayFire = true;
-            console.log("sprayFire: " + this.isSprayFire);
-        }
-        
+        console.log(this.speed);
     }else{
         this._death();
     }
@@ -332,8 +314,6 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
                     this._SpeedUpFrameCount = 0;
                     break;
                 case l.kBuffEnum.FIRE_BUFF: 
-                    this.isSprayFire = true;
-                    this._SprayFireFrameCount = 0;
                     break;
             }
         }
@@ -343,19 +323,7 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
         mIceCreamArray[i] = null;
         l = null;
     }
-};
 
-Player.prototype._sprayFire = function(){
-    if(this._SprayFireFrameCount >= this.kSprayFireTime * 60){
-        this._SprayFireFrameCount = 0;
-        this.isSprayFire = false;
-    }else{
-        if(gEngine.Input.isKeyPressed(gEngine.Input.keys.F)){
-            this.kFireManager.createFire(this);
-        }
-        this._SprayFireFrameCount++;
-        console.log(this._SprayFireFrameCount);
-    }
 };
 
 Player.prototype._speedUp = function(){
@@ -366,6 +334,7 @@ Player.prototype._speedUp = function(){
     }else{
         this.speed = this.kSpeedUpSpeed;
         this._SpeedUpFrameCount++;
+        console.log(this._SpeedUpFrameCount);
     }
 };
 
