@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Player(spriteTexture,camera,fireManager) {
+function Player(spriteTexture,camera,fireManager,audio_EatIceCream) {
     this.DirectionEnum={
         RIGHT: 0,
         TOPRIGHT: 1,
@@ -35,6 +35,7 @@ function Player(spriteTexture,camera,fireManager) {
     this.kspriteTexture = spriteTexture;
     this.kincTemperatureCountMax = 60;//平均120帧主角上升1°
     this.kTimeToVictory = 120;//10秒之后存活成功
+    this.kAudio_EatIceCream = audio_EatIceCream;
     
     this.eatIceCreamCount = 0;
     
@@ -219,7 +220,7 @@ Player.prototype._jump = function(){
         var shakingMagnitude=this.accumulateValue/4;
         var xShift=(Math.random()>0.5?1:(-1))*Math.sin(this.shakingCount/2)*shakingMagnitude;
         var yShift=(Math.random()>0.5?1:(-1))*Math.sin(this.shakingCount/2)*shakingMagnitude;
-        document.getElementById("st7").innerHTML="xShift:"+xShift+"<br /> shakingCount:"+this.shakingCount+"<br /> accumulateValue:"+this.accumulateValue;
+//        document.getElementById("st7").innerHTML="xShift:"+xShift+"<br /> shakingCount:"+this.shakingCount+"<br /> accumulateValue:"+this.accumulateValue;
         this.mPlayer.setElementPixelPositions(this.pleft-xShift,this.pright-xShift,this.pbottom-yShift,this.ptop-yShift);
     }
     if((!gEngine.Input.isKeyPressed(gEngine.Input.keys.Space))&&this.accumulateValue!=0&&!this.isJumping){
@@ -390,6 +391,8 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
             || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.HALF_MELT
             || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.FULL_MELT
             && this.canEatIceCream){
+        gEngine.AudioClips.playACue(this.kAudio_EatIceCream,40);
+        
         
         l = mIceCreamArray[i];
 

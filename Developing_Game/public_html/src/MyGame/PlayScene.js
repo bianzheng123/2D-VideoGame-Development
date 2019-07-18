@@ -19,7 +19,9 @@ function PlayScene() {
     this.kUIButton = "assets/UI/button.png";
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kThermometer ="assets/thermometer.png";
+    
     //need the wav file(to play audio)
+    this.kPlayerEatIceCream = "assets/AudioTest/EatIceCream.wav";
     
     // The camera to view the scene
     this.mCamera = null;
@@ -58,6 +60,7 @@ PlayScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kAtlas);
     gEngine.Textures.loadTexture(this.kThermometer);
     
+    gEngine.AudioClips.loadAudio(this.kPlayerEatIceCream);
 };
 
 PlayScene.prototype.unloadScene = function () {
@@ -66,6 +69,8 @@ PlayScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kAtlas);
     gEngine.Textures.unloadTexture(this.kThermometer);
     gEngine.Textures.unloadTexture(this.kSprite);
+    
+    gEngine.AudioClips.unloadAudio(this.kPlayerEatIceCream);
 };
 
 PlayScene.prototype.initialize = function () {
@@ -99,7 +104,7 @@ PlayScene.prototype.initialize = function () {
     
     this.mIceCreamManager = new IceCreamManager(this.kAtlas,this.mCamera);
     this.mFireManager = new FireManager(this.kAtlas,this.mCamera,this.mIceCreamManager);
-    this.mPlayer = new Player(this.kSprite,this.mCamera,this.mFireManager);
+    this.mPlayer = new Player(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream);
     this.mPlayer.initialize();
     
     this.mPlayerDirectionUI = new PlayerDirectionUI(this.kSprite,this.mPlayer);
@@ -151,7 +156,7 @@ PlayScene.prototype.update = function () {
             this.stopUpdating = true;
         }
         
-        this._setMsg();
+//        this._setMsg();
         this.mFireManager.update();
         this.mPlayerDirectionUI.update();
     }else{
