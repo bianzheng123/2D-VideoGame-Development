@@ -26,7 +26,7 @@ function Player(spriteTexture,camera,fireManager) {
         FLYING_ICE_CREAM:2,
         FALL:3
     };
-    this.
+    this.deathReason = this.DeathEnum.NOTDEAD;
     this.kHeight = 6.5;
     this.kWidth = 6.5;
     this.kGravityAcceleration = 1;
@@ -259,6 +259,10 @@ Player.prototype._death = function(){
     if(!this.mIsDeathCountStart){
         this.accumulateValue=0;
         this.mPlayer.setColor([0.8, 0.6, 0.2, 0]);
+//        switch(this.deathReason){
+//            case this.DeathEnum.TRAP:
+//                if(this.direction === this.DirectionEnum.BOTTOM)
+//        }
         this.getXform().incRotationByDegree(45);
         this.mIsDeathCountStart = true;
     }else{
