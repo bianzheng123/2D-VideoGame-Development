@@ -22,11 +22,13 @@ FireManager.prototype.update = function(){
     for(i=0;i<this.mFireArray.length;i++){
         l = this.mFireArray[i];
         if(l !== null){
-            l.update();
             if(l.isDead || l.mFire.getXform().getXPos() > 200 || l.mFire.getXform().getXPos() < -200){
                 l = null;
                 this.mFireArray[i] = null;
+            }else{
+                l.update();
             }
+            
         }
     }
 };
