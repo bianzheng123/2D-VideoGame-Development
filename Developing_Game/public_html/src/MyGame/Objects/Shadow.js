@@ -8,7 +8,6 @@ function Shadow(spriteTexture,xform) {
     this.mShadow.getXform().setPosition(xform[0],xform[1]);
     this.mShadow.getXform().setSize(xform[2],xform[3]);
     this.mShadow.setElementPixelPositions(510, 595, 23, 153);
-
     GameObject.call(this, this.mShadow);
 }
 gEngine.Core.inheritPrototype(Shadow, GameObject);

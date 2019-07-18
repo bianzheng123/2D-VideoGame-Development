@@ -116,7 +116,7 @@ PlayScene.prototype.update = function () {
         this.mPlayer.update(this.mIceCreamManager.mIceCreamArray,this.mMapManager);
         //_updatePlayerPositionByIndex必须要在this.mPlayer.update前面
         
-        this.mShadowManager.update([this.mPlayer.originalX,this.mPlayer.originalY],[-100,-20],[-100,-20]);
+        this.mShadowManager.HahaUpdate([this.mPlayer.originalX,this.mPlayer.originalY]);
         //press z to create an iceCream
         
         this._approachVictory();

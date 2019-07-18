@@ -66,6 +66,8 @@ function IceCream(spriteTexture,Xindex,Yindex,buffEnum) {
     this.mIceCream.setElementPixelPositions(510, 595, 23, 153);
     GameObject.call(this,this.mIceCream);
     
+    this.icecream = null;
+    this.shadowYPos = null;
 }
 gEngine.Core.inheritPrototype(IceCream, GameObject);
 

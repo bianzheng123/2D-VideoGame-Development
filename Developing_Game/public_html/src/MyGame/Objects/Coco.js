@@ -23,7 +23,7 @@ function Coco(spriteTexture,IceCream) {
     
     this.mState = this.kStateEnum.BRINGING;
     this.mIceCream = IceCream;
-    
+    this.shadow = null;
     this.kBringingVelocity = this.mIceCream.kFlyingVelocity;
     this.kNotBringingVelocity = this.mIceCream.kFlyingVelocity * 3;
     this.kFlyingTheta = 45;
