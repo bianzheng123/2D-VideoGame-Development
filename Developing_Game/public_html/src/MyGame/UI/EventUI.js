@@ -38,12 +38,12 @@ EventUI.prototype.update = function(){
         this.mSpeedUpUI.setColor(this.darkColor);
     }
     if(this.mPlayer.isSprayFire){
-        this.mSpeedUpUI.setColor(this.lightColor);
+        this.mSprayFireUI.setColor(this.lightColor);
     }else{
-        this.mSpeedUpUI.setColor([0.7,0.7,0.7,1]);
+        this.mSprayFireUI.setColor(this.darkColor);
     }
-    console.log("fire: " + this.mPlayer.isSprayFire);
-    console.log("speed up: " + this.mPlayer.isSpeedUp);
+//    console.log("fire: " + this.mPlayer.isSprayFire);
+//    console.log("speed up: " + this.mPlayer.isSpeedUp);
 };
 
 EventUI.prototype.draw = function(){
