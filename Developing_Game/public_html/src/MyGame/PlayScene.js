@@ -76,7 +76,7 @@ PlayScene.prototype.initialize = function () {
     bgR.getXform().setPosition(0, 0);
     this.mBg = new GameObject(bgR);
     
-    this.mUIManager = new UIManager(this.kAtlas,this.mCamera,this.kThermometer);
+    this.mUIManager = new UIManager(this.kAtlas,this.mCamera,this.kThermometer,this);
     this.mUIManager.initialize();
     this.mMapManager = new MapManager(this.kAtlas,this.mCamera);
     this.mMapManager.initialize();
@@ -128,9 +128,10 @@ PlayScene.prototype.update = function () {
         }
         
         this._setMsg();
-        this.mUIManager.update(this);
 
     }
+    this.mUIManager.update(this);
+
 
     
 };

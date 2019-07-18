@@ -1,12 +1,13 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function UIManager(spriteTexture,camera,kThermometer) {
+function UIManager(spriteTexture,camera,kThermometer,playScene) {
     this.kspriteTexture=spriteTexture;
     this.mCamera=camera;
     this.kThermometer=kThermometer;
     this.mGeneralUI = null;
     this.mPlayUI = null;
+    this.kPlayscene=playScene;
 }
 
 UIManager.prototype.update = function(playscene){
@@ -17,7 +18,7 @@ UIManager.prototype.update = function(playscene){
 UIManager.prototype.initialize = function(){
     this.mGeneralUI = new GeneralUI(this.kspriteTexture,this.mCamera);
     this.mGeneralUI.initialize();    
-    this.mPlayUI = new PlayUI(this.kspriteTexture,this.mCamera,this.kThermometer);
+    this.mPlayUI = new PlayUI(this.kspriteTexture,this.mCamera,this.kThermometer,this.kPlayscene);
     this.mPlayUI.initialize();
 };
 

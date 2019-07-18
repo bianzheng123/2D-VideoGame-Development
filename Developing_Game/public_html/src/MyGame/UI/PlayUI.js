@@ -1,13 +1,15 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function PlayUI(spriteTexture,camera,kThermometer) {
+function PlayUI(spriteTexture,camera,kThermometer,playscene) {
     this.kspriteTexture=spriteTexture;
     this.mCamera=camera;
     this.kThermometer=kThermometer;
+    this.kPlayscene=playscene;
     this.thermometer = null;
     this.thermometerPointer =null;
     this.countdown = null;
+    this.pauseButton = new UIButton(this.pauseSelect,this,[120,500],[150,40],"Pause",4);
 }
 
 PlayUI.prototype.update = function(playscene){
@@ -16,7 +18,10 @@ PlayUI.prototype.update = function(playscene){
     var secondLeft=playscene._VictoryFrameLast/60;
     var minuteLeft=Math.floor(secondLeft/60);
     secondLeft=Math.floor(secondLeft%60);
-    this.countdown.setText(minuteLeft+":"+(secondLeft<10?"0":"")+secondLeft);
+    if(!this.kPlayscene.stopUpdating){
+        this.countdown.setText(minuteLeft+":"+(secondLeft<10?"0":"")+secondLeft);
+    }
+    this.pauseButton.update();
 };
 
 PlayUI.prototype.initialize = function(){
@@ -32,4 +37,8 @@ PlayUI.prototype.draw = function () {
     this.thermometer.draw(this.mCamera);
     this.thermometerPointer.draw(this.mCamera);
     this.countdown.draw(this.mCamera);
+    this.pauseButton.draw(this.mCamera);
 };
+PlayUI.prototype.pauseSelect = function(){
+    this.kPlayscene.stopUpdating=!this.kPlayscene.stopUpdating;
+}
