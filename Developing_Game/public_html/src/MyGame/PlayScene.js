@@ -37,6 +37,7 @@ function PlayScene() {
     this.mPlayUI = null;
     this.mFinishUI = null;
     this.mPlayerDirectionUI = null;
+    this.mEventUI = null;
     
     this.timeLast = 0;
     this.timeLastFrameCount = 0;
@@ -107,6 +108,7 @@ PlayScene.prototype.initialize = function () {
     this.mPlayer = new Player(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream);
     this.mPlayer.initialize();
     
+    this.mEventUI = new EventUI(this.kSprite,this.mPlayer,this.mCamera);
     this.mPlayerDirectionUI = new PlayerDirectionUI(this.kSprite,this.mPlayer);
 };
 
@@ -127,6 +129,7 @@ PlayScene.prototype.draw = function () {
     this.mFireManager.draw();
     this.mFinishUI.draw(this.mCamera);
     this.mPlayerDirectionUI.draw(this.mCamera,this.mPlayer);
+    this.mEventUI.draw();
 };
 
 PlayScene.prototype.update = function () {
@@ -159,6 +162,7 @@ PlayScene.prototype.update = function () {
 //        this._setMsg();
         this.mFireManager.update();
         this.mPlayerDirectionUI.update();
+        this.mEventUI.update();
     }else{
         this.mFinishUI.update(this.mPlayer.eatIceCreamCount);
     }

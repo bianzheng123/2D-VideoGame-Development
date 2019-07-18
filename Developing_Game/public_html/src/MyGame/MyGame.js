@@ -19,9 +19,10 @@ function MyGame() {
     this.kOnButton = "assets/AudioTest/NFF-glued.wav";
     this.kBgClip = "assets/AudioTest/BGClip.mp3";
     // The camera to view the scene
+    
     this.mCamera = null;
     this.PlaySceneButton = null;
-    this.UIText = null;
+    this.UITitle = null;
     this.LevelSelect = null;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
@@ -62,7 +63,7 @@ MyGame.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
     this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[475,400],[300,50],"Playscene Demo",4);
-    this.UIText = new UIText("Temp Start Scene",[475,600],8,1,0,[0,0,0,1]);
+    this.UITitle = new UIText("Temp Start Scene",[475,600],8,1,0,[0,0,0,1]);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -73,7 +74,7 @@ MyGame.prototype.draw = function () {
     
     this.mCamera.setupViewProjection();
     this.PlaySceneButton.draw(this.mCamera); 
-    this.UIText.draw(this.mCamera);
+    this.UITitle.draw(this.mCamera);
 };
 
 MyGame.prototype.update = function () {
