@@ -96,15 +96,15 @@ PlayScene.prototype.initialize = function () {
     this.mGeneralUI.initialize();    
     this.mPlayUI = new PlayUI(this.kAtlas,this.mCamera,this.kThermometer,this);
     this.mPlayUI.initialize();
-    this.mFinishUI = new FinishUI(this.kAtlas,this.mCamera,this);
+    this.mFinishUI = new FinishUI(this.kSprite,this.mCamera,this);
     this.mFinishUI.initialize();
-    this.mMapManager = new MapManager(this.kAtlas,this.mCamera);
+    this.mMapManager = new MapManager(this.kSprite,this.mCamera);
     this.mMapManager.initialize();
-    this.mShadowManager = new ShadowManager(this.kAtlas,this.mCamera);
+    this.mShadowManager = new ShadowManager(this.kSprite,this.mCamera);
     
     
-    this.mIceCreamManager = new IceCreamManager(this.kAtlas,this.mCamera);
-    this.mFireManager = new FireManager(this.kAtlas,this.mCamera,this.mIceCreamManager);
+    this.mIceCreamManager = new IceCreamManager(this.kSprite,this.mCamera);
+    this.mFireManager = new FireManager(this.kSprite,this.mCamera,this.mIceCreamManager);
     this.mPlayer = new Player(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream);
     this.mPlayer.initialize();
     
