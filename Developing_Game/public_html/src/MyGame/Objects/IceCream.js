@@ -14,20 +14,25 @@ function IceCream(spriteTexture,Xindex,Yindex,buffEnum) {
     this.kYindex = Yindex;
     this.kHeight = 5;
     this.kWidth = 5;
+    this.kHalfMeltTime = 10;
+    this.kFullMeltTime = 20;
     this.kBuffEnum = {
         NO_BUFF:0,
         SPEED_UP_BUFF:1,
         FIRE_BUFF:2
     };
     this.kStateEnum = {
-        
         NOT_MELT: 0,
         HALF_MELT: 1,
         FULL_MELT: 2,
         DROPING: 3,
         FLYING: 4
     };
-    
+    this.kDecTemperatureEnum = {
+        NOT_MELT: 5,
+        HALF_MELT: 3,
+        FULL_MELT: -1
+    };
     this.mBuff = buffEnum; 
     this.mState = this.kStateEnum.FLYING;
     this.mFrameCount = 0;
@@ -119,7 +124,7 @@ IceCream.prototype._drop = function(){
 IceCream.prototype._melt = function(){
     
     switch(this.mFrameCount){
-        case 120:
+        case this.kHalfMeltTime * 60:
             switch(this.mBuff){
                 case this.kBuffEnum.NO_BUFF:
                     this.mIceCream.setColor([0, 0, 0.3, 1]);    break;
@@ -132,7 +137,7 @@ IceCream.prototype._melt = function(){
             this.mState = this.kStateEnum.HALF_MELT;
             break;
             
-        case 240:
+        case this.kFullMeltTime * 60:
             switch(this.mBuff){
                 case this.kBuffEnum.NO_BUFF:
                     this.mIceCream.setColor([0, 0, 0, 1]);    break;

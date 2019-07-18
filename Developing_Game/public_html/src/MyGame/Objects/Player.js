@@ -243,7 +243,8 @@ Player.prototype._death = function(){
 
 Player.prototype._eatIceCream = function(mIceCreamArray,mapManager){
     var i,l;
-    
+    console.log(mIceCreamArray.length);
+    console.log("fsdf1");
     for(i=0;i<mIceCreamArray.length;i++){
 //        console.log(mIceCreamArray.length);
         l = mIceCreamArray[i];
@@ -277,24 +278,40 @@ Player.prototype._eatIceCream = function(mIceCreamArray,mapManager){
 
 Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
     mapManager.MapArray[l.kYindex][l.kXindex].mHasIceCream = false;
-//    console.log(this.canEatIceCream);
-    if(mIceCreamArray[i].canBeKnocked){
+    if(mIceCreamArray[i].canBeKnocked){//knocked
         this.temperature -= 1;
         this.mIsDead = true;
         mIceCreamArray[i] = null;
-//        console.log("knocked");
     }else if(mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.NOT_MELT
             || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.HALF_MELT
             || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.FULL_MELT
             && this.canEatIceCream){
-        this.temperature-=5;
+        
+        l = mIceCreamArray[i];
+
+        switch(l.mState){
+            case l.kStateEnum.NOT_MELT:
+                this.temperature -= l.kDecTemperatureEnum.NOT_MELT; break;
+            case l.kStateEnum.HALF_MELT:
+                this.temperature -= l.kDecTemperatureEnum.HALF_MELT;    break;
+            case l.kStateEnum.FULL_MELT:
+                this.temperature -= l.kDecTemperatureEnum.FULL_MELT;    
+                this.mIsDead = true;
+                break;
+        }
+//        switch(l.){
+//            
+//        }
+        console.log(l === null);
         if(this.temperature<0){
             this.temperature=0;
         }
         mIceCreamArray[i] = null;
+        l = null;
     }
 
 };
+
 
 Player.prototype._increaseTempterature = function(){
     if(this._incTemperatureFrameCount >= this.kincTemperatureCountMax){
