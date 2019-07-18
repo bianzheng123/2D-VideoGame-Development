@@ -96,11 +96,11 @@ function Player(spriteTexture,camera,fireManager,audio_EatIceCream) {
     this.mPlayer.setColor([0.8, 0.6, 0.2, 0]);
     this.mPlayer.getXform().setPosition(-47, -47);
     this.mPlayer.getXform().setSize(this.kWidth,this.kHeight);
-    this.pleft=0;
-    this.pright=105;
-    this.pbottom=0;
-    this.ptop=512-424;
-    this.mPlayer.setElementPixelPositions(0, 331, 1790, 2048);
+    this.pleft=1536;
+    this.pright=1867;
+    this.pbottom=448;
+    this.ptop=739;
+    this.mPlayer.setElementPixelPositions(this.pleft,this.pright,this.pbottom,this.ptop);
         
     this.shakingCount = 0;
     GameObject.call(this, this.mPlayer);
@@ -114,6 +114,7 @@ Player.prototype.initialize = function(){
 
 Player.prototype.update = function (mIceCreamArray,mapManager) {
     if(!this.mIsDead){
+        this.mPlayer.setElementPixelPositions(this.pleft,this.pright,this.pbottom,this.ptop);
         this._walk();
         this._jump();
         this._eatIceCream(mIceCreamArray,mapManager);
@@ -144,10 +145,12 @@ Player.prototype.update = function (mIceCreamArray,mapManager) {
 Player.prototype._walk = function(){
     var xform = this.getXform();
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)){
+        this.changeImageDirection(this.DirectionEnum.LEFT);
         this._changeDir(this.DirectionEnum.LEFT);
         xform.incXPosBy(-this.speed);
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)){
+        this.changeImageDirection(this.DirectionEnum.RIGHT);
         this._changeDir(this.DirectionEnum.RIGHT);
         xform.incXPosBy(this.speed);
     }
@@ -160,21 +163,26 @@ Player.prototype._walk = function(){
         xform.incYPosBy(-this.speed);
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
+        this.changeImageDirection(this.DirectionEnum.LEFT);
         this._changeDir(this.DirectionEnum.TOPLEFT);
         xform.incXPosBy(this.speed*(1-Math.cos(Math.PI/4)));
         xform.incYPosBy(-this.speed*(1-Math.cos(Math.PI/4)));
+
     }
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
+        this.changeImageDirection(this.DirectionEnum.LEFT);
         this._changeDir(this.DirectionEnum.BOTTOMLEFT);
         xform.incXPosBy(this.speed*(1-Math.cos(Math.PI/4)));
         xform.incYPosBy(this.speed*(1-Math.cos(Math.PI/4)));
     }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){        
+        this.changeImageDirection(this.DirectionEnum.RIGHT);
         this._changeDir(this.DirectionEnum.TOPRIGHT);
         xform.incXPosBy(-this.speed*(1-Math.cos(Math.PI/4)));
         xform.incYPosBy(-this.speed*(1-Math.cos(Math.PI/4)));
     }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){        
+        this.changeImageDirection(this.DirectionEnum.RIGHT);
         this._changeDir(this.DirectionEnum.BOTTOMRIGHT);
         xform.incXPosBy(-this.speed*(1-Math.cos(Math.PI/4)));
         xform.incYPosBy(this.speed*(1-Math.cos(Math.PI/4)));
@@ -242,12 +250,24 @@ Player.prototype._jump = function(){
         this.isJumping=true;
         this.mPlayer.setColor([0.8, 0.6, 0.2, 0]);
         this.mPlayer.setElementPixelPositions(this.pleft,this.pright,this.pbottom,this.ptop);
-    }
-    
-    
-    
+    } 
 };
 
+Player.prototype.changeImageDirection=function(walkingDirection){
+    if(walkingDirection===this.DirectionEnum.LEFT){
+        if(this.pleft<this.pright){
+            var temp=this.pleft;
+            this.pleft=this.pright;
+            this.pright=temp;
+        }
+    }else{
+        if(this.pleft>this.pright){
+            var temp=this.pleft;
+            this.pleft=this.pright;
+            this.pright=temp;
+        }
+    }
+}
 Player.prototype._waitFrame = function(){
     if(this.waitFrameCount >= 2){
         this.canEatIceCream = true;

@@ -15,8 +15,8 @@ function Coco(spriteTexture,IceCream) {
         NOTBRINGING: 1
     };
     this.kSpeed = 1;
-    this.kHeight = 3;
-    this.kWidth = 3;
+    this.kHeight = 6;
+    this.kWidth = 8;
     this.kYposDiff = 3;
     this.kXposDiff = 3;
     this.kXOriginalPos = 200;
@@ -35,8 +35,8 @@ function Coco(spriteTexture,IceCream) {
     this.mCoco = new SpriteRenderable(spriteTexture);
     this.mCoco.getXform().setPosition(this.kXOriginalPos - this.kXposDiff,this.targetYpos + this.kYposDiff);
     this.mCoco.getXform().setSize(this.kWidth, this.kHeight);
-    this.mCoco.setColor([1, 0, 0, 1]);
-    this.mCoco.setElementPixelPositions(510, 595, 23, 153);
+    this.mCoco.setColor([1, 0, 0, 0]);
+    this.mCoco.setElementPixelPositions(448, 0, 1338, 1658);
     GameObject.call(this,this.mCoco);
     
 }
