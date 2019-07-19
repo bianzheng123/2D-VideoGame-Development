@@ -26,7 +26,7 @@ function Fire(spriteTexture,player,IceCreamManager) {
     this.mFire.setColor([0, 0, 1, 0.1]);
     this.mFire.getXform().setPosition(player.mPlayer.getXform().getXPos(),player.mPlayer.getXform().getYPos());
     this.mFire.getXform().setSize(this.kXsize, this.kYsize);
-    this.mFire.setElementPixelPositions(510, 595, 23, 153);
+    this.mFire.setElementPixelPositions(640, 768, 256, 348);
     
     GameObject.call(this, this.mFire);
 }
