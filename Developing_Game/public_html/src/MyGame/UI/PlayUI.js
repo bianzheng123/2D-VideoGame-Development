@@ -33,7 +33,7 @@ PlayUI.prototype.update = function(){
                                 gEngine.Input.getMousePosY());
     mousePos[0]=(mousePos[0]-500)/(1000/140)-15.5;
     mousePos[1]=(mousePos[1]-300)/(600/84)-10;
-    document.getElementById("st1").innerHTML=mousePos[0]+" "+mousePos[1];
+    //document.getElementById("st1").innerHTML=mousePos[0]+" "+mousePos[1];
 
     this.mHover = mousePos[0]>-74&&mousePos[0]<-66&&mousePos[1]>-39&&mousePos[1]<-31;
     if(this.mHover){
@@ -67,7 +67,7 @@ PlayUI.prototype.update = function(){
                     this.mJoystickDirection=7;
                 }
                 theta=this.mJoystickDirection*(Math.PI/4);
-                document.getElementById("st3").innerHTML=theta;
+                //document.getElementById("st3").innerHTML=theta;
                 this.joystick.getXform().setPosition(-70+5*Math.cos(theta),-35+5*Math.sin(theta));
                 this.isWalking=true;
             }else{
