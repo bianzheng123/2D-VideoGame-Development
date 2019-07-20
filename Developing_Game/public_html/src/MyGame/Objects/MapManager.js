@@ -25,22 +25,21 @@ function MapManager(spriteTexture,camera) {
         [0, 0, 1, 0, 1, 0, 0, 1, 0, 1],
         [1, 0, 0, 0, 1, 0, 0, 1, 0, 0],
         [1, 1, 1, 0, 1, 1, 1, 0, 0, 0],
-        [1, 0, 0, 1, 0, 0, 1, 1, 1, 1]
-
-
+        [1, 0, 0, 1, 0, 0, 1, 1, 1, 1] //(2,1)->(2,8)   (0,0) -> (0,9)
+        //(9,0)->(0,0)   (9,3) -> (0,3)
     ];
-    this.mmap2 = [
-        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
-    ];
+//    this.mmap2 = [
+//        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+//        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+//        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+//        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+//        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+//        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+//        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+//        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+//        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+//        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+//    ];
     this.mDrawLine = false;
     
 }
@@ -60,12 +59,12 @@ MapManager.prototype.initialize = function(){
         for(j=0;j<this.kWidth;j++){
             var temp;
             if(this.mMapDesign[i][j]===1){
-                temp = new Grass(this.kspriteTexture,i,j,this.kCamera);
+                temp = new Grass(this.kspriteTexture,j,this.kHeight - 1 - i,this.kCamera);
                 temp.initialize();
             }else if(this.mMapDesign[i][j]===0){
-                temp = new Sand(this.kspriteTexture,i,j);
+                temp = new Sand(this.kspriteTexture,j,this.kHeight - 1 - i);
             }
-            this.MapArray[j][i]=temp;
+            this.MapArray[j][this.kHeight - 1 - i]=temp;
         }
     }
 

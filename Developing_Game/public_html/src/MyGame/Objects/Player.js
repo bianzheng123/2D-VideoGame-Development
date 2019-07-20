@@ -406,14 +406,12 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
         this.temperature -= 1;
         this.mIsDead = true;
         this.deathReason = this.DeathEnum.FLYING_ICE_CREAM;
-//        mIceCreamArray[i].shadow = null;
         mIceCreamArray[i] = null;
     }else if(mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.NOT_MELT
             || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.HALF_MELT
             || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.FULL_MELT
             && this.canEatIceCream){
         gEngine.AudioClips.playACue(this.kAudio_EatIceCream,40);
-        
         
         l = mIceCreamArray[i];
 
@@ -438,11 +436,9 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
                     break;
                 case l.kBuffEnum.SPEED_UP_BUFF: 
                     this.isSpeedUp = true;
-                    this._SpeedUpFrameCount = 0;
                     break;
                 case l.kBuffEnum.FIRE_BUFF: 
                     this.isSprayFire = true;
-                    this._SprayFireFrameCount = 0;
                     break;
             }
         }
