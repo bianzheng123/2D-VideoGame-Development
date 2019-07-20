@@ -19,6 +19,7 @@ function EndlessPlayingScene() {
     this.kUIButton = "assets/UI/button.png";
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kThermometer ="assets/thermometer.png";
+    this.kLife = "assets/life.png";
     
     //need the wav file(to play audio)
     this.kPlayerEatIceCream = "assets/AudioTest/EatIceCream.wav";
@@ -66,6 +67,7 @@ EndlessPlayingScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kSprite);
     gEngine.Textures.loadTexture(this.kBG);
     gEngine.Textures.loadTexture(this.kAtlas);
+    gEngine.Textures.loadTexture(this.kLife);
     
     gEngine.AudioClips.loadAudio(this.kPlayerEatIceCream);
 };
@@ -75,7 +77,7 @@ EndlessPlayingScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBG);
     gEngine.Textures.unloadTexture(this.kAtlas);
     gEngine.Textures.unloadTexture(this.kSprite);
-    
+    gEngine.Textures.loadTexture(this.kLife);
     gEngine.AudioClips.unloadAudio(this.kPlayerEatIceCream);
 };
 
@@ -84,7 +86,7 @@ EndlessPlayingScene.prototype.initialize = function () {
     this.mCamera = new Camera(
         vec2.fromValues(-15.5, -10), // position of the camera
         140,                     // width of camera
-        [10, 10, 975, 585]         // viewport (orgX, orgY, width, height)
+        [0, 0, 999, 599]         // viewport (orgX, orgY, width, height)
     );
     this.mCamera.setBackgroundColor([1,234/255,167/255, 1]);
             // sets the background to gray
@@ -113,7 +115,7 @@ EndlessPlayingScene.prototype.initialize = function () {
     this.mPlayer = new Player_endless(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream);
     this.mPlayer.initialize();
     
-    this.mHealthUIManager = new HealthUIManager(this.kSprite,this.mCamera,this.mPlayer);
+    this.mHealthUIManager = new HealthUIManager(this.kLife,this.mCamera,this.mPlayer);
     this.mHealthUIManager.initialize();
     
     this.mEventUI = new EventUI(this.kSprite,this.mPlayer,this.mCamera);
@@ -152,7 +154,7 @@ EndlessPlayingScene.prototype.update = function () {
         if(this.mPlayer.t_pre_isDead === true && this.mPlayer.mIsDead === false){
             this.mPlayer.mIsDead = true;
         }
-        this.mPlayer.update(this.mIceCreamManager.mIceCreamArray,this.mMapManager);
+        this.mPlayer.update(this.mIceCreamManager.mIceCreamArray,this.mMapManager,this.mPlayUI);
         //_updatePlayerPositionByIndex必须要在this.mPlayer.update前面
         
         this.mShadowManager.HahaUpdate([this.mPlayer.originalX,this.mPlayer.originalY]);

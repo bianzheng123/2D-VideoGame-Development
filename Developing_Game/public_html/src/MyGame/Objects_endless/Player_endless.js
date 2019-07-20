@@ -27,7 +27,17 @@ function Player_endless(spriteTexture,camera,fireManager,audio_EatIceCream) {
         FALL:3
     };
     this.deathReason = this.DeathEnum.NOTDEAD;
-    this.kPictureArray = new Array(6);//这个以后搞
+    this.currentFrameIndex = 0;
+    this.kPictureArray = [
+        [0,331,1757,2047],
+        [331,662,1757,2047],
+        [662,993,1757,2047],
+        [993,1324,1757,2047],
+        [1324,1655,1757,2047],
+        [1655,1986,1757,2047]
+    ];
+    this.isWalking = false;
+    this.walkingDirection = this.DirectionEnum.RIGHT;
     
     this.kHeight = 6.5;
     this.kWidth = 6.5;
@@ -110,14 +120,13 @@ gEngine.Core.inheritPrototype(Player_endless, GameObject);
 
 Player_endless.prototype.initialize = function(){
     this.kPictureArray[0] = [0,331,1790,2048];
-    this.kPictureArray[1] = [];
 };
 
-Player_endless.prototype.update = function (mIceCreamArray,mapManager) {
+Player_endless.prototype.update = function (mIceCreamArray,mapManager,mPlayUI) {
     if(!this.mIsDead){
-        this.mPlayer.setElementPixelPositions(this.pleft,this.pright,this.pbottom,this.ptop);
-        this._walk();
-        this._jump();
+//        this.mPlayer.setElementPixelPositions(this.pleft,this.pright,this.pbottom,this.ptop);
+        this._walk(mPlayUI);
+        this._jump(mPlayUI);
         this._eatIceCream(mIceCreamArray,mapManager);
         this._increaseTempterature();
         if(this.mIsDead === true){
@@ -127,7 +136,7 @@ Player_endless.prototype.update = function (mIceCreamArray,mapManager) {
             this._speedUp();
         }
         if(this.isSprayFire){
-            this._sprayFire();
+            this._sprayFire(mPlayUI);
         }
         
         if(gEngine.Input.isKeyPressed(gEngine.Input.keys.G)){
@@ -143,58 +152,114 @@ Player_endless.prototype.update = function (mIceCreamArray,mapManager) {
 
 
 
-Player_endless.prototype._walk = function(){
+Player_endless.prototype._walk = function(mPlayUI){
+    this.isWalking=false;
     var xform = this.getXform();
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)){
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)||(mPlayUI.mJoystickDirection===(this.DirectionEnum.LEFT)&&mPlayUI.isWalking)){
         this.changeImageDirection(this.DirectionEnum.LEFT);
         this._changeDir(this.DirectionEnum.LEFT);
         xform.incXPosBy(-this.speed);
+        this.isWalking=true;
     }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)){
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)||(mPlayUI.mJoystickDirection===(this.DirectionEnum.RIGHT)&&mPlayUI.isWalking)){
         this.changeImageDirection(this.DirectionEnum.RIGHT);
         this._changeDir(this.DirectionEnum.RIGHT);
         xform.incXPosBy(this.speed);
+        this.isWalking=true;
     }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.W)||(mPlayUI.mJoystickDirection===(this.DirectionEnum.TOP)&&mPlayUI.isWalking)){
         this._changeDir(this.DirectionEnum.TOP);
         xform.incYPosBy(this.speed);
+        this.isWalking=true;
     }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.S)||(mPlayUI.mJoystickDirection===(this.DirectionEnum.BOTTOM)&&mPlayUI.isWalking)){
         this._changeDir(this.DirectionEnum.BOTTOM);
         xform.incYPosBy(-this.speed);
+        this.isWalking=true;
     }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
+    if((gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W))){
         this.changeImageDirection(this.DirectionEnum.LEFT);
         this._changeDir(this.DirectionEnum.TOPLEFT);
         xform.incXPosBy(this.speed*(1-Math.cos(Math.PI/4)));
         xform.incYPosBy(-this.speed*(1-Math.cos(Math.PI/4)));
 
+        this.isWalking=true;
     }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
+    if((gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S))){
         this.changeImageDirection(this.DirectionEnum.LEFT);
         this._changeDir(this.DirectionEnum.BOTTOMLEFT);
         xform.incXPosBy(this.speed*(1-Math.cos(Math.PI/4)));
         xform.incYPosBy(this.speed*(1-Math.cos(Math.PI/4)));
+        this.isWalking=true;
     }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){        
+    if((gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W))){        
         this.changeImageDirection(this.DirectionEnum.RIGHT);
         this._changeDir(this.DirectionEnum.TOPRIGHT);
         xform.incXPosBy(-this.speed*(1-Math.cos(Math.PI/4)));
         xform.incYPosBy(-this.speed*(1-Math.cos(Math.PI/4)));
+        this.isWalking=true;
     }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){        
+    if((gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S))){        
         this.changeImageDirection(this.DirectionEnum.RIGHT);
         this._changeDir(this.DirectionEnum.BOTTOMRIGHT);
         xform.incXPosBy(-this.speed*(1-Math.cos(Math.PI/4)));
         xform.incYPosBy(this.speed*(1-Math.cos(Math.PI/4)));
+        this.isWalking=true;
+    }
+    if(mPlayUI.mJoystickDirection===this.DirectionEnum.TOPLEFT&&mPlayUI.isWalking){
+        this.changeImageDirection(this.DirectionEnum.LEFT);
+        this._changeDir(this.DirectionEnum.TOPLEFT);
+        xform.incXPosBy(-this.speed*(Math.cos(Math.PI/4)));
+        xform.incYPosBy(this.speed*(Math.cos(Math.PI/4)));
+        this.isWalking=true;
+    }
+    if(mPlayUI.mJoystickDirection===this.DirectionEnum.BOTTOMLEFT&&mPlayUI.isWalking){
+        this.changeImageDirection(this.DirectionEnum.LEFT);
+        this._changeDir(this.DirectionEnum.BOTTOMLEFT);
+        xform.incXPosBy(-this.speed*(Math.cos(Math.PI/4)));
+        xform.incYPosBy(-this.speed*(Math.cos(Math.PI/4)));
+        this.isWalking=true;
+    }
+    if(mPlayUI.mJoystickDirection===this.DirectionEnum.TOPRIGHT&&mPlayUI.isWalking){
+        this.changeImageDirection(this.DirectionEnum.RIGHT);
+        this._changeDir(this.DirectionEnum.TOPRIGHT);
+        xform.incXPosBy(this.speed*(Math.cos(Math.PI/4)));
+        xform.incYPosBy(this.speed*(Math.cos(Math.PI/4)));
+        this.isWalking=true;
+    }
+    if(mPlayUI.mJoystickDirection===this.DirectionEnum.BOTTOMRIGHT&&mPlayUI.isWalking){
+        this.changeImageDirection(this.DirectionEnum.RIGHT);
+        this._changeDir(this.DirectionEnum.BOTTOMRIGHT);
+        xform.incXPosBy(this.speed*(Math.cos(Math.PI/4)));
+        xform.incYPosBy(-this.speed*(Math.cos(Math.PI/4)));
+        this.isWalking=true;
     }
     if(!this.isJumping){
         this.originalX = xform.getXPos();
         this.originalY = xform.getYPos();
     }
+    if(this.isWalking){
+         this.currentFrameIndex++;
+         var realIndex=Math.floor(this.currentFrameIndex/10);
+         if(realIndex>5){
+            this.currentFrameIndex=0;
+            realIndex=0;
+        }
+        if(this.walkingDirection===this.DirectionEnum.RIGHT){
+            this.mPlayer.setElementPixelPositions(this.kPictureArray[realIndex][0],
+            this.kPictureArray[realIndex][1],this.kPictureArray[realIndex][2],this.kPictureArray[realIndex][3]);
+        }else{
+            this.mPlayer.setElementPixelPositions(this.kPictureArray[realIndex][1],
+            this.kPictureArray[realIndex][0],this.kPictureArray[realIndex][2],this.kPictureArray[realIndex][3]);
+        }
+        
+
+    }else{
+        this.mPlayer.setElementPixelPositions(this.pleft,this.pright,this.pbottom,this.ptop);
+    }
 };
 
-Player_endless.prototype._jump = function(){
+Player_endless.prototype._jump = function(mPlayUI){
     var xform = this.getXform();
     
     if(this.isJumping){
@@ -219,8 +284,8 @@ Player_endless.prototype._jump = function(){
         this._waitFrame();
     }
     this.p_isJumping = this.isJumping;
-    
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)&&!this.isJumping){
+    var accu=gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)||mPlayUI.isAccumulating;
+    if((accu)&&!this.isJumping){
         this.accumulateValue+=0.2;
         var deltaH = -xform.getHeight()/200;
         var color=this.mPlayer.getColor();
@@ -232,7 +297,9 @@ Player_endless.prototype._jump = function(){
 //        document.getElementById("st7").innerHTML="xShift:"+xShift+"<br /> shakingCount:"+this.shakingCount+"<br /> accumulateValue:"+this.accumulateValue;
         this.mPlayer.setElementPixelPositions(this.pleft-xShift,this.pright-xShift,this.pbottom-yShift,this.ptop-yShift);
     }
-    if((!gEngine.Input.isKeyPressed(gEngine.Input.keys.Space))&&this.accumulateValue!=0&&!this.isJumping){
+    
+    var jump=(!mPlayUI.isAccumulating)&&(!gEngine.Input.isKeyPressed(gEngine.Input.keys.Space));
+    if(jump&&this.accumulateValue!=0&&!this.isJumping){
         //xform.incXPosBy(this.accumulateValue);  
         var deltaH = this.kHeight-xform.getHeight();
         xform.incYPosBy(deltaH/2);
@@ -255,6 +322,7 @@ Player_endless.prototype._jump = function(){
 };
 
 Player_endless.prototype.changeImageDirection=function(walkingDirection){
+    this.walkingDirection=walkingDirection;
     if(walkingDirection===this.DirectionEnum.LEFT){
         if(this.pleft<this.pright){
             var temp=this.pleft;
@@ -445,12 +513,12 @@ Player_endless.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i)
     }
 };
 
-Player_endless.prototype._sprayFire = function(){
+Player_endless.prototype._sprayFire = function(mPlayUI){
     if(this._SprayFireFrameCount >= this.kSprayFireTime * 60){
         this._SprayFireFrameCount = 0;
         this.isSprayFire = false;
     }else{
-        if(gEngine.Input.isKeyClicked(gEngine.Input.keys.J)){
+        if(gEngine.Input.isKeyClicked(gEngine.Input.keys.J)||mPlayUI.mFireClick){
             this.kFireManager.createFire(this);
         }
         this._SprayFireFrameCount++;

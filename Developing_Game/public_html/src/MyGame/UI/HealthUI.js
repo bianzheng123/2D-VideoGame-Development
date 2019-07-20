@@ -8,8 +8,8 @@ function HealthUI(spriteTexture,Xpos,Ypos) {
     this.mHealthUI = new SpriteRenderable(spriteTexture);
     this.mHealthUI.getXform().setPosition(Xpos,Ypos);
     this.mHealthUI.getXform().setSize(this.kWidth, this.kHeight);
-    this.mHealthUI.setColor([1, 0, 0, 1]);
-    this.mHealthUI.setElementPixelPositions(448, 0, 1338, 1658);
+    this.mHealthUI.setColor([0, 0, 0, 0]);
+    this.mHealthUI.setElementPixelPositions(0, 216, 16, 255);
     GameObject.call(this,this.mHealthUI);
     
 }
