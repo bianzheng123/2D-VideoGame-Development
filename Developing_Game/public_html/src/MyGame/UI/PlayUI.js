@@ -1,7 +1,8 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function PlayUI(spriteTexture,camera,playscene) {
+function PlayUI(spriteTexture,camera,playscene,displayTimeLast) {
+    this.kDisplayTimeLast = displayTimeLast;
     this.kspriteTexture=spriteTexture;
     this.mCamera=camera;
     this.kPlayscene=playscene;
@@ -85,22 +86,29 @@ PlayUI.prototype.update = function(){
     
     this.thermometer.update();
     this.thermometerPointer.update(this.kPlayscene.mPlayer.temperature);
-    var secondLeft=this.kPlayscene._VictoryFrameLast/60;
-    var minuteLeft=Math.floor(secondLeft/60);
-    secondLeft=Math.floor(secondLeft%60);
-    if(!this.kPlayscene.stopUpdating){
-        this.countdown.setText(minuteLeft+":"+(secondLeft<10?"0":"")+secondLeft);
+    
+    if(this.kDisplayTimeLast){
+        var secondLeft=this.kPlayscene._VictoryFrameLast/60;
+        var minuteLeft=Math.floor(secondLeft/60);
+        secondLeft=Math.floor(secondLeft%60);
+        if(!this.kPlayscene.stopUpdating){
+            this.countdown.setText(minuteLeft+":"+(secondLeft<10?"0":"")+secondLeft);
+        }
     }
+    
     this.pauseButton.update();
 };
 
 PlayUI.prototype.initialize = function(){
     this.thermometer=new Thermometer(this.kspriteTexture,this.mCamera);
     this.thermometerPointer=new ThermometerPointer(this.kspriteTexture,this.mCamera);
-    this.countdown = new FontRenderable("3:00");
-    this.countdown.setColor([0, 0, 0, 1]);
-    this.countdown.getXform().setPosition(5,25);
-    this.countdown.setTextHeight(6);
+    if(this.kDisplayTimeLast){
+        this.countdown = new FontRenderable("3:00");
+        this.countdown.setColor([0, 0, 0, 1]);
+        this.countdown.getXform().setPosition(5,25);
+        this.countdown.setTextHeight(6);
+    }
+    
     this.joystickground=new SpriteRenderable(this.kspriteTexture);
     this.joystickground.setColor([1, 0.7, 0.1, 0]);
     this.joystickground.getXform().setPosition(-70,-35);
@@ -116,7 +124,9 @@ PlayUI.prototype.initialize = function(){
 PlayUI.prototype.draw = function () {
     this.thermometer.draw(this.mCamera);
     this.thermometerPointer.draw(this.mCamera);
-    this.countdown.draw(this.mCamera);
+    if(this.kDisplayTimeLast){
+        this.countdown.draw(this.mCamera);
+    }
     this.pauseButton.draw(this.mCamera);
     this.joystickground.draw(this.mCamera);
     this.joystick.draw(this.mCamera);

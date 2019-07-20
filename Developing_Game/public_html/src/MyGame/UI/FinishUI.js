@@ -52,7 +52,7 @@ FinishUI.prototype.changePic=function(){
         this.winScene.setElementPixelPositions(256, 512, 512, 832);    
         this.lostScene.setElementPixelPositions(256, 512, 832, 1152);
     }
-}
+};
 FinishUI.prototype.draw = function () {
     if(this.kPlayscene.isVictory||this.kPlayscene.isLost){
         this.darkness.draw(this.mCamera);

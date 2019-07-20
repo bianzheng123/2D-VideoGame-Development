@@ -405,7 +405,7 @@ Player.prototype._eatIceCream = function(mIceCreamArray,mapManager){
         
         var pos = l.getXform().getPosition();
 //        console.log("this_bottom: " + this_bottom + " ,this_top: " + this_top + " ,this_left: " + this_left + " ,this_right: " + this_right);
-        var bound = 5;
+        var bound = 1;
         if(this_left <= pos[0] - bound && pos[0] + bound <= this_right && this_bottom <= pos[1] && pos[1] <= this_top ){
             this._eatOrKnocked(mapManager,l,mIceCreamArray,i);
         }else if(this_left <= pos[0] && pos[0] <= this_right && this_bottom <= pos[1] - bound && pos[1] + bound <= this_top){
