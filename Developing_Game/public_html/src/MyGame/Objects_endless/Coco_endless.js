@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Coco(spriteTexture,IceCream) {
+function Coco_endless(spriteTexture,IceCream) {
     this.kStateEnum = {
         BRINGING: 0,
         NOTBRINGING: 1
@@ -40,9 +40,9 @@ function Coco(spriteTexture,IceCream) {
     GameObject.call(this,this.mCoco);
     
 }
-gEngine.Core.inheritPrototype(Coco, GameObject);
+gEngine.Core.inheritPrototype(Coco_endless, GameObject);
 
-Coco.prototype.update = function(){
+Coco_endless.prototype.update = function(){
     switch(this.mState){
         case this.kStateEnum.BRINGING:
             this._bringing();   break;
@@ -53,7 +53,7 @@ Coco.prototype.update = function(){
     
 };
 
-Coco.prototype._bringing = function(){
+Coco_endless.prototype._bringing = function(){
     var xform = this.mIceCream.getXform();
     if(this.mIceCream.mState === this.mIceCream.kStateEnum.FLYING){
         this.mCoco.getXform().setXPos(xform.getXPos() - this.kXposDiff);
@@ -62,7 +62,7 @@ Coco.prototype._bringing = function(){
         this.mState = this.kStateEnum.NOTBRINGING;
     }
 };
-Coco.prototype._notBringing = function(){
+Coco_endless.prototype._notBringing = function(){
     var xform = this.mCoco.getXform();
     xform.incXPosBy(-this.kNotBringingVelocity * Math.cos(this.kFlyingTheta));
     xform.incYPosBy(this.kNotBringingVelocity * Math.sin(this.kFlyingTheta));

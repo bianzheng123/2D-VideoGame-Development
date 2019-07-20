@@ -101,7 +101,7 @@ MyGame.prototype.PlaySceneSelect = function(){
 
 MyGame.prototype.EndlessPlayingSceneSelect = function(){
     this.LevelSelect = "EndlessPlayingScene";
-    this.clickAudio(this.PlaySceneButton);
+    this.clickAudio(this.EndlessPlayingSceneButton);
     gEngine.GameLoop.stop();
 };
 

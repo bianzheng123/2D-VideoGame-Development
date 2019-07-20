@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Fire(spriteTexture,player,IceCreamManager) {
+function Fire_endless(spriteTexture,player,IceCreamManager) {
     this.kspeed = 1;
     this.kXsize = 2;
     this.kYsize = 2;
@@ -30,9 +30,9 @@ function Fire(spriteTexture,player,IceCreamManager) {
     
     GameObject.call(this, this.mFire);
 }
-gEngine.Core.inheritPrototype(Fire, GameObject);
+gEngine.Core.inheritPrototype(Fire_endless, GameObject);
 
-Fire.prototype.update = function(){
+Fire_endless.prototype.update = function(){
     var xform = this.mFire.getXform();
     xform.incRotationByDegree(this.kRotateValueByFrame);
     
@@ -44,7 +44,7 @@ Fire.prototype.update = function(){
     
 };
 
-Fire.prototype._move = function(xform){
+Fire_endless.prototype._move = function(xform){
     switch(this.kdir){
         case this.mPlayer.DirectionEnum.TOP:
             xform.incYPosBy(this.kspeed);   break;
@@ -73,7 +73,7 @@ Fire.prototype._move = function(xform){
     }
 };
 
-Fire.prototype._destroyTrap = function(){
+Fire_endless.prototype._destroyTrap = function(){
     var i,l;
     var this_xform = this.mFire.getXform();
     var arr = this.mIceCreamManager.mIceCreamArray;

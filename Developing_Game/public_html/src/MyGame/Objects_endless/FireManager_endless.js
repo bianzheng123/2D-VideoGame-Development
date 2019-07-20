@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function FireManager(spriteTexture,camera,iceCreamManager) {
+function FireManager_endless(spriteTexture,camera,iceCreamManager) {
     this.kspriteTexture = spriteTexture;
     this.kIceCreamManager = iceCreamManager;
     this.kCamera = camera;
@@ -17,13 +17,13 @@ function FireManager(spriteTexture,camera,iceCreamManager) {
     
 }
 
-FireManager.prototype.update = function(){
+FireManager_endless.prototype.update = function(){
     this._fireUpdate();
     
     this._optimizationFire();
 };
 
-FireManager.prototype._optimizationFire = function(){
+FireManager_endless.prototype._optimizationFire = function(){
     var i = this.mFireArray.length - 1;
     while(this.mFireArray[i] === null){
         var temp = this.mFireArray.pop();
@@ -36,7 +36,7 @@ FireManager.prototype._optimizationFire = function(){
     }
 };
 
-FireManager.prototype._fireUpdate = function(){
+FireManager_endless.prototype._fireUpdate = function(){
     var i,l;
     for(i=0;i<this.mFireArray.length;i++){
         l = this.mFireArray[i];
@@ -52,7 +52,7 @@ FireManager.prototype._fireUpdate = function(){
     }
 };
 
-FireManager.prototype.draw = function(){
+FireManager_endless.prototype.draw = function(){
     var i,l;
     for(i=0;i<this.mFireArray.length;i++){
         l = this.mFireArray[i];
@@ -62,8 +62,8 @@ FireManager.prototype.draw = function(){
     }
 };
 
-FireManager.prototype.createFire = function(player){
-    var fire = new Fire(this.kspriteTexture,player,this.kIceCreamManager);
+FireManager_endless.prototype.createFire = function(player){
+    var fire = new Fire_endless(this.kspriteTexture,player,this.kIceCreamManager);
     this.mFireArray.push(fire);
 };
 

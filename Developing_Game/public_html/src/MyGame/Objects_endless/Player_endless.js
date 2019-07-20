@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Player(spriteTexture,camera,fireManager,audio_EatIceCream) {
+function Player_endless(spriteTexture,camera,fireManager,audio_EatIceCream) {
     this.DirectionEnum={
         RIGHT: 0,
         TOPRIGHT: 1,
@@ -105,14 +105,14 @@ function Player(spriteTexture,camera,fireManager,audio_EatIceCream) {
     this.shakingCount = 0;
     GameObject.call(this, this.mPlayer);
 }
-gEngine.Core.inheritPrototype(Player, GameObject);
+gEngine.Core.inheritPrototype(Player_endless, GameObject);
 
-Player.prototype.initialize = function(){
+Player_endless.prototype.initialize = function(){
     this.kPictureArray[0] = [0,331,1790,2048];
     this.kPictureArray[1] = [];
 };
 
-Player.prototype.update = function (mIceCreamArray,mapManager) {
+Player_endless.prototype.update = function (mIceCreamArray,mapManager) {
     if(!this.mIsDead){
         this.mPlayer.setElementPixelPositions(this.pleft,this.pright,this.pbottom,this.ptop);
         this._walk();
@@ -142,7 +142,7 @@ Player.prototype.update = function (mIceCreamArray,mapManager) {
 
 
 
-Player.prototype._walk = function(){
+Player_endless.prototype._walk = function(){
     var xform = this.getXform();
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)){
         this.changeImageDirection(this.DirectionEnum.LEFT);
@@ -193,7 +193,7 @@ Player.prototype._walk = function(){
     }
 };
 
-Player.prototype._jump = function(){
+Player_endless.prototype._jump = function(){
     var xform = this.getXform();
     
     if(this.isJumping){
@@ -253,7 +253,7 @@ Player.prototype._jump = function(){
     } 
 };
 
-Player.prototype.changeImageDirection=function(walkingDirection){
+Player_endless.prototype.changeImageDirection=function(walkingDirection){
     if(walkingDirection===this.DirectionEnum.LEFT){
         if(this.pleft<this.pright){
             var temp=this.pleft;
@@ -268,7 +268,7 @@ Player.prototype.changeImageDirection=function(walkingDirection){
         }
     }
 };
-Player.prototype._waitFrame = function(){
+Player_endless.prototype._waitFrame = function(){
     if(this.waitFrameCount >= 2){
         this.canEatIceCream = true;
         this.waitFrameCount = 0;
@@ -278,11 +278,11 @@ Player.prototype._waitFrame = function(){
     }
 };
 
-Player.prototype._changeDir = function(directionState){
+Player_endless.prototype._changeDir = function(directionState){
     this.direction = directionState;
 };
 
-Player.prototype._death = function(){
+Player_endless.prototype._death = function(){
     if(!this.mIsDeathCountStart){
         this.accumulateValue=0;
         this.mPlayer.setColor([0.8, 0.6, 0.2, 0]);
@@ -367,7 +367,7 @@ Player.prototype._death = function(){
 
 };
 
-Player.prototype._eatIceCream = function(mIceCreamArray,mapManager){
+Player_endless.prototype._eatIceCream = function(mIceCreamArray,mapManager){
     var i,l;
     for(i=0;i<mIceCreamArray.length;i++){
 //        console.log(mIceCreamArray.length);
@@ -381,7 +381,7 @@ Player.prototype._eatIceCream = function(mIceCreamArray,mapManager){
         
         var pos = l.getXform().getPosition();
 //        console.log("this_bottom: " + this_bottom + " ,this_top: " + this_top + " ,this_left: " + this_left + " ,this_right: " + this_right);
-        var bound = 1;
+        var bound = 0;
         if(this_left <= pos[0] - bound && pos[0] + bound <= this_right && this_bottom <= pos[1] && pos[1] <= this_top ){
             this._eatOrKnocked(mapManager,l,mIceCreamArray,i);
         }else if(this_left <= pos[0] && pos[0] <= this_right && this_bottom <= pos[1] - bound && pos[1] + bound <= this_top){
@@ -391,7 +391,7 @@ Player.prototype._eatIceCream = function(mIceCreamArray,mapManager){
     }
 };
 
-Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
+Player_endless.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
     mapManager.MapArray[l.kYindex][l.kXindex].mHasIceCream = false;
     if(mIceCreamArray[i].canBeKnocked){//knocked
         this.temperature -= 1;
@@ -441,7 +441,7 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
     }
 };
 
-Player.prototype._sprayFire = function(){
+Player_endless.prototype._sprayFire = function(){
     if(this._SprayFireFrameCount >= this.kSprayFireTime * 60){
         this._SprayFireFrameCount = 0;
         this.isSprayFire = false;
@@ -454,7 +454,7 @@ Player.prototype._sprayFire = function(){
     }
 };
 
-Player.prototype._speedUp = function(){
+Player_endless.prototype._speedUp = function(){
     if(this._SpeedUpFrameCount >= this.kSpeedUpTime * 60){
         this._SpeedUpFrameCount = 0;
         this.speed = this.kOriginSpeed;
@@ -466,7 +466,7 @@ Player.prototype._speedUp = function(){
 };
 
 
-Player.prototype._increaseTempterature = function(){
+Player_endless.prototype._increaseTempterature = function(){
     if(this._incTemperatureFrameCount >= this.kincTemperatureCountMax){
         this.temperature+=1.1;
         this._incTemperatureFrameCount = 0;

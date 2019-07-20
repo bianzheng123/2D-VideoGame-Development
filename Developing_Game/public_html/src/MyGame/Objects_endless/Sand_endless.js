@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Sand(spriteTexture,Xindex,Yindex) {
+function Sand_endless(spriteTexture,Xindex,Yindex) {
     this.kXindex = Xindex;
     this.kYindex = Yindex;
     this.kTag = "Sand";
@@ -27,6 +27,6 @@ function Sand(spriteTexture,Xindex,Yindex) {
 
     GameObject.call(this, this.mSand);
 }
-gEngine.Core.inheritPrototype(Sand, GameObject);
+gEngine.Core.inheritPrototype(Sand_endless, GameObject);
 
 

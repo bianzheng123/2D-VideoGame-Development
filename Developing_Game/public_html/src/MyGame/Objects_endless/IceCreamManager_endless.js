@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function IceCreamManager(spriteTexture,camera) {
+function IceCreamManager_endless(spriteTexture,camera) {
     this.kspriteTexture = spriteTexture;
     this.kCamera = camera;
     this.mIceCreamArray = [];
@@ -23,10 +23,9 @@ function IceCreamManager(spriteTexture,camera) {
     this.isAutoCreate = true;
 }
 
-IceCreamManager.prototype.update = function (mapManager) {
+IceCreamManager_endless.prototype.update = function (mapManager) {
     if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Z)){
         this.createIceCream(mapManager);
-//        console.log("update");
     }
     
     if(gEngine.Input.isKeyClicked(gEngine.Input.keys.C)){
@@ -45,7 +44,7 @@ IceCreamManager.prototype.update = function (mapManager) {
     
 };
 
-IceCreamManager.prototype._updateIceCream = function(){
+IceCreamManager_endless.prototype._updateIceCream = function(){
     var i,l;
     for(i=0;i<this.mIceCreamArray.length;i++){
         l = this.mIceCreamArray[i];
@@ -56,7 +55,7 @@ IceCreamManager.prototype._updateIceCream = function(){
     }//update IceCream
 };
 
-IceCreamManager.prototype._updateCoco = function(){
+IceCreamManager_endless.prototype._updateCoco = function(){
     var i,l;
     for(i=0;i<this.mCocoArray.length;i++){
         if(this.mCocoArray[i] !== null && this.mCocoArray[i].mCoco.getXform().getYPos() > 200){
@@ -71,7 +70,7 @@ IceCreamManager.prototype._updateCoco = function(){
     }//update Coco
 };
 
-IceCreamManager.prototype._optimization = function(array){
+IceCreamManager_endless.prototype._optimization = function(array){
     var i = array.length - 1;
     while(array[i] === null){
         var temp = array.pop();
@@ -84,7 +83,7 @@ IceCreamManager.prototype._optimization = function(array){
     }
 };
 
-IceCreamManager.prototype.autoCreateIceCream = function(mapManager){
+IceCreamManager_endless.prototype.autoCreateIceCream = function(mapManager){
     if(this.createIceCreamCount >= this.kCreateIceCreamCountMax){
         this.createIceCream(mapManager);
         this.createIceCreamCount = 0;
@@ -93,7 +92,7 @@ IceCreamManager.prototype.autoCreateIceCream = function(mapManager){
     }
 };
 
-IceCreamManager.prototype.createIceCream = function(mapManager){
+IceCreamManager_endless.prototype.createIceCream = function(mapManager){
     var tmp_arr = [];
     var i,j,l;
     for(i=0;i<mapManager.kWidth;i++){
@@ -114,11 +113,11 @@ IceCreamManager.prototype.createIceCream = function(mapManager){
         l = tmp_arr[index];
         
         l.mHasIceCream = true;
-        var iceCream = new IceCream(this.kspriteTexture,l.kXindex,l.kYindex,buff);
-        var mIcecreamShadow = new Shadow(this.kspriteTexture,[iceCream.mIceCream.getXform()[0],iceCream.mIceCream.getXform().getYPos()-22,4,2]);
+        var iceCream = new IceCream_endless(this.kspriteTexture,l.kXindex,l.kYindex,buff);
+        var mIcecreamShadow = new Shadow_endless(this.kspriteTexture,[iceCream.mIceCream.getXform()[0],iceCream.mIceCream.getXform().getYPos()-22,4,2]);
         //document.getElementById("st10").innerHTML=iceCream.mIceCream.getXform().getXPos();
-        var mCoco = new Coco(this.kspriteTexture,iceCream);
-        var mCocoShadow = new Shadow(this.kspriteTexture,[mCoco.getXform()[0],mCoco.getXform()[1]-20,6,2]);
+        var mCoco = new Coco_endless(this.kspriteTexture,iceCream);
+        var mCocoShadow = new Shadow_endless(this.kspriteTexture,[mCoco.getXform()[0],mCoco.getXform()[1]-20,6,2]);
         mCoco.shadow=mCocoShadow;
         mCocoShadow.mCoco=mCoco;
         iceCream.shadow=mIcecreamShadow;
@@ -129,7 +128,7 @@ IceCreamManager.prototype.createIceCream = function(mapManager){
     
 };
 
-IceCreamManager.prototype.getBuff = function(){
+IceCreamManager_endless.prototype.getBuff = function(){
     var ran = Math.random();
     if(0 <= ran && ran <= this.kp_no_buff){
         return 0;
@@ -142,7 +141,7 @@ IceCreamManager.prototype.getBuff = function(){
     }
 };
 
-IceCreamManager.prototype.draw = function(){
+IceCreamManager_endless.prototype.draw = function(){
     var i,l;
 
     for(i=0;i<this.mIceCreamArray.length;i++){

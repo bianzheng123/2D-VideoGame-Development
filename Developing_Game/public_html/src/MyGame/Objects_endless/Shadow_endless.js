@@ -1,6 +1,6 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Shadow(spriteTexture,xform) {
+function Shadow_endless(spriteTexture,xform) {
     this.kTag = "Shadow";
     
     this.mShadow = new SpriteRenderable(spriteTexture);
@@ -10,8 +10,8 @@ function Shadow(spriteTexture,xform) {
     this.mShadow.setElementPixelPositions(520, 768, 0, 256);
     GameObject.call(this, this.mShadow);
 }
-gEngine.Core.inheritPrototype(Shadow, GameObject);
+gEngine.Core.inheritPrototype(Shadow_endless, GameObject);
 
-Shadow.prototype.update = function (originalX,originalY) {
+Shadow_endless.prototype.update = function (originalX,originalY) {
     this.mShadow.getXform().setPosition(originalX,originalY);
 };

@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function MapManager(spriteTexture,camera) {
+function MapManager_endless(spriteTexture,camera) {
     this.kCamera = camera;
     this.kspriteTexture = spriteTexture;
     this.kWidth = 10;
@@ -44,13 +44,13 @@ function MapManager(spriteTexture,camera) {
     
 }
 
-MapManager.prototype.update = function(){
+MapManager_endless.prototype.update = function(){
     if(gEngine.Input.isKeyClicked(gEngine.Input.keys.X)){
         this.mDrawLine = !this.mDrawLine;
     }
 };
 
-MapManager.prototype.initialize = function(){
+MapManager_endless.prototype.initialize = function(){
     var i,j,l;
     for(i=0;i<this.kWidth;i++){
          this.MapArray[i] = new Array(this.kHeight);
@@ -59,10 +59,10 @@ MapManager.prototype.initialize = function(){
         for(j=0;j<this.kWidth;j++){
             var temp;
             if(this.mMapDesign[i][j]===1){
-                temp = new Grass(this.kspriteTexture,j,this.kHeight - 1 - i,this.kCamera);
+                temp = new Grass_endless(this.kspriteTexture,j,this.kHeight - 1 - i,this.kCamera);
                 temp.initialize();
             }else if(this.mMapDesign[i][j]===0){
-                temp = new Sand(this.kspriteTexture,j,this.kHeight - 1 - i);
+                temp = new Sand_endless(this.kspriteTexture,j,this.kHeight - 1 - i);
             }
             this.MapArray[j][this.kHeight - 1 - i]=temp;
         }
@@ -70,7 +70,7 @@ MapManager.prototype.initialize = function(){
 
 };
 
-MapManager.prototype.draw = function () {
+MapManager_endless.prototype.draw = function () {
     var i,j,l;
     for(i=0;i<this.kHeight;i++){
         for(j=0;j<this.kWidth;j++){

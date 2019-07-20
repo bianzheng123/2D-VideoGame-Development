@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function IceCream(spriteTexture,Xindex,Yindex,buffNum) {
+function IceCream_endless(spriteTexture,Xindex,Yindex,buffNum) {
     this.kXindex = Xindex;
     this.kYindex = Yindex;
     this.kHeight = 7;
@@ -85,10 +85,10 @@ function IceCream(spriteTexture,Xindex,Yindex,buffNum) {
     
     this.shadow = null;
 }
-gEngine.Core.inheritPrototype(IceCream, GameObject);
+gEngine.Core.inheritPrototype(IceCream_endless, GameObject);
 
 
-IceCream.prototype.update = function () {
+IceCream_endless.prototype.update = function () {
     switch(this.mState){
         case this.kStateEnum.FLYING:
             this._fly();    break;
@@ -100,7 +100,7 @@ IceCream.prototype.update = function () {
     
 };
 
-IceCream.prototype._fly = function(){
+IceCream_endless.prototype._fly = function(){
     //this.mTargetPositionX + this.failingDistanceX
     var xform = this.mIceCream.getXform();
     var targetXPos = this.mTargetPositionX + this.failingDistanceX;
@@ -113,7 +113,7 @@ IceCream.prototype._fly = function(){
     
 };
 
-IceCream.prototype._drop = function(){
+IceCream_endless.prototype._drop = function(){
     var pos = this.mIceCream.getXform().getPosition();
     if(this.failingFrameCount >= this.kfailingTime * 60){
         pos[0] = this.mTargetPositionX;
@@ -132,7 +132,7 @@ IceCream.prototype._drop = function(){
 };
 
 
-IceCream.prototype._melt = function(){
+IceCream_endless.prototype._melt = function(){
     
     switch(this.mFrameCount){
         case this.kHalfMeltTime * 60:

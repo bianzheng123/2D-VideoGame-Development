@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Grass(spriteTexture,Xindex,Yindex,camera) {
+function Grass_endless(spriteTexture,Xindex,Yindex,camera) {
     this.kXindex = Xindex;
     this.kYindex = Yindex;
     this.kTag = "Grass";
@@ -48,9 +48,9 @@ function Grass(spriteTexture,Xindex,Yindex,camera) {
     this.mHasIceCream = false;
    GameObject.call(this, this.mGrass);
 }
-gEngine.Core.inheritPrototype(Grass, GameObject);
+gEngine.Core.inheritPrototype(Grass_endless, GameObject);
 
-Grass.prototype.initialize = function(){
+Grass_endless.prototype.initialize = function(){
     this.kLeftLine = new LineRenderable();
     this.kLeftLine.setFirstVertex(this.kLeft, this.kBottom);
     this.kLeftLine.setSecondVertex(this.kLeft, this.kTop);
@@ -70,7 +70,7 @@ Grass.prototype.initialize = function(){
     
 };
 
-Grass.prototype.drawLine = function(){
+Grass_endless.prototype.drawLine = function(){
     this.kRightLine.draw(this.kCamera);
     this.kLeftLine.draw(this.kCamera);
     this.kBottomLine.draw(this.kCamera);
