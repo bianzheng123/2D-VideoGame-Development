@@ -77,7 +77,7 @@ PlayScene.prototype.initialize = function () {
     this.mCamera = new Camera(
         vec2.fromValues(-15.5, -10), // position of the camera
         140,                     // width of camera
-        [10, 10, 975, 585]         // viewport (orgX, orgY, width, height)
+        [0,0,999,599]         // viewport (orgX, orgY, width, height)
     );
     this.mCamera.setBackgroundColor([1,234/255,167/255, 1]);
             // sets the background to gray

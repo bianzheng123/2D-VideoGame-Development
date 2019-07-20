@@ -23,6 +23,7 @@ function MyGame() {
     this.mCamera = null;
     this.PlaySceneButton = null;
     this.UITitle = null;
+    this.generalUI = null;
     this.LevelSelect = null;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
@@ -64,6 +65,8 @@ MyGame.prototype.initialize = function () {
     
     this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[475,300],[300,50],"start game",6);
     this.UITitle = new UIText("Haha & Coco (alpha)",[475,450],8,1,0,[0,0,0,1]);
+    this.generalUI = new GeneralUI(this.kOnButton,this.mCamera);
+    this.generalUI.initialize();
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -72,7 +75,8 @@ MyGame.prototype.draw = function () {
     // Step A: clear the canvas
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     
-    this.mCamera.setupViewProjection();
+    this.mCamera.setupViewProjection();    
+    this.generalUI.draw(this.mCamera);
     this.PlaySceneButton.draw(this.mCamera); 
     this.UITitle.draw(this.mCamera);
 };
@@ -80,6 +84,7 @@ MyGame.prototype.draw = function () {
 MyGame.prototype.update = function () {
     
     this.PlaySceneButton.update();
+    this.generalUI.update();
 };
 
 MyGame.prototype.PlaySceneSelect = function(){
