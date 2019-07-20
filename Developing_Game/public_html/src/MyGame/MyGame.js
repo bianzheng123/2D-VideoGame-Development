@@ -22,6 +22,7 @@ function MyGame() {
     
     this.mCamera = null;
     this.PlaySceneButton = null;
+    this.EndlessPlayingSceneButton = null;
     this.UITitle = null;
     this.generalUI = null;
     this.LevelSelect = null;
@@ -49,6 +50,8 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kUIButton);
     if(this.LevelSelect==="PlayScene"){
         gEngine.Core.startScene(new PlayScene());
+    }else if(this.LevelSelect === "EndlessPlayingScene"){
+        gEngine.Core.startScene(new EndlessPlayingScene());
     }
 };
 
@@ -64,6 +67,7 @@ MyGame.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
     this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[475,300],[300,50],"start game",6);
+    this.EndlessPlayingSceneButton = new UIButton(this.EndlessPlayingSceneSelect,this,[475,200],[300,50],"endless mode",6);
     this.UITitle = new UIText("Haha & Coco (alpha)",[475,450],8,1,0,[0,0,0,1]);
     this.generalUI = new GeneralUI(this.kOnButton,this.mCamera);
     this.generalUI.initialize();
@@ -79,16 +83,24 @@ MyGame.prototype.draw = function () {
     this.generalUI.draw(this.mCamera);
     this.PlaySceneButton.draw(this.mCamera); 
     this.UITitle.draw(this.mCamera);
+    this.EndlessPlayingSceneButton.draw(this.mCamera);
 };
 
 MyGame.prototype.update = function () {
     
     this.PlaySceneButton.update();
     this.generalUI.update();
+    this.EndlessPlayingSceneButton.update();
 };
 
 MyGame.prototype.PlaySceneSelect = function(){
     this.LevelSelect="PlayScene";
+    this.clickAudio(this.PlaySceneButton);
+    gEngine.GameLoop.stop();
+};
+
+MyGame.prototype.EndlessPlayingSceneSelect = function(){
+    this.LevelSelect = "EndlessPlayingScene";
     this.clickAudio(this.PlaySceneButton);
     gEngine.GameLoop.stop();
 };
