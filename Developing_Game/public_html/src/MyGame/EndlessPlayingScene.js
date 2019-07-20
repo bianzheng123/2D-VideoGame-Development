@@ -43,9 +43,8 @@ function EndlessPlayingScene() {
     this.timeLastFrameCount = 0;
     
     this.stopUpdating = false;
-    this.isVictory = false;
+//    this.isVictory = false;   //如果能读取本地文件的话就能用到
     this.isLost = false;
-    this._VictoryFrameLast = 100 * 60;//距离胜利还有多少帧
     
     
     //To change the Scene
@@ -148,10 +147,10 @@ EndlessPlayingScene.prototype.update = function () {
         this.mShadowManager.HahaUpdate([this.mPlayer.originalX,this.mPlayer.originalY]);
         //press z to create an iceCream
         
-        this._approachVictory();
-        if(this.isVictory){
-            this.stopUpdating = true;
-        }
+//        this._approachVictory();
+//        if(this.isVictory){
+//            this.stopUpdating = true;
+//        }
         this._detectLost();
         if(this.isLost){
             this.stopUpdating = true;
@@ -178,13 +177,13 @@ EndlessPlayingScene.prototype._detectLost = function(){
 };
 
 //means survive the fixed time to win the game
-EndlessPlayingScene.prototype._approachVictory = function(){
-    if(this._VictoryFrameLast <= 0 || this.mPlayer.temperature <= 0){
-        this.isVictory = true;
-    }else{
-        this._VictoryFrameLast--;
-    }
-};
+//EndlessPlayingScene.prototype._approachVictory = function(){
+//    if(this._VictoryFrameLast <= 0 || this.mPlayer.temperature <= 0){
+//        this.isVictory = true;
+//    }else{
+//        this._VictoryFrameLast--;
+//    }
+//};
 
 EndlessPlayingScene.prototype._setMsg = function(){
     var dir = null;
