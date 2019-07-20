@@ -81,6 +81,20 @@ function IceCream(spriteTexture,Xindex,Yindex,buffNum) {
             this.mIceCream.setElementPixelPositions(this.kFireBuff_NotMelt_PixelPositions[0]+2,this.kFireBuff_NotMelt_PixelPositions[1],this.kFireBuff_NotMelt_PixelPositions[2],this.kFireBuff_NotMelt_PixelPositions[3]);   break;
         
     }
+    
+    switch(this.mBuff){
+        case this.kBuffEnum.NO_BUFF:
+            this.kHalfMeltTime = 10;
+            this.kFullMeltTime = 20;    break;
+        case this.kBuffEnum.FIRE_BUFF:
+            this.kHalfMeltTime = 8;
+            this.kFullMeltTime = 16;    break;
+        case this.kBuffEnum.SPEED_UP_BUFF:
+            this.kHalfMeltTime = 10;
+            this.kHalfMeltTime = 20;    break;
+        
+    }
+    
     GameObject.call(this,this.mIceCream);
     
     this.shadow = null;

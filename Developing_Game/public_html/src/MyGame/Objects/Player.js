@@ -9,7 +9,19 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Player(spriteTexture,camera,fireManager,audio_EatIceCream,beenHit,fallDown,trap,storingForce,giveOutForce) {
+function Player(spriteTexture,camera,fireManager,audio_EatIceCream,beenHit,fallDown,trap,storingForce,giveOutForce,isEndless) {
+    this.kIsEndless = isEndless;
+    
+    this.kSpeedUpSpeed = null;
+    this.kOriginSpeed = null;
+    if(this.kIsEndless){
+        this.kSpeedUpSpeed = 0.5;
+        this.kOriginSpeed = 0.4;
+    }else{
+        this.kSpeedUpSpeed = 0.4;
+        this.kOriginSpeed = 0.2;
+    }
+    
     this.DirectionEnum={
         RIGHT: 0,
         TOPRIGHT: 1,
@@ -56,9 +68,10 @@ function Player(spriteTexture,camera,fireManager,audio_EatIceCream,beenHit,fallD
     
     this.eatIceCreamCount = 0;
     
-    this.kSpeedUpSpeed = 0.4;
-    this.kOriginSpeed = 0.2;
+    this.kHealth = 10;//for the endless
+    
     this.kSpeedUpTime = 5;//for the speed up buff
+    this.health = this.kHealth;
     
     this.kSprayFireTime = 5;//喷火
 
@@ -300,7 +313,12 @@ Player.prototype._jump = function(mPlayUI){
             this.hasStoringForceAudio = true;
             gEngine.AudioClips.playACue(this.kStoringForce,30);
         }
-        this.accumulateValue+=0.1;
+        if(this.kIsEndless){
+            this.accumulateValue+=0.2;
+        }else{
+            this.accumulateValue+=0.1;
+        }        
+        
         var deltaH = -xform.getHeight()/200;
         var color=this.mPlayer.getColor();
         color[3]+=0.003;
@@ -370,6 +388,7 @@ Player.prototype._death = function(){
     if(!this.mIsDeathCountStart){
         this.accumulateValue=0;
         this.mPlayer.setColor([0.8, 0.6, 0.2, 0]);
+        this.health--;//
         switch(this.deathReason){
             case this.DeathEnum.FALL:
                 gEngine.AudioClips.playACue(this.kFallDown,30);
@@ -479,18 +498,18 @@ Player.prototype._eatIceCream = function(mIceCreamArray,mapManager){
 };
 
 Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
-    mapManager.MapArray[l.kYindex][l.kXindex].mHasIceCream = false;
+    
     if(mIceCreamArray[i].canBeKnocked){//knocked
         this.temperature -= 1;
         this.mIsDead = true;
         this.deathReason = this.DeathEnum.FLYING_ICE_CREAM;
         mIceCreamArray[i] = null;
-        
+        mapManager.MapArray[l.kXindex][l.kYindex].mHasIceCream = false;
     }else if(mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.NOT_MELT
             || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.HALF_MELT
             || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.FULL_MELT
             && this.canEatIceCream){
-        
+        mapManager.MapArray[l.kXindex][l.kYindex].mHasIceCream = false;
         
         l = mIceCreamArray[i];
 
@@ -558,7 +577,12 @@ Player.prototype._speedUp = function(){
 
 Player.prototype._increaseTempterature = function(){
     if(this._incTemperatureFrameCount >= this.kincTemperatureCountMax){
-        this.temperature+=1.1;
+        if(this.kIsEndless){
+            this.temperature+=1.7;
+        }else{
+            this.temperature+=1.1;
+        }  
+        
         this._incTemperatureFrameCount = 0;
     }else{
         this._incTemperatureFrameCount++;

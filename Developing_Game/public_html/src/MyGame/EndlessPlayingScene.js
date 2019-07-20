@@ -125,14 +125,14 @@ EndlessPlayingScene.prototype.initialize = function () {
     this.mPlayUI.initialize();
     this.mFinishUI = new FinishUI(this.kSprite,this.mCamera,this,true);
     this.mFinishUI.initialize();
-    this.mMapManager = new MapManager_endless(this.kSprite,this.mCamera);
+    this.mMapManager = new MapManager(this.kSprite,this.mCamera,7);
     this.mMapManager.initialize();
-    this.mShadowManager = new ShadowManager_endless(this.kSprite,this.mCamera);
+    this.mShadowManager = new ShadowManager(this.kSprite,this.mCamera);
     
     
-    this.mIceCreamManager = new IceCreamManager_endless(this.kSprite,this.mCamera,this);
-    this.mFireManager = new FireManager_endless(this.kSprite,this.mCamera,this.mIceCreamManager,this.mMapManager);
-    this.mPlayer = new Player_endless(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream,this.kBeenHit,this.kFallDown,this.kTrap,this.kStoringForce,this.kGiveOutForce);
+    this.mIceCreamManager = new IceCreamManager(this.kSprite,this.mCamera,this,true);
+    this.mFireManager = new FireManager(this.kSprite,this.mCamera,this.mIceCreamManager,this.mMapManager);
+    this.mPlayer = new Player(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream,this.kBeenHit,this.kFallDown,this.kTrap,this.kStoringForce,this.kGiveOutForce,true);
     this.mPlayer.initialize();
     
 //    this.mStateUI = new StateUI(this.mPlayer);

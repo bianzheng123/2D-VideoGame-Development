@@ -9,11 +9,13 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function FireManager(spriteTexture,camera,iceCreamManager) {
+function FireManager(spriteTexture,camera,iceCreamManager,mapManager) {
     this.kspriteTexture = spriteTexture;
     this.kIceCreamManager = iceCreamManager;
+    this.kMapManager = mapManager;
     this.kCamera = camera;
     this.mFireArray = [];
+    
     
 }
 
@@ -63,7 +65,7 @@ FireManager.prototype.draw = function(){
 };
 
 FireManager.prototype.createFire = function(player){
-    var fire = new Fire(this.kspriteTexture,player,this.kIceCreamManager);
+    var fire = new Fire(this.kspriteTexture,player,this.kIceCreamManager,this.kMapManager);
     this.mFireArray.push(fire);
 };
 
