@@ -122,7 +122,7 @@ PlayScene.prototype.initialize = function () {
     this.mPlayUI.initialize();
     this.mFinishUI = new FinishUI(this.kSprite,this.mCamera,this);
     this.mFinishUI.initialize();
-    this.mMapManager = new MapManager(this.kSprite,this.mCamera);
+    this.mMapManager = new MapManager(this.kSprite,this.mCamera,8);
     this.mMapManager.initialize();
     this.mShadowManager = new ShadowManager(this.kSprite,this.mCamera);
     
