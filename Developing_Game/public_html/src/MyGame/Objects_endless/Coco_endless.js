@@ -37,6 +37,17 @@ function Coco_endless(spriteTexture,IceCream) {
     this.mCoco.getXform().setSize(this.kWidth, this.kHeight);
     this.mCoco.setColor([1, 0, 0, 0]);
     this.mCoco.setElementPixelPositions(448, 0, 1338, 1658);
+    this.currentFrameIndex = 0;
+    this.kPictureArray = [
+        [640,978,1378,1621],
+        [978,1330,1378,1621],
+        [1330,1676,1378,1621],
+        [1676,2047,1378,1621],        
+        [640,978,1135,1378],
+        [978,1330,1135,1378],
+        [1330,1676,1135,1378],
+        [1676,2047,1135,1378],
+    ];
     GameObject.call(this,this.mCoco);
     
 }
@@ -49,7 +60,13 @@ Coco_endless.prototype.update = function(){
         case this.kStateEnum.NOTBRINGING:
             this._notBringing();  break;
     }
-    
+    this.currentFrameIndex++;
+    var realIndex=Math.floor(this.currentFrameIndex/10);
+    if(realIndex>7){
+        this.currentFrameIndex=0;
+        realIndex=0;
+    }
+    this.mCoco.setElementPixelPositions(this.kPictureArray[realIndex][1]+10,this.kPictureArray[realIndex][0]+10,this.kPictureArray[realIndex][2],this.kPictureArray[realIndex][3]);
     
 };
 

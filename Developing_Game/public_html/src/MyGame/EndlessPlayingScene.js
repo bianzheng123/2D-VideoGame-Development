@@ -46,6 +46,7 @@ function EndlessPlayingScene() {
     this.mFinishUI = null;
     this.mPlayerDirectionUI = null;
     this.mEventUI = null;
+//    this.mStateUI = null;
     
     this.kHalfDifficultSecond = 2;
     this.kFullDifficultSecond = 5;
@@ -134,6 +135,7 @@ EndlessPlayingScene.prototype.initialize = function () {
     this.mPlayer = new Player_endless(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream,this.kBeenHit,this.kFallDown,this.kTrap,this.kStoringForce,this.kGiveOutForce);
     this.mPlayer.initialize();
     
+//    this.mStateUI = new StateUI(this.mPlayer);
     this.mHealthUIManager = new HealthUIManager(this.kLife,this.mCamera,this.mPlayer);
     this.mHealthUIManager.initialize();
     
@@ -163,6 +165,7 @@ EndlessPlayingScene.prototype.draw = function () {
     this.mPlayerDirectionUI.draw(this.mCamera,this.mPlayer);
     this.mEventUI.draw();
     this.mHealthUIManager.draw();
+//    this.mStateUI.draw(this.mCamera);
 };
 
 EndlessPlayingScene.prototype.update = function () {
@@ -185,7 +188,7 @@ EndlessPlayingScene.prototype.update = function () {
         this._detectLost();
         if(this.isLost){
             this.stopUpdating = true;
-            gEngine.AudioClips.setCueVolume(30)
+            gEngine.AudioClips.setCueVolume(30);
             gEngine.AudioClips.playACue(this.kWinBgm,30);
             gEngine.AudioClips.stopBackgroundAudio();
         }
@@ -194,6 +197,7 @@ EndlessPlayingScene.prototype.update = function () {
         this.mPlayerDirectionUI.update();
         this.mEventUI.update();
         this.mHealthUIManager.update();
+//        this.mStateUI.update();
     }else{
         this.mFinishUI.update(this.mPlayer.eatIceCreamCount);
     }
