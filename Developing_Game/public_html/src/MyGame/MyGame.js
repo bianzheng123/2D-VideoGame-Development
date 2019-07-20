@@ -49,7 +49,7 @@ MyGame.prototype.unloadScene = function () {
     
     gEngine.Textures.unloadTexture(this.kUIButton);
     if(this.LevelSelect==="PlayScene"){
-        gEngine.Core.startScene(new PlayScene());
+        gEngine.Core.startScene(new PlayScene(0));
     }else if(this.LevelSelect === "EndlessPlayingScene"){
         gEngine.Core.startScene(new EndlessPlayingScene());
     }

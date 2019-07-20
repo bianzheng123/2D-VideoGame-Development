@@ -11,7 +11,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function PlayScene() {
+function PlayScene(mapIndex) {
     //to Upload the background
     this.kBG = "assets/background.png";
     this.kSprite = "assets/sprite.png";
@@ -46,6 +46,8 @@ function PlayScene() {
     this.mFinishUI = null;
     this.mPlayerDirectionUI = null;
     this.mEventUI = null;
+    
+    this.mapIndex = mapIndex;
     
     this.timeLast = 0;
     this.timeLastFrameCount = 0;
@@ -96,6 +98,7 @@ PlayScene.prototype.unloadScene = function () {
     gEngine.AudioClips.unloadAudio(this.kTrap);
     gEngine.AudioClips.unloadAudio(this.kStoringForce);
     gEngine.AudioClips.unloadAudio(this.kGiveOutForce);
+    
 };
 
 PlayScene.prototype.initialize = function () {
@@ -122,7 +125,7 @@ PlayScene.prototype.initialize = function () {
     this.mPlayUI.initialize();
     this.mFinishUI = new FinishUI(this.kSprite,this.mCamera,this);
     this.mFinishUI.initialize();
-    this.mMapManager = new MapManager(this.kSprite,this.mCamera,8);
+    this.mMapManager = new MapManager(this.kSprite,this.mCamera,this.mapIndex);
     this.mMapManager.initialize();
     this.mShadowManager = new ShadowManager(this.kSprite,this.mCamera);
     

@@ -9,7 +9,9 @@ function FinishUI(spriteTexture,camera,playscene,isEndless) {
     this.timeLast = new UIText("text",[500,225],4,1,0,[1,1,1,1]);
     this.iceCreamEatCountText = new UIText("text",[500,200],4,1,0,[1,1,1,1]);
     this.ReplayButton = new UIButton(this.replaySelect,this,[500,130],[200,40],"Replay",4);
-    this.MainMenuButton = new UIButton(this.replayMainMenu,this,[500,80],[200,40],"Main Menu",4);
+    this.MainMenuButton = new UIButton(this.mainMenuSelect,this,[500,80],[200,40],"Main Menu",4);
+    this.NextMapButton = new UIButton(this.nextSelest,this,[700,105],[200,35],"Next Map",3);
+    this.PreMapButton = new UIButton(this.preSelest,this,[300,105],[200,35],"Previous Map",3);
     this.winScene=null;
     this.lostScene=null;
     this.timecount=1;
@@ -41,6 +43,8 @@ FinishUI.prototype.update = function(iceCreamEatCount){
     }
     this.ReplayButton.update();
     this.MainMenuButton.update();
+    this.NextMapButton.update();
+    this.PreMapButton.update();
     this.iceCreamEatCountText.setText("Icecream you ate: " + iceCreamEatCount);
     this.timeLast.setText("Time you have survived: " + this.kPlayscene.timeLast);
 };
@@ -61,6 +65,12 @@ FinishUI.prototype.draw = function () {
         this.MainMenuButton.draw(this.mCamera); 
         this.iceCreamEatCountText.draw(this.mCamera);
         this.timeLast.draw(this.mCamera);
+        if(this.kPlayscene.mapIndex<9){
+            this.NextMapButton.draw(this.mCamera);
+        }
+        if(this.kPlayscene.mapIndex>0){
+            this.PreMapButton.draw(this.mCamera);
+        }
     }      
     if(this.kPlayscene.isVictory){
         this.winScene.draw(this.mCamera);
@@ -72,16 +82,30 @@ FinishUI.prototype.draw = function () {
 
 };
 FinishUI.prototype.replaySelect=function(){
+    
     if(this.isEndless){
         gEngine.AudioClips.setCueVolume(0);
         gEngine.Core.startScene(new EndlessPlayingScene());
     }else{
         gEngine.AudioClips.setCueVolume(0);
-        gEngine.Core.startScene(new PlayScene());
+        var i=this.kPlayscene.mapIndex;
+        this.kPlayscene.unloadScene();
+        this.kPlayscene=null;
+        gEngine.Core.startScene(new PlayScene(i));
     }
     
     
 };
-FinishUI.prototype.replayMainMenu=function(){
+FinishUI.prototype.mainMenuSelect=function(){
     gEngine.Core.startScene(new MyGame());
 };
+FinishUI.prototype.nextSelest=function(){
+    var i=this.kPlayscene.mapIndex;
+    this.kPlayscene.unloadScene();
+    gEngine.Core.startScene(new PlayScene(i+1));
+};
+FinishUI.prototype.preSelest=function(){
+    var i=this.kPlayscene.mapIndex;
+    this.kPlayscene.unloadScene();
+    gEngine.Core.startScene(new PlayScene(i-1));
+}
