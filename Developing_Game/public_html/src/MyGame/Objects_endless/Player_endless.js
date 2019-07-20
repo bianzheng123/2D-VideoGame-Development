@@ -34,16 +34,15 @@ function Player_endless(spriteTexture,camera,fireManager,audio_EatIceCream) {
     this.kGravityAcceleration = 1;
     this.kspriteTexture = spriteTexture;
     this.kincTemperatureCountMax = 60;//平均120帧主角上升1°
-    this.kTimeToVictory = 120;//10秒之后存活成功
     this.kAudio_EatIceCream = audio_EatIceCream;
     
     this.eatIceCreamCount = 0;
     
-    this.kSpeedUpSpeed = 0.4;
-    this.kOriginSpeed = 0.2;
+    this.kSpeedUpSpeed = 0.5;
+    this.kOriginSpeed = 0.4;
     this.kSpeedUpTime = 5;//for the speed up buff
     
-    this.kSprayFireTime = 5;//喷火
+    this.kSprayFireTime = 7;//喷火
 
     this.isSpeedUp = false;
     this._SpeedUpFrameCount = 0;
@@ -65,7 +64,7 @@ function Player_endless(spriteTexture,camera,fireManager,audio_EatIceCream) {
     this.mCountFrameDeath = 0;//for the death part
     
     this.speed = this.kOriginSpeed;
-    this.temperature = 50;//初始温度, range is [0, 100]
+    this.temperature = 30;//初始温度, range is [0, 100]
     this.direction=this.DirectionEnum.RIGHT;
     
     this.comaTime = 0; // 0 for not in coma yet
@@ -220,7 +219,7 @@ Player_endless.prototype._jump = function(){
     this.p_isJumping = this.isJumping;
     
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)&&!this.isJumping){
-        this.accumulateValue+=0.1;
+        this.accumulateValue+=0.2;
         var deltaH = -xform.getHeight()/200;
         var color=this.mPlayer.getColor();
         color[3]+=0.003;
@@ -392,17 +391,19 @@ Player_endless.prototype._eatIceCream = function(mIceCreamArray,mapManager){
 };
 
 Player_endless.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
-    mapManager.MapArray[l.kYindex][l.kXindex].mHasIceCream = false;
+    
     if(mIceCreamArray[i].canBeKnocked){//knocked
         this.temperature -= 1;
         this.mIsDead = true;
         this.deathReason = this.DeathEnum.FLYING_ICE_CREAM;
         mIceCreamArray[i] = null;
+        mapManager.MapArray[l.kXindex][l.kYindex].mHasIceCream = false;
     }else if(mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.NOT_MELT
             || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.HALF_MELT
             || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.FULL_MELT
             && this.canEatIceCream){
         gEngine.AudioClips.playACue(this.kAudio_EatIceCream,40);
+        mapManager.MapArray[l.kXindex][l.kYindex].mHasIceCream = false;
         
         l = mIceCreamArray[i];
 
@@ -468,7 +469,7 @@ Player_endless.prototype._speedUp = function(){
 
 Player_endless.prototype._increaseTempterature = function(){
     if(this._incTemperatureFrameCount >= this.kincTemperatureCountMax){
-        this.temperature+=1.1;
+        this.temperature+=1.5;
         this._incTemperatureFrameCount = 0;
     }else{
         this._incTemperatureFrameCount++;

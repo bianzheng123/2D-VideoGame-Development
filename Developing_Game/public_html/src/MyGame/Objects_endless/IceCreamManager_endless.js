@@ -9,7 +9,18 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function IceCreamManager_endless(spriteTexture,camera) {
+function IceCreamManager_endless(spriteTexture,camera,endlessPlayingScene) {
+    this.kEndlessPlayingScene = endlessPlayingScene;
+    this.kDifficultCreatIceCreamCountEnum = {
+        NO_DIFFICULT:1,
+        HALF_DIFFICULT:3,
+        FULL_DIFFICULT:5
+    };
+    this.kDifficultCreatIceCreamCountMaxEnum = {
+        NO_DIFFICULT: 300,
+        HALF_DIFFICULT: 200,
+        FULL_DIFFICULT: 100
+    };
     this.kspriteTexture = spriteTexture;
     this.kCamera = camera;
     this.mIceCreamArray = [];
@@ -17,9 +28,12 @@ function IceCreamManager_endless(spriteTexture,camera) {
     this.kp_no_buff = 0.4;//the probability of no buff;
     this.kp_speed_up_buff = 0.7;
     this.kp_fire_buff = 1;
-    this.kCreateIceCreamCountMax = 300;//每5秒出现一个冰淇凌
+    
+    this.createIceCreamCountMax = this.kDifficultCreatIceCreamCountMaxEnum.NO_DIFFICULT;//每5秒出现一个冰淇凌
+    this.createIceCreamQuantity = this.kDifficultCreatIceCreamCountEnum.NO_DIFFICULT;//一次出现多少个冰淇凌
     
     this.createIceCreamCount = 0;
+    
     this.isAutoCreate = true;
 }
 
@@ -33,15 +47,36 @@ IceCreamManager_endless.prototype.update = function (mapManager) {
         console.log("isAutoCreateIceCream: " + this.isAutoCreate);
     }
     
+    
     if(this.isAutoCreate){
+        this._changeDifficulty();
         this.autoCreateIceCream(mapManager);
     }
+    
+//    console.log("createIceCreamCountMax: " + this.createIceCreamCountMax);
     
     this._updateIceCream();
     this._updateCoco();
     this._optimization(this.mIceCreamArray);
     this._optimization(this.mCocoArray);
     
+};
+
+IceCreamManager_endless.prototype._changeDifficulty = function(){
+    switch(this.kEndlessPlayingScene.difficultState){
+        case this.kEndlessPlayingScene.kDifficultyEnum.NO_DIFFICULT:
+            this.createIceCreamCountMax = this.kDifficultCreatIceCreamCountMaxEnum.NO_DIFFICULT;
+            this.createIceCreamQuantity = this.kDifficultCreatIceCreamCountEnum.NO_DIFFICULT;
+            break;
+        case this.kEndlessPlayingScene.kDifficultyEnum.HALF_DIFFICULT:
+            this.createIceCreamCountMax = this.kDifficultCreatIceCreamCountMaxEnum.HALF_DIFFICULT;
+            this.createIceCreamQuantity = this.kDifficultCreatIceCreamCountEnum.HALF_DIFFICULT;
+            break;
+        case this.kEndlessPlayingScene.kDifficultyEnum.FULL_DIFFICULT:
+            this.createIceCreamCountMax = this.kDifficultCreatIceCreamCountMaxEnum.FULL_DIFFICULT;
+            this.createIceCreamQuantity = this.kDifficultCreatIceCreamCountEnum.FULL_DIFFICULT;
+            break;
+    }
 };
 
 IceCreamManager_endless.prototype._updateIceCream = function(){
@@ -84,8 +119,12 @@ IceCreamManager_endless.prototype._optimization = function(array){
 };
 
 IceCreamManager_endless.prototype.autoCreateIceCream = function(mapManager){
-    if(this.createIceCreamCount >= this.kCreateIceCreamCountMax){
-        this.createIceCream(mapManager);
+    if(this.createIceCreamCount >= this.createIceCreamCountMax){
+        var i;
+        for(i=0;i<this.createIceCreamQuantity;i++){
+            this.createIceCream(mapManager);
+        }
+//        console.log("length: " + this.mIceCreamArray.length);
         this.createIceCreamCount = 0;
     }else{
         this.createIceCreamCount++;
@@ -106,7 +145,7 @@ IceCreamManager_endless.prototype.createIceCream = function(mapManager){
     //在这里实现coco
 
     var buff = this.getBuff();
-
+//    console.log(tmp_arr.length);
     var index = Math.floor(Math.random() * tmp_arr.length);
     
     if(tmp_arr.length !== 0){

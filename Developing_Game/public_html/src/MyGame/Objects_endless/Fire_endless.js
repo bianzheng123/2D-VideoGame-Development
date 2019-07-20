@@ -9,12 +9,12 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Fire_endless(spriteTexture,player,IceCreamManager) {
+function Fire_endless(spriteTexture,player,IceCreamManager,mapManager) {
     this.kspeed = 1;
     this.kXsize = 2;
     this.kYsize = 2;
     this.kRotateValueByFrame = 1;
-    
+    this.kMapManager = mapManager;
     this.mPlayer = player;
     this.kdir = this.mPlayer.direction;
     this.ktheta = Math.PI / 4;
@@ -86,6 +86,7 @@ Fire_endless.prototype._destroyTrap = function(){
                 ice_xform.getYPos() - l.kHeight / 2 <= this_xform.getYPos() && 
                 this_xform.getYPos() <= ice_xform.getYPos() + l.kHeight / 2 && 
                 l.mState === l.kStateEnum.FULL_MELT){
+                this.kMapManager.MapArray[l.kXindex][l.kYindex].mHasIceCream = false;
                 this.isDead = true;
                 l = null;
                 arr[i] = null;

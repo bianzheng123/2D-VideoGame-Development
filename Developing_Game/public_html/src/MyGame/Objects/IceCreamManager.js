@@ -87,6 +87,7 @@ IceCreamManager.prototype._optimization = function(array){
 IceCreamManager.prototype.autoCreateIceCream = function(mapManager){
     if(this.createIceCreamCount >= this.kCreateIceCreamCountMax){
         this.createIceCream(mapManager);
+        
         this.createIceCreamCount = 0;
     }else{
         this.createIceCreamCount++;

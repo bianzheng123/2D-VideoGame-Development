@@ -1,7 +1,8 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function FinishUI(spriteTexture,camera,playscene) {
+function FinishUI(spriteTexture,camera,playscene,isEndless) {
+    this.isEndless = isEndless;
     this.kPlayscene=playscene;
     this.kspriteTexture=spriteTexture;
     this.mCamera=camera;//UIText
@@ -71,7 +72,13 @@ FinishUI.prototype.draw = function () {
 
 };
 FinishUI.prototype.replaySelect=function(){
-    gEngine.Core.startScene(new PlayScene());
+    if(this.isEndless){
+        gEngine.Core.startScene(new EndlessPlayingScene());
+    }else{
+        gEngine.Core.startScene(new PlayScene());
+    }
+    
+    
 };
 FinishUI.prototype.replayMainMenu=function(){
     gEngine.Core.startScene(new MyGame());

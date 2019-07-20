@@ -39,13 +39,20 @@ function EndlessPlayingScene() {
     this.mPlayerDirectionUI = null;
     this.mEventUI = null;
     
+    this.kHalfDifficultSecond = 2;
+    this.kFullDifficultSecond = 5;
     this.timeLast = 0;
     this.timeLastFrameCount = 0;
+    this.kDifficultyEnum = {
+        NO_DIFFICULT:0,
+        HALF_DIFFICULT:1,
+        FULL_DIFFICULT:2
+    };
+    this.difficultState = this.kDifficultyEnum.NO_DIFFICULT;
     
     this.stopUpdating = false;
 //    this.isVictory = false;   //如果能读取本地文件的话就能用到
     this.isLost = false;
-    
     
     //To change the Scene
     this.LevelSelect = null;
@@ -91,17 +98,17 @@ EndlessPlayingScene.prototype.initialize = function () {
     
     this.mGeneralUI = new GeneralUI(this.kAtlas,this.mCamera);
     this.mGeneralUI.initialize();    
-    this.mPlayUI = new PlayUI(this.kSprite,this.mCamera,this);
+    this.mPlayUI = new PlayUI(this.kSprite,this.mCamera,this,false);
     this.mPlayUI.initialize();
-    this.mFinishUI = new FinishUI(this.kSprite,this.mCamera,this);
+    this.mFinishUI = new FinishUI(this.kSprite,this.mCamera,this,true);
     this.mFinishUI.initialize();
     this.mMapManager = new MapManager_endless(this.kSprite,this.mCamera);
     this.mMapManager.initialize();
     this.mShadowManager = new ShadowManager_endless(this.kSprite,this.mCamera);
     
     
-    this.mIceCreamManager = new IceCreamManager_endless(this.kSprite,this.mCamera);
-    this.mFireManager = new FireManager_endless(this.kSprite,this.mCamera,this.mIceCreamManager);
+    this.mIceCreamManager = new IceCreamManager_endless(this.kSprite,this.mCamera,this);
+    this.mFireManager = new FireManager_endless(this.kSprite,this.mCamera,this.mIceCreamManager,this.mMapManager);
     this.mPlayer = new Player_endless(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream);
     this.mPlayer.initialize();
     
@@ -131,8 +138,7 @@ EndlessPlayingScene.prototype.draw = function () {
 
 EndlessPlayingScene.prototype.update = function () {
     if(!this.stopUpdating){
-        this.timeLastFrameCount++;
-        this.timeLast = Number.parseFloat(this.timeLastFrameCount / 60).toFixed(1);
+        this._countTime();
         
         this.mIceCreamManager.update(this.mMapManager);
         this.mMapManager.update();
@@ -147,16 +153,11 @@ EndlessPlayingScene.prototype.update = function () {
         this.mShadowManager.HahaUpdate([this.mPlayer.originalX,this.mPlayer.originalY]);
         //press z to create an iceCream
         
-//        this._approachVictory();
-//        if(this.isVictory){
-//            this.stopUpdating = true;
-//        }
         this._detectLost();
         if(this.isLost){
             this.stopUpdating = true;
         }
         
-//        this._setMsg();
         this.mFireManager.update();
         this.mPlayerDirectionUI.update();
         this.mEventUI.update();
@@ -166,8 +167,18 @@ EndlessPlayingScene.prototype.update = function () {
     this.mGeneralUI.update();
     this.mPlayUI.update();
 
+};
 
-    
+EndlessPlayingScene.prototype._countTime = function(){
+    this.timeLastFrameCount++;
+    this.timeLast = Number.parseFloat(this.timeLastFrameCount / 60).toFixed(1);
+    if(this.timeLast <= this.kHalfDifficultSecond){
+        this.difficultState = this.kDifficultyEnum.NO_DIFFICULT;
+    }else if(this.kHalfDifficultSecond <= this.timeLast && this.timeLast <= this.kFullDifficultSecond){
+        this.difficultState = this.kDifficultyEnum.HALF_DIFFICULT;
+    }else{
+        this.difficultState = this.kDifficultyEnum.FULL_DIFFICULT;
+    }
 };
 
 EndlessPlayingScene.prototype._detectLost = function(){
@@ -175,15 +186,6 @@ EndlessPlayingScene.prototype._detectLost = function(){
         this.isLost = true;
     }
 };
-
-//means survive the fixed time to win the game
-//EndlessPlayingScene.prototype._approachVictory = function(){
-//    if(this._VictoryFrameLast <= 0 || this.mPlayer.temperature <= 0){
-//        this.isVictory = true;
-//    }else{
-//        this._VictoryFrameLast--;
-//    }
-//};
 
 EndlessPlayingScene.prototype._setMsg = function(){
     var dir = null;
