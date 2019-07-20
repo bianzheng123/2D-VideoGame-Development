@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Player_endless(spriteTexture,camera,fireManager,audio_EatIceCream,kBeenHit,kFallDown,kTrap) {
+function Player_endless(spriteTexture,camera,fireManager,audio_EatIceCream,kBeenHit,kFallDown,kTrap,kStoringForce,kGiveOutForce) {
     this.DirectionEnum={
         RIGHT: 0,
         TOPRIGHT: 1,
@@ -26,6 +26,10 @@ function Player_endless(spriteTexture,camera,fireManager,audio_EatIceCream,kBeen
         FLYING_ICE_CREAM:2,
         FALL:3
     };
+    this.kStoringForce = kStoringForce;
+    this.kGiveOutFoce = kGiveOutForce;
+    this.hasStoringForce = false;
+    this.hasGiveOutForce = false;
     this.kBeenHit = kBeenHit;
     this.kTrap = kTrap;
     this.kFallDown = kFallDown;
@@ -266,6 +270,10 @@ Player_endless.prototype._jump = function(mPlayUI){
     var xform = this.getXform();
     
     if(this.isJumping){
+        if(!this.hasGiveOutForce){
+            this.hasGiveOutForce = true;
+            gEngine.AudioClips.playACue(this.kGiveOutFoce,30);
+        }
         this.originalX+=this.speedX;
         this.originalY+=this.speedY;
         this.originalZ+=this.speedZ;
@@ -277,6 +285,8 @@ Player_endless.prototype._jump = function(mPlayUI){
             this.isJumping=false;
             this.originalZ=0;
         };
+    }else{
+        this.hasGiveOutForce = false;
     }
     
     if(this.isJumping === false && this.p_isJumping === true){
@@ -289,6 +299,10 @@ Player_endless.prototype._jump = function(mPlayUI){
     this.p_isJumping = this.isJumping;
     var accu=gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)||mPlayUI.isAccumulating;
     if((accu)&&!this.isJumping){
+        if(!this.hasStoringForce){
+            this.hasStoringForce = true;
+            gEngine.AudioClips.playACue(this.kStoringForce,30);
+        }
         this.accumulateValue+=0.2;
         var deltaH = -xform.getHeight()/200;
         var color=this.mPlayer.getColor();
@@ -299,6 +313,8 @@ Player_endless.prototype._jump = function(mPlayUI){
         var yShift=(Math.random()>0.5?1:(-1))*Math.sin(this.shakingCount/2)*shakingMagnitude;
 //        document.getElementById("st7").innerHTML="xShift:"+xShift+"<br /> shakingCount:"+this.shakingCount+"<br /> accumulateValue:"+this.accumulateValue;
         this.mPlayer.setElementPixelPositions(this.pleft-xShift,this.pright-xShift,this.pbottom-yShift,this.ptop-yShift);
+    }else{
+        this.hasStoringForce = false;
     }
     
     var jump=(!mPlayUI.isAccumulating)&&(!gEngine.Input.isKeyPressed(gEngine.Input.keys.Space));

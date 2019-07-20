@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Player(spriteTexture,camera,fireManager,audio_EatIceCream,beenHit,fallDown,trap) {
+function Player(spriteTexture,camera,fireManager,audio_EatIceCream,beenHit,fallDown,trap,storingForce,giveOutForce) {
     this.DirectionEnum={
         RIGHT: 0,
         TOPRIGHT: 1,
@@ -26,6 +26,10 @@ function Player(spriteTexture,camera,fireManager,audio_EatIceCream,beenHit,fallD
         FLYING_ICE_CREAM:2,
         FALL:3
     };
+    this.kStoringForce = storingForce;
+    this.hasStoringForceAudio = false;
+    this.kGiveOutForce = giveOutForce;
+    this.hasGiveOutForceAudio = false;
     this.kTrap = trap;
     this.kBeenHit = beenHit;
     this.kFallDown = fallDown;
@@ -263,6 +267,10 @@ Player.prototype._jump = function(mPlayUI){
     var xform = this.getXform();
     
     if(this.isJumping){
+        if(!this.hasGiveOutForceAudio){
+            this.hasGiveOutForceAudio = true;
+            gEngine.AudioClips.playACue(this.kGiveOutForce,30);
+        }
         this.originalX+=this.speedX;
         this.originalY+=this.speedY;
         this.originalZ+=this.speedZ;
@@ -274,6 +282,8 @@ Player.prototype._jump = function(mPlayUI){
             this.isJumping=false;
             this.originalZ=0;
         };
+    }else{
+        this.hasGiveOutForceAudio = false;
     }
     
     if(this.isJumping === false && this.p_isJumping === true){
@@ -286,6 +296,10 @@ Player.prototype._jump = function(mPlayUI){
     this.p_isJumping = this.isJumping;
     var accu=gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)||mPlayUI.isAccumulating;
     if((accu)&&!this.isJumping){
+        if(!this.hasStoringForceAudio){
+            this.hasStoringForceAudio = true;
+            gEngine.AudioClips.playACue(this.kStoringForce,30);
+        }
         this.accumulateValue+=0.1;
         var deltaH = -xform.getHeight()/200;
         var color=this.mPlayer.getColor();
@@ -296,6 +310,8 @@ Player.prototype._jump = function(mPlayUI){
         var yShift=(Math.random()>0.5?1:(-1))*Math.sin(this.shakingCount/2)*shakingMagnitude;
 //        document.getElementById("st7").innerHTML="xShift:"+xShift+"<br /> shakingCount:"+this.shakingCount+"<br /> accumulateValue:"+this.accumulateValue;
         this.mPlayer.setElementPixelPositions(this.pleft-xShift,this.pright-xShift,this.pbottom-yShift,this.ptop-yShift);
+    }else{
+         this.hasStoringForceAudio = false;
     }
     var jump=(!mPlayUI.isAccumulating)&&(!gEngine.Input.isKeyPressed(gEngine.Input.keys.Space));
     if(jump&&this.accumulateValue!=0&&!this.isJumping){

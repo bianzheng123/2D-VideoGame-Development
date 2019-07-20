@@ -27,6 +27,8 @@ function EndlessPlayingScene() {
     this.kBeenHit = "assets/AudioTest/BeenHit.wav";
     this.kFallDown = "assets/AudioTest/FallDown.mp3";
     this.kTrap = "assets/AudioTest/Trap.mp3";
+    this.kStoringForce = "assets/AudioTest/StoringForce.wav";
+    this.kGiveOutForce = "assets/AudioTest/GiveOutForce.wav";
     
     // The camera to view the scene
     this.mCamera = null;
@@ -78,6 +80,8 @@ EndlessPlayingScene.prototype.loadScene = function () {
     gEngine.AudioClips.loadAudio(this.kBeenHit);
     gEngine.AudioClips.loadAudio(this.kFallDown);
     gEngine.AudioClips.loadAudio(this.kTrap);
+    gEngine.AudioClips.loadAudio(this.kStoringForce);
+    gEngine.AudioClips.loadAudio(this.kGiveOutForce);
 };
 
 EndlessPlayingScene.prototype.unloadScene = function () {
@@ -92,6 +96,8 @@ EndlessPlayingScene.prototype.unloadScene = function () {
     gEngine.AudioClips.unloadAudio(this.kBeenHit);
     gEngine.AudioClips.unloadAudio(this.kFallDown);
     gEngine.AudioClips.unloadAudio(this.kTrap);
+    gEngine.AudioClips.unloadAudio(this.kStoringForce);
+    gEngine.AudioClips.unloadAudio(this.kGiveOutForce);
 };
 
 EndlessPlayingScene.prototype.initialize = function () {
@@ -125,7 +131,7 @@ EndlessPlayingScene.prototype.initialize = function () {
     
     this.mIceCreamManager = new IceCreamManager_endless(this.kSprite,this.mCamera,this);
     this.mFireManager = new FireManager_endless(this.kSprite,this.mCamera,this.mIceCreamManager,this.mMapManager);
-    this.mPlayer = new Player_endless(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream,this.kBeenHit,this.kFallDown,this.kTrap);
+    this.mPlayer = new Player_endless(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream,this.kBeenHit,this.kFallDown,this.kTrap,this.kStoringForce,this.kGiveOutForce);
     this.mPlayer.initialize();
     
     this.mHealthUIManager = new HealthUIManager(this.kLife,this.mCamera,this.mPlayer);
