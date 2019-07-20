@@ -38,6 +38,7 @@ function Player_endless(spriteTexture,camera,fireManager,audio_EatIceCream) {
     
     this.eatIceCreamCount = 0;
     
+    this.kHealth = 10;
     this.kSpeedUpSpeed = 0.5;
     this.kOriginSpeed = 0.4;
     this.kSpeedUpTime = 5;//for the speed up buff
@@ -46,6 +47,7 @@ function Player_endless(spriteTexture,camera,fireManager,audio_EatIceCream) {
 
     this.isSpeedUp = false;
     this._SpeedUpFrameCount = 0;
+    this.health = this.kHealth;
     
     this.kFireManager = fireManager;
     this.kCamera = camera;
@@ -64,7 +66,7 @@ function Player_endless(spriteTexture,camera,fireManager,audio_EatIceCream) {
     this.mCountFrameDeath = 0;//for the death part
     
     this.speed = this.kOriginSpeed;
-    this.temperature = 30;//初始温度, range is [0, 100]
+    this.temperature = 50;//初始温度, range is [0, 100]
     this.direction=this.DirectionEnum.RIGHT;
     
     this.comaTime = 0; // 0 for not in coma yet
@@ -285,6 +287,7 @@ Player_endless.prototype._death = function(){
     if(!this.mIsDeathCountStart){
         this.accumulateValue=0;
         this.mPlayer.setColor([0.8, 0.6, 0.2, 0]);
+        this.health--;
         switch(this.deathReason){
             case this.DeathEnum.FALL:
                 if(this.direction === this.DirectionEnum.BOTTOM || 
@@ -320,7 +323,7 @@ Player_endless.prototype._death = function(){
         
         this.mIsDeathCountStart = true;
     }else{
-        if(this.mCountFrameDeath >= 120){
+        if(this.mCountFrameDeath >= 60){
             this.mIsDeathCountStart = false;
             this.mIsDead = false;
             this.getXform().setPosition(this.mLastXpos,this.mLastYpos);
@@ -469,7 +472,7 @@ Player_endless.prototype._speedUp = function(){
 
 Player_endless.prototype._increaseTempterature = function(){
     if(this._incTemperatureFrameCount >= this.kincTemperatureCountMax){
-        this.temperature+=1.5;
+        this.temperature+=1.7;
         this._incTemperatureFrameCount = 0;
     }else{
         this._incTemperatureFrameCount++;
