@@ -116,7 +116,7 @@ Player.prototype.update = function (mIceCreamArray,mapManager,mPlayUI) {
     if(!this.mIsDead){
         this.mPlayer.setElementPixelPositions(this.pleft,this.pright,this.pbottom,this.ptop);
         this._walk(mPlayUI);
-        this._jump();
+        this._jump(mPlayUI);
         this._eatIceCream(mIceCreamArray,mapManager);
         this._increaseTempterature();
         if(this.mIsDead === true){
@@ -126,7 +126,7 @@ Player.prototype.update = function (mIceCreamArray,mapManager,mPlayUI) {
             this._speedUp();
         }
         if(this.isSprayFire){
-            this._sprayFire();
+            this._sprayFire(mPlayUI);
         }
         
         if(gEngine.Input.isKeyPressed(gEngine.Input.keys.G)){
@@ -217,7 +217,7 @@ Player.prototype._walk = function(mPlayUI){
     }
 };
 
-Player.prototype._jump = function(){
+Player.prototype._jump = function(mPlayUI){
     var xform = this.getXform();
     
     if(this.isJumping){
@@ -242,8 +242,8 @@ Player.prototype._jump = function(){
         this._waitFrame();
     }
     this.p_isJumping = this.isJumping;
-    
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)&&!this.isJumping){
+    var accu=gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)||mPlayUI.isAccumulating;
+    if((accu)&&!this.isJumping){
         this.accumulateValue+=0.1;
         var deltaH = -xform.getHeight()/200;
         var color=this.mPlayer.getColor();
@@ -255,7 +255,8 @@ Player.prototype._jump = function(){
 //        document.getElementById("st7").innerHTML="xShift:"+xShift+"<br /> shakingCount:"+this.shakingCount+"<br /> accumulateValue:"+this.accumulateValue;
         this.mPlayer.setElementPixelPositions(this.pleft-xShift,this.pright-xShift,this.pbottom-yShift,this.ptop-yShift);
     }
-    if((!gEngine.Input.isKeyPressed(gEngine.Input.keys.Space))&&this.accumulateValue!=0&&!this.isJumping){
+    var jump=(!mPlayUI.isAccumulating)&&(!gEngine.Input.isKeyPressed(gEngine.Input.keys.Space));
+    if(jump&&this.accumulateValue!=0&&!this.isJumping){
         //xform.incXPosBy(this.accumulateValue);  
         var deltaH = this.kHeight-xform.getHeight();
         xform.incYPosBy(deltaH/2);
@@ -465,12 +466,12 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
     }
 };
 
-Player.prototype._sprayFire = function(){
+Player.prototype._sprayFire = function(mPlayUI){
     if(this._SprayFireFrameCount >= this.kSprayFireTime * 60){
         this._SprayFireFrameCount = 0;
         this.isSprayFire = false;
     }else{
-        if(gEngine.Input.isKeyClicked(gEngine.Input.keys.J)){
+        if(gEngine.Input.isKeyClicked(gEngine.Input.keys.J)||mPlayUI.mFireClick){
             this.kFireManager.createFire(this);
         }
         this._SprayFireFrameCount++;
