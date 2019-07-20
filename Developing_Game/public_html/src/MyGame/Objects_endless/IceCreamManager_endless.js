@@ -17,9 +17,9 @@ function IceCreamManager_endless(spriteTexture,camera,endlessPlayingScene) {
         FULL_DIFFICULT:5
     };
     this.kDifficultCreatIceCreamCountMaxEnum = {
-        NO_DIFFICULT: 300,
-        HALF_DIFFICULT: 200,
-        FULL_DIFFICULT: 100
+        NO_DIFFICULT: 360,
+        HALF_DIFFICULT: 240,
+        FULL_DIFFICULT: 180
     };
     this.kspriteTexture = spriteTexture;
     this.kCamera = camera;

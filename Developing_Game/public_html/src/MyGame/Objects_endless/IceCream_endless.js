@@ -40,8 +40,8 @@ function IceCream_endless(spriteTexture,Xindex,Yindex,buffNum) {
         FLYING: 4
     };
     this.kDecTemperatureEnum = {
-        NOT_MELT: 3,
-        HALF_MELT: 1,
+        NOT_MELT: 5,
+        HALF_MELT: 3,
         FULL_MELT: -1
     };
     this.mBuff = buffNum; 
@@ -87,11 +87,11 @@ function IceCream_endless(spriteTexture,Xindex,Yindex,buffNum) {
             this.kHalfMeltTime = 10;
             this.kFullMeltTime = 20;    break;
         case this.kBuffEnum.FIRE_BUFF:
-            this.kHalfMeltTime = 5;
-            this.kFullMeltTime = 10;    break;
+            this.kHalfMeltTime = 8;
+            this.kFullMeltTime = 16;    break;
         case this.kBuffEnum.SPEED_UP_BUFF:
-            this.kHalfMeltTime = 7;
-            this.kHalfMeltTime = 14;    break;
+            this.kHalfMeltTime = 10;
+            this.kHalfMeltTime = 20;    break;
         
     }
     GameObject.call(this,this.mIceCream);
