@@ -101,7 +101,6 @@ gEngine.Input = (function () {
     //Released events: whether a button is released
     var mIsKeyReleased = [];
 
-
     // Support mouse
     var mCanvas = null;
     var mButtonPreviousState = [];
@@ -110,7 +109,12 @@ gEngine.Input = (function () {
     var mIsButtonReleased = [];
     var mMousePosX = -1;
     var mMousePosY = -1;
-
+    var mTouchPreviousState = [];
+    var mIsTouchPressed = [];
+    var mIsTouchClicked = [];
+    var mIsTouchReleased = [];
+    var mTouchPosX =[];
+    var mTouchPosY =[];
     // <editor-fold desc="Event handler functions">
     //<editor-fold desc="Keyboard handlers">
     var _onKeyDown = function (event) {
@@ -140,11 +144,11 @@ gEngine.Input = (function () {
         return inside;
     };
     var _onTouchMove = function (event) {
-        var inside = false;
+         var inside = false;
         var bBox = mCanvas.getBoundingClientRect();
         // In Canvas Space now. Convert via ratio from canvas to client.
-        var x = Math.round((event.clientX - bBox.left) * (mCanvas.width / bBox.width));
-        var y = Math.round((event.clientY - bBox.top) * (mCanvas.height / bBox.height));
+        var x = Math.round((event.changedTouches[0].clientX - bBox.left) * (mCanvas.width / bBox.width));
+        var y = Math.round((event.changedTouches[0].clientY - bBox.top) * (mCanvas.height / bBox.height));
 
         if ((x >= 0) && (x < mCanvas.width) &&
             (y >= 0) && (y < mCanvas.height)) {
@@ -153,6 +157,29 @@ gEngine.Input = (function () {
             inside = true;
         }
         return inside;
+//        var inside = false;
+//        var bBox = mCanvas.getBoundingClientRect();
+//            // In Canvas Space now. Convert via ratio from canvas to client.
+//        var i;
+//        for(i=0;i<event.changedTouches.length;i++){
+//            var x = Math.round((event.changedTouches[i].clientX - bBox.left) * (mCanvas.width / bBox.width));
+//            var y = Math.round((event.changedTouches[i].clientY - bBox.top) * (mCanvas.height / bBox.height));
+//            if ((x >= 0) && (x < mCanvas.width) &&
+//                (y >= 0) && (y < mCanvas.height)) {
+//                mTouchPosX[i] = x;
+//                mTouchPosY[i] = mCanvas.height - 1 - y;
+//                inside = true;
+//            }
+//        }
+//        if(mTouchPosX[0]>mTouchPosX[1]){
+//            var temp=mTouchPosX[0];
+//            mTouchPosX[0]=mTouchPosX[1];
+//            mTouchPosX[1]=temp;
+//            temp=mTouchPosY[0];
+//            mTouchPosY[0]=mTouchPosY[1];
+//            mTouchPosY[1]=temp;
+//        }
+//        return inside;
     };
 
     // Mouse down event listener
@@ -163,11 +190,11 @@ gEngine.Input = (function () {
         }
     };
     var _onTouchStart = function (event){
-        if(_onTouchMove(event)){
-            mIsButtonPressed[event.button] = true;
-            mIsButtonReleased[event.button] = false;
+       if (_onTouchMove(event)) {
+            mIsButtonPressed[0] = true;
+            mIsButtonReleased[0] = false;
         }
-    }
+    };
     // Mouse up event listener
     var _onMouseUp = function (event) {
         _onMouseMove(event);
@@ -176,8 +203,8 @@ gEngine.Input = (function () {
     };
     var _onTouchEnd = function(event){
         _onTouchMove(event);
-        mIsButtonPressed[event.button] = false;
-        mIsButtonReleased[event.button] = true;
+        mIsButtonPressed[0] = false;
+        mIsButtonReleased[0] = true;
     }
     //</editor-fold>
     //</editor-fold>
@@ -313,11 +340,14 @@ gEngine.Input = (function () {
      * @returns {Number} Y position of mouse.
      */
     var getMousePosY = function () { return mMousePosY; };
+    
+    var getTouchPosX = function(index){return mTouchPosX[index]};
+    var getTouchPosY = function(index){return mTouchPosY[index]};
 
     var mPublic = {
         initialize: initialize,
         update: update,
-
+        
         // keyboard support
         isKeyPressed: isKeyPressed,
         isKeyClicked: isKeyClicked,
@@ -329,7 +359,9 @@ gEngine.Input = (function () {
         isButtonClicked: isButtonClicked,
         isButtonReleased: isButtonReleased,
         getMousePosX: getMousePosX,       // invalid if no corresponding buttonPressed or buttonClicked
-        getMousePosY: getMousePosY,
+        getMousePosY: getMousePosY,        
+        getTouchPosX: getTouchPosX,
+        getTouchPosY: getTouchPosY,
         mouseButton: kMouseButton
     };
     return mPublic;
