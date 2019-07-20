@@ -20,7 +20,7 @@ function EndlessPlayingScene() {
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kThermometer ="assets/thermometer.png";
     this.kLife = "assets/life.png";
-    
+    this.kEndlessPlayingSceneBg = "assets/AudioTest/EndlessPlayingSceneBackGround.mp3";
     //need the wav file(to play audio)
     this.kPlayerEatIceCream = "assets/AudioTest/EatIceCream.wav";
     
@@ -68,7 +68,7 @@ EndlessPlayingScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kBG);
     gEngine.Textures.loadTexture(this.kAtlas);
     gEngine.Textures.loadTexture(this.kLife);
-    
+    gEngine.AudioClips.loadAudio(this.kEndlessPlayingSceneBg);
     gEngine.AudioClips.loadAudio(this.kPlayerEatIceCream);
 };
 
@@ -78,6 +78,7 @@ EndlessPlayingScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kAtlas);
     gEngine.Textures.unloadTexture(this.kSprite);
     gEngine.Textures.loadTexture(this.kLife);
+    gEngine.AudioClips.unloadAudio(this.kEndlessPlayingSceneBg);
     gEngine.AudioClips.unloadAudio(this.kPlayerEatIceCream);
 };
 
@@ -120,6 +121,8 @@ EndlessPlayingScene.prototype.initialize = function () {
     
     this.mEventUI = new EventUI(this.kSprite,this.mPlayer,this.mCamera);
     this.mPlayerDirectionUI = new PlayerDirectionUI(this.kSprite,this.mPlayer);
+    
+    gEngine.AudioClips.playACue(this.kEndlessPlayingSceneBg,40);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more

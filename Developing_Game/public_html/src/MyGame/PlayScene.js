@@ -19,6 +19,7 @@ function PlayScene() {
     this.kUIButton = "assets/UI/button.png";
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kThermometer ="assets/thermometer.png";
+    this.kPlaySceneBgm ="assets/AudioTest/PlaySceneBackGround.wav";
     
     //need the wav file(to play audio)
     this.kPlayerEatIceCream = "assets/AudioTest/EatIceCream.wav";
@@ -60,6 +61,7 @@ PlayScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kBG);
     gEngine.Textures.loadTexture(this.kAtlas);
     
+    gEngine.AudioClips.loadAudio(this.kPlaySceneBgm);
     gEngine.AudioClips.loadAudio(this.kPlayerEatIceCream);
 };
 
@@ -69,6 +71,7 @@ PlayScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kAtlas);
     gEngine.Textures.unloadTexture(this.kSprite);
     
+    gEngine.AudioClips.unloadAudio(this.kPlaySceneBgm);
     gEngine.AudioClips.unloadAudio(this.kPlayerEatIceCream);
 };
 
@@ -105,7 +108,7 @@ PlayScene.prototype.initialize = function () {
     this.mFireManager = new FireManager(this.kSprite,this.mCamera,this.mIceCreamManager);
     this.mPlayer = new Player(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream);
     this.mPlayer.initialize();
-    
+    gEngine.AudioClips.playACue(this.kPlaySceneBgm,40);
     this.mEventUI = new EventUI(this.kSprite,this.mPlayer,this.mCamera);
     this.mPlayerDirectionUI = new PlayerDirectionUI(this.kSprite,this.mPlayer);
 };
