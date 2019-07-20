@@ -92,7 +92,7 @@ PlayScene.prototype.initialize = function () {
     
     this.mGeneralUI = new GeneralUI(this.kAtlas,this.mCamera);
     this.mGeneralUI.initialize();    
-    this.mPlayUI = new PlayUI(this.kSprite,this.mCamera,this);
+    this.mPlayUI = new PlayUI(this.kSprite,this.mCamera,this,true);
     this.mPlayUI.initialize();
     this.mFinishUI = new FinishUI(this.kSprite,this.mCamera,this);
     this.mFinishUI.initialize();
