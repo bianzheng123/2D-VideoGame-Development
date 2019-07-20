@@ -14,8 +14,6 @@ function IceCreamManager(spriteTexture,camera) {
     this.kCamera = camera;
     this.mIceCreamArray = [];
     this.mCocoArray = [];
-    this.mCocoShadowArray = [];
-    this.mIcecreamShadowArray = [];
     this.kp_no_buff = 0.8;//the probability of no buff;
     this.kp_speed_up_buff = 0.9;
     this.kp_fire_buff = 1;
@@ -40,15 +38,26 @@ IceCreamManager.prototype.update = function (mapManager) {
         this.autoCreateIceCream(mapManager);
     }
     
+    this._updateIceCream();
+    this._updateCoco();
+    this._optimization(this.mIceCreamArray);
+    this._optimization(this.mCocoArray);
+    
+};
+
+IceCreamManager.prototype._updateIceCream = function(){
     var i,l;
     for(i=0;i<this.mIceCreamArray.length;i++){
         l = this.mIceCreamArray[i];
         if(l !== null){
             l.update();
-            l.shadow.update(l.mIceCream.getXform().getXPos(),l.shadowYPos);
+            l.shadow.update(l.mIceCream.getXform().getXPos(),l.mIceCream.getXform().getYPos() - 3.5);
         }
     }//update IceCream
-    
+};
+
+IceCreamManager.prototype._updateCoco = function(){
+    var i,l;
     for(i=0;i<this.mCocoArray.length;i++){
         if(this.mCocoArray[i] !== null && this.mCocoArray[i].mCoco.getXform().getYPos() > 200){
             this.mCocoArray[i].shadow = null;
@@ -60,8 +69,19 @@ IceCreamManager.prototype.update = function (mapManager) {
             l.shadow.update(l.mCoco.getXform().getXPos(),l.mCoco.getXform().getYPos()-25);
         }
     }//update Coco
-    
-    
+};
+
+IceCreamManager.prototype._optimization = function(array){
+    var i = array.length - 1;
+    while(array[i] === null){
+        var temp = array.pop();
+        temp = null;
+        i--;
+    }
+    while(array[0] === null){
+        var temp = array.shift();
+        temp = null;
+    }
 };
 
 IceCreamManager.prototype.autoCreateIceCream = function(mapManager){
@@ -96,7 +116,6 @@ IceCreamManager.prototype.createIceCream = function(mapManager){
         l.mHasIceCream = true;
         var iceCream = new IceCream(this.kspriteTexture,l.kXindex,l.kYindex,buff);
         var mIcecreamShadow = new Shadow(this.kspriteTexture,[iceCream.mIceCream.getXform()[0],iceCream.mIceCream.getXform().getYPos()-22,4,2]);
-        iceCream.shadowYPos=iceCream.mIceCream.getXform().getYPos()-22;
         //document.getElementById("st10").innerHTML=iceCream.mIceCream.getXform().getXPos();
         var mCoco = new Coco(this.kspriteTexture,iceCream);
         var mCocoShadow = new Shadow(this.kspriteTexture,[mCoco.getXform()[0],mCoco.getXform()[1]-20,6,2]);
@@ -105,8 +124,7 @@ IceCreamManager.prototype.createIceCream = function(mapManager){
         iceCream.shadow=mIcecreamShadow;
         this.mCocoArray.push(mCoco);
         this.mIceCreamArray.push(iceCream);
-        this.mCocoShadowArray.push(mCocoShadow);
-        this.mIcecreamShadowArray.push(mIcecreamShadow);
+        
     }
     
 };
@@ -127,22 +145,11 @@ IceCreamManager.prototype.getBuff = function(){
 IceCreamManager.prototype.draw = function(){
     var i,l;
 
-    for(i=0;i<this.mCocoShadowArray.length;i++){
-        l = this.mCocoShadowArray[i];
-        if(l!==null){
-            l.draw(this.kCamera);
-        }
-    }
-    for(i=0;i<this.mIcecreamShadowArray.length;i++){
-        l = this.mIcecreamShadowArray[i];
-        if(l!==null){
-            l.draw(this.kCamera);
-        }
-    }
     for(i=0;i<this.mIceCreamArray.length;i++){
         l = this.mIceCreamArray[i];
         if(l !== null){
             l.draw(this.kCamera);
+            l.shadow.draw(this.kCamera);
         }
     }
     
@@ -150,6 +157,7 @@ IceCreamManager.prototype.draw = function(){
         l = this.mCocoArray[i];
         if(l !== null){
             l.draw(this.kCamera);
+            l.shadow.draw(this.kCamera);
         }
     }
 };

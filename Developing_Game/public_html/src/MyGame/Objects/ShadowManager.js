@@ -6,8 +6,6 @@ function ShadowManager(spriteTexture,camera) {
     this.kspriteTexture = spriteTexture;
     this.shadowDisplay = true;
     this.hahaShadow = new Shadow(this.kspriteTexture,[-47,-47,6,2]);
-    this.cocoShadow = [];
-    this.icecreamShadow = [];
     
 }
 
@@ -19,7 +17,9 @@ ShadowManager.prototype.HahaUpdate = function(hahaPos){
 };
 ShadowManager.prototype.icecreamUpdate = function(){
    
-}
+};
+
+
 
 ShadowManager.prototype.draw = function () {
     if(!this.shadowDisplay){

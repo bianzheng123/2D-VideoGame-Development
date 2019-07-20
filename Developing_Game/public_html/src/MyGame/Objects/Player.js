@@ -406,7 +406,7 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
         this.temperature -= 1;
         this.mIsDead = true;
         this.deathReason = this.DeathEnum.FLYING_ICE_CREAM;
-        mIceCreamArray[i].shadow.destroy();
+//        mIceCreamArray[i].shadow = null;
         mIceCreamArray[i] = null;
     }else if(mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.NOT_MELT
             || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.HALF_MELT
@@ -449,7 +449,6 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
         if(this.temperature<0){
             this.temperature=0;
         }        
-        mIceCreamArray[i].shadow.destroy();
         mIceCreamArray[i] = null;
         l = null;
     }

@@ -18,6 +18,25 @@ function FireManager(spriteTexture,camera,iceCreamManager) {
 }
 
 FireManager.prototype.update = function(){
+    this._fireUpdate();
+    
+    this._optimizationFire();
+};
+
+FireManager.prototype._optimizationFire = function(){
+    var i = this.mFireArray.length - 1;
+    while(this.mFireArray[i] === null){
+        var temp = this.mFireArray.pop();
+        temp = null;
+        i--;
+    }
+    while(this.mFireArray[0] === null){
+        var temp = this.mFireArray.shift();
+        temp = null;
+    }
+};
+
+FireManager.prototype._fireUpdate = function(){
     var i,l;
     for(i=0;i<this.mFireArray.length;i++){
         l = this.mFireArray[i];

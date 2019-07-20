@@ -83,8 +83,7 @@ function IceCream(spriteTexture,Xindex,Yindex,buffNum) {
     }
     GameObject.call(this,this.mIceCream);
     
-    this.icecream = null;
-    this.shadowYPos = null;
+    this.shadow = null;
 }
 gEngine.Core.inheritPrototype(IceCream, GameObject);
 
