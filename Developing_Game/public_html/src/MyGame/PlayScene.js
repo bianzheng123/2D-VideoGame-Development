@@ -142,7 +142,7 @@ PlayScene.prototype.update = function () {
         if(this.mPlayer.t_pre_isDead === true && this.mPlayer.mIsDead === false){
             this.mPlayer.mIsDead = true;
         }
-        this.mPlayer.update(this.mIceCreamManager.mIceCreamArray,this.mMapManager);
+        this.mPlayer.update(this.mIceCreamManager.mIceCreamArray,this.mMapManager,this.mPlayUI);
         //_updatePlayerPositionByIndex必须要在this.mPlayer.update前面
         
         this.mShadowManager.HahaUpdate([this.mPlayer.originalX,this.mPlayer.originalY]);
