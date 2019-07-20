@@ -112,10 +112,10 @@ Player.prototype.initialize = function(){
     this.kPictureArray[1] = [];
 };
 
-Player.prototype.update = function (mIceCreamArray,mapManager) {
+Player.prototype.update = function (mIceCreamArray,mapManager,mPlayUI) {
     if(!this.mIsDead){
         this.mPlayer.setElementPixelPositions(this.pleft,this.pright,this.pbottom,this.ptop);
-        this._walk();
+        this._walk(mPlayUI);
         this._jump();
         this._eatIceCream(mIceCreamArray,mapManager);
         this._increaseTempterature();
@@ -142,46 +142,46 @@ Player.prototype.update = function (mIceCreamArray,mapManager) {
 
 
 
-Player.prototype._walk = function(){
+Player.prototype._walk = function(mPlayUI){
     var xform = this.getXform();
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)){
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)||(mPlayUI.mJoystickDirection===this.DirectionEnum.LEFT&&mPlayUI.isWalking)){
         this.changeImageDirection(this.DirectionEnum.LEFT);
         this._changeDir(this.DirectionEnum.LEFT);
         xform.incXPosBy(-this.speed);
     }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)){
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)||(mPlayUI.mJoystickDirection===this.DirectionEnum.RIGHT&&mPlayUI.isWalking)){
         this.changeImageDirection(this.DirectionEnum.RIGHT);
         this._changeDir(this.DirectionEnum.RIGHT);
         xform.incXPosBy(this.speed);
     }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.W)||(mPlayUI.mJoystickDirection===this.DirectionEnum.TOP&&mPlayUI.isWalking)){
         this._changeDir(this.DirectionEnum.TOP);
         xform.incYPosBy(this.speed);
     }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.S)||(mPlayUI.mJoystickDirection===this.DirectionEnum.BOTTOM&&mPlayUI.isWalking)){
         this._changeDir(this.DirectionEnum.BOTTOM);
         xform.incYPosBy(-this.speed);
     }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){
+    if((gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W))||(mPlayUI.mJoystickDirection===this.DirectionEnum.TOPLEFT&&mPlayUI.isWalking)){
         this.changeImageDirection(this.DirectionEnum.LEFT);
         this._changeDir(this.DirectionEnum.TOPLEFT);
         xform.incXPosBy(this.speed*(1-Math.cos(Math.PI/4)));
         xform.incYPosBy(-this.speed*(1-Math.cos(Math.PI/4)));
 
     }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){
+    if((gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S))||(mPlayUI.mJoystickDirection===this.DirectionEnum.BOTTOMLEFT&&mPlayUI.isWalking)){
         this.changeImageDirection(this.DirectionEnum.LEFT);
         this._changeDir(this.DirectionEnum.BOTTOMLEFT);
         xform.incXPosBy(this.speed*(1-Math.cos(Math.PI/4)));
         xform.incYPosBy(this.speed*(1-Math.cos(Math.PI/4)));
     }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W)){        
+    if((gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W))||(mPlayUI.mJoystickDirection===this.DirectionEnum.TOPRIGHT&&mPlayUI.isWalking)){        
         this.changeImageDirection(this.DirectionEnum.RIGHT);
         this._changeDir(this.DirectionEnum.TOPRIGHT);
         xform.incXPosBy(-this.speed*(1-Math.cos(Math.PI/4)));
         xform.incYPosBy(-this.speed*(1-Math.cos(Math.PI/4)));
     }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S)){        
+    if((gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S))||(mPlayUI.mJoystickDirection===this.DirectionEnum.BOTTOMRIGHT&&mPlayUI.isWalking)){        
         this.changeImageDirection(this.DirectionEnum.RIGHT);
         this._changeDir(this.DirectionEnum.BOTTOMRIGHT);
         xform.incXPosBy(-this.speed*(1-Math.cos(Math.PI/4)));

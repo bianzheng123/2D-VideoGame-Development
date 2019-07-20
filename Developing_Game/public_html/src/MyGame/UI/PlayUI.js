@@ -13,6 +13,18 @@ function PlayUI(spriteTexture,camera,playscene) {
     this.joystick = null;
     this.mHover = null;
     this.mClick = false;
+    this.DirectionEnum={
+        RIGHT: 0,
+        TOPRIGHT: 1,
+        TOP: 2,
+        TOPLEFT: 3,
+        LEFT: 4,
+        BOTTOMLEFT: 5,
+        BOTTOM: 6,
+        BOTTOMRIGHT: 7
+    };
+    this.mJoystickDirection=this.DirectionEnum.RIGHT;
+    this.isWalking = false;
 }
 
 PlayUI.prototype.update = function(){
@@ -33,11 +45,39 @@ PlayUI.prototype.update = function(){
     }
     if(gEngine.Input.isButtonPressed(gEngine.Input.mouseButton.Left)){
         if(this.mClick) {
-            this.joystick.getXform().setPosition(mousePos[0],mousePos[1]);
+            if((mousePos[0]+70)*(mousePos[0]+70)+(mousePos[1]+35)*(mousePos[1]+35)>16){
+                var theta=Math.acos((mousePos[0]+70)/Math.sqrt((mousePos[1]+35)*(mousePos[1]+35)+(mousePos[0]+70)*(mousePos[0]+70)));
+                theta=mousePos[1]<-35?-theta+2*Math.PI:theta;
+                if(theta<Math.PI/8||theta>Math.PI*15/8){
+                    this.mJoystickDirection=0;
+                }else if(theta<Math.PI*3/8){
+                    this.mJoystickDirection=1;
+                }else if(theta<Math.PI*5/8){
+                    this.mJoystickDirection=2;
+                }else if(theta<Math.PI*7/8){
+                    this.mJoystickDirection=3;
+                }else if(theta<Math.PI*9/8){
+                    this.mJoystickDirection=4;
+                }else if(theta<Math.PI*11/8){
+                    this.mJoystickDirection=5;
+                }else if(theta<Math.PI*13/8){
+                    this.mJoystickDirection=6;
+                }else if(theta<Math.PI*15/8){
+                    this.mJoystickDirection=7;
+                }
+                theta=this.mJoystickDirection*(Math.PI/4);
+                document.getElementById("st3").innerHTML=theta;
+                this.joystick.getXform().setPosition(-70+5*Math.cos(theta),-35+5*Math.sin(theta));
+                this.isWalking=true;
+            }else{
+                this.joystick.getXform().setPosition(mousePos[0],mousePos[1]);
+                this.isWalking=false;
+            }
         }
     }
     if(gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)){
         this.mHover=false;
+        this.isWalking=false;
         this.mClick=false;
         this.joystick.getXform().setPosition(-70,-35);
     }
