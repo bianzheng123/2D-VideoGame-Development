@@ -25,6 +25,8 @@ function PlayScene() {
     this.kBeenHit = "assets/AudioTest/BeenHit.wav";
     this.kFallDown = "assets/AudioTest/FallDown.mp3";
     this.kTrap = "assets/AudioTest/Trap.mp3";
+    this.kStoringForce = "assets/AudioTest/StoringForce.wav";
+    this.kGiveOutForce = "assets/AudioTest/GiveOutForce.wav";
     
     //need the wav file(to play audio)
     this.kPlayerEatIceCream = "assets/AudioTest/EatIceCream.wav";
@@ -75,6 +77,8 @@ PlayScene.prototype.loadScene = function () {
     gEngine.AudioClips.loadAudio(this.kBeenHit);
     gEngine.AudioClips.loadAudio(this.kFallDown);
     gEngine.AudioClips.loadAudio(this.kTrap);
+    gEngine.AudioClips.loadAudio(this.kStoringForce);
+    gEngine.AudioClips.loadAudio(this.kGiveOutForce);
 };
 
 PlayScene.prototype.unloadScene = function () {
@@ -90,6 +94,8 @@ PlayScene.prototype.unloadScene = function () {
     gEngine.AudioClips.unloadAudio(this.kBeenHit);
     gEngine.AudioClips.unloadAudio(this.kFallDown);
     gEngine.AudioClips.unloadAudio(this.kTrap);
+    gEngine.AudioClips.unloadAudio(this.kStoringForce);
+    gEngine.AudioClips.unloadAudio(this.kGiveOutForce);
 };
 
 PlayScene.prototype.initialize = function () {
@@ -123,7 +129,7 @@ PlayScene.prototype.initialize = function () {
     
     this.mIceCreamManager = new IceCreamManager(this.kSprite,this.mCamera);
     this.mFireManager = new FireManager(this.kSprite,this.mCamera,this.mIceCreamManager);
-    this.mPlayer = new Player(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream,this.kBeenHit,this.kFallDown,this.kTrap);
+    this.mPlayer = new Player(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream,this.kBeenHit,this.kFallDown,this.kTrap,this.kStoringForce,this.kGiveOutForce);
     this.mPlayer.initialize();
     gEngine.AudioClips.playBackgroundAudio(this.kPlaySceneBgm);
     gEngine.AudioClips.setCueVolume(30);
