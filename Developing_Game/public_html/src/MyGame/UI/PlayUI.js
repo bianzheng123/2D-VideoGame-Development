@@ -86,17 +86,15 @@ PlayUI.prototype.update = function(){
     
     this.thermometer.update();
     this.thermometerPointer.update(this.kPlayscene.mPlayer.temperature);
-    var secondLeft = null;
-    if(!this.kDisplayTimeLast){
-        secondLeft = this.kPlayscene.timeLastFrameCount;
-        
-    }else{
-        secondLeft=this.kPlayscene._VictoryFrameLast;
-        console.log("fdsfsd");
+    
+    if(this.kDisplayTimeLast){
+        var secondLeft=this.kPlayscene._VictoryFrameLast/60;
+        var minuteLeft=Math.floor(secondLeft/60);
+        secondLeft=Math.floor(secondLeft%60);
+        if(!this.kPlayscene.stopUpdating){
+            this.countdown.setText(minuteLeft+":"+(secondLeft<10?"0":"")+secondLeft);
+        }
     }
-    var minuteLeft=Math.floor(secondLeft/60);
-    secondLeft=Math.floor(secondLeft%60);
-    this.countdown.setText(minuteLeft+":"+(secondLeft<10?"0":"")+secondLeft);
     
     this.pauseButton.update();
 };
@@ -106,13 +104,10 @@ PlayUI.prototype.initialize = function(){
     this.thermometerPointer=new ThermometerPointer(this.kspriteTexture,this.mCamera);
     if(this.kDisplayTimeLast){
         this.countdown = new FontRenderable("3:00");
-        
-    }else{
-        this.countdown = new FontRenderable("0:00");
+        this.countdown.setColor([0, 0, 0, 1]);
+        this.countdown.getXform().setPosition(5,25);
+        this.countdown.setTextHeight(6);
     }
-    this.countdown.setColor([0, 0, 0, 1]);
-    this.countdown.getXform().setPosition(5,25);
-    this.countdown.setTextHeight(6);
     
     this.joystickground=new SpriteRenderable(this.kspriteTexture);
     this.joystickground.setColor([1, 0.7, 0.1, 0]);
@@ -129,11 +124,13 @@ PlayUI.prototype.initialize = function(){
 PlayUI.prototype.draw = function () {
     this.thermometer.draw(this.mCamera);
     this.thermometerPointer.draw(this.mCamera);
-    this.countdown.draw(this.mCamera);
+    if(this.kDisplayTimeLast){
+        this.countdown.draw(this.mCamera);
+    }
     this.pauseButton.draw(this.mCamera);
     this.joystickground.draw(this.mCamera);
     this.joystick.draw(this.mCamera);
 };
 PlayUI.prototype.pauseSelect = function(){
     this.kPlayscene.stopUpdating=!this.kPlayscene.stopUpdating;
-};
+}

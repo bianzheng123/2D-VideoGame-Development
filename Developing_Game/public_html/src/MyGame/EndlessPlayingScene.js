@@ -32,7 +32,6 @@ function EndlessPlayingScene() {
     this.mShadowManager = null;
     this.mPlayer = null;
     this.mFireManager = null;
-    this.mHealthUIManager = null;
     
     this.mGeneralUI = null;
     this.mPlayUI = null;
@@ -113,9 +112,6 @@ EndlessPlayingScene.prototype.initialize = function () {
     this.mPlayer = new Player_endless(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream);
     this.mPlayer.initialize();
     
-    this.mHealthUIManager = new HealthUIManager(this.kSprite,this.mCamera,this.mPlayer);
-    this.mHealthUIManager.initialize();
-    
     this.mEventUI = new EventUI(this.kSprite,this.mPlayer,this.mCamera);
     this.mPlayerDirectionUI = new PlayerDirectionUI(this.kSprite,this.mPlayer);
 };
@@ -138,7 +134,6 @@ EndlessPlayingScene.prototype.draw = function () {
     this.mFinishUI.draw(this.mCamera);
     this.mPlayerDirectionUI.draw(this.mCamera,this.mPlayer);
     this.mEventUI.draw();
-    this.mHealthUIManager.draw();
 };
 
 EndlessPlayingScene.prototype.update = function () {
@@ -148,7 +143,7 @@ EndlessPlayingScene.prototype.update = function () {
         this.mIceCreamManager.update(this.mMapManager);
         this.mMapManager.update();
         this._updatePlayerPositionByIndex();
-        
+//        console.log(this.mPlayer.canEatIceCream);
         if(this.mPlayer.t_pre_isDead === true && this.mPlayer.mIsDead === false){
             this.mPlayer.mIsDead = true;
         }
@@ -166,7 +161,6 @@ EndlessPlayingScene.prototype.update = function () {
         this.mFireManager.update();
         this.mPlayerDirectionUI.update();
         this.mEventUI.update();
-        this.mHealthUIManager.update();
     }else{
         this.mFinishUI.update(this.mPlayer.eatIceCreamCount);
     }
@@ -188,7 +182,7 @@ EndlessPlayingScene.prototype._countTime = function(){
 };
 
 EndlessPlayingScene.prototype._detectLost = function(){
-    if(this.mPlayer.temperature >= 100 || this.mPlayer.health === 0){
+    if(this.mPlayer.temperature >= 100){
         this.isLost = true;
     }
 };
