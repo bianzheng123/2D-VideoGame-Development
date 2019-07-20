@@ -267,7 +267,7 @@ Player.prototype.changeImageDirection=function(walkingDirection){
             this.pright=temp;
         }
     }
-}
+};
 Player.prototype._waitFrame = function(){
     if(this.waitFrameCount >= 2){
         this.canEatIceCream = true;
@@ -373,30 +373,21 @@ Player.prototype._eatIceCream = function(mIceCreamArray,mapManager){
 //        console.log(mIceCreamArray.length);
         l = mIceCreamArray[i];
         if(l === null || this.isJumping)   continue;
-        var ice_height = mIceCreamArray[i].kWidth;
-        var ice_width = mIceCreamArray[i].kHeight;
         var this_pos = this.getXform().getPosition();
-        var this_left = this_pos[0] - ice_width / 2;
-        var this_right = this_pos[0] + ice_width / 2;
-        var this_top = this_pos[1] + ice_height / 2;
-        var this_bottom = this_pos[1] - ice_height / 2;
+        var this_left = this_pos[0] - this.kWidth / 2;
+        var this_right = this_pos[0] + this.kWidth / 2;
+        var this_top = this_pos[1] + this.kHeight / 2;
+        var this_bottom = this_pos[1] - this.kHeight / 2;
         
         var pos = l.getXform().getPosition();
-        var ice_left = pos[0] - l.kWidth / 2;
-        var ice_right = pos[0] + l.kWidth / 2;
-        var ice_top = pos[1] + l.kHeight / 2;
-        var ice_bottom = pos[1] - l.kHeight / 2;
-        
-        
-        if(this_left <= ice_left && ice_left <= this_right && !(ice_top < this_bottom || ice_bottom > this_top)){
+//        console.log("this_bottom: " + this_bottom + " ,this_top: " + this_top + " ,this_left: " + this_left + " ,this_right: " + this_right);
+        var bound = 1;
+        if(this_left <= pos[0] - bound && pos[0] + bound <= this_right && this_bottom <= pos[1] && pos[1] <= this_top ){
             this._eatOrKnocked(mapManager,l,mIceCreamArray,i);
-        }else if(this_left <= ice_right && ice_right <= this_right && !(ice_top < this_bottom || ice_bottom > this_top)){
-            this._eatOrKnocked(mapManager,l,mIceCreamArray,i);
-        }else if(this_bottom <= ice_top && ice_top <= this_top && !(ice_right < this_left || ice_left > this_right)){
-            this._eatOrKnocked(mapManager,l,mIceCreamArray,i);
-        }else if(this_bottom <= ice_bottom && ice_bottom <= this_top && !(ice_right < this_left || ice_left > this_right)){
+        }else if(this_left <= pos[0] && pos[0] <= this_right && this_bottom <= pos[1] - bound && pos[1] + bound <= this_top){
             this._eatOrKnocked(mapManager,l,mIceCreamArray,i);
         }
+        
     }
 };
 
@@ -459,7 +450,7 @@ Player.prototype._sprayFire = function(){
             this.kFireManager.createFire(this);
         }
         this._SprayFireFrameCount++;
-        console.log(this._SprayFireFrameCount);
+//        console.log(this._SprayFireFrameCount);
     }
 };
 
