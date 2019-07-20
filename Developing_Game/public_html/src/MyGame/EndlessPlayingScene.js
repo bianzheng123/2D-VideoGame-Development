@@ -24,6 +24,9 @@ function EndlessPlayingScene() {
     //need the wav file(to play audio)
     this.kPlayerEatIceCream = "assets/AudioTest/EatIceCream.wav";
     this.kWinBgm = "assets/AudioTest/Win.mp3";
+    this.kBeenHit = "assets/AudioTest/BeenHit.wav";
+    this.kFallDown = "assets/AudioTest/FallDown.mp3";
+    this.kTrap = "assets/AudioTest/Trap.mp3";
     
     // The camera to view the scene
     this.mCamera = null;
@@ -72,6 +75,9 @@ EndlessPlayingScene.prototype.loadScene = function () {
     gEngine.AudioClips.loadAudio(this.kEndlessPlayingSceneBg);
     gEngine.AudioClips.loadAudio(this.kPlayerEatIceCream);
     gEngine.AudioClips.loadAudio(this.kWinBgm);
+    gEngine.AudioClips.loadAudio(this.kBeenHit);
+    gEngine.AudioClips.loadAudio(this.kFallDown);
+    gEngine.AudioClips.loadAudio(this.kTrap);
 };
 
 EndlessPlayingScene.prototype.unloadScene = function () {
@@ -83,6 +89,9 @@ EndlessPlayingScene.prototype.unloadScene = function () {
     gEngine.AudioClips.unloadAudio(this.kEndlessPlayingSceneBg);
     gEngine.AudioClips.unloadAudio(this.kPlayerEatIceCream);
     gEngine.AudioClips.unloadAudio(this.kWinBgm);
+    gEngine.AudioClips.unloadAudio(this.kBeenHit);
+    gEngine.AudioClips.unloadAudio(this.kFallDown);
+    gEngine.AudioClips.unloadAudio(this.kTrap);
 };
 
 EndlessPlayingScene.prototype.initialize = function () {
@@ -116,7 +125,7 @@ EndlessPlayingScene.prototype.initialize = function () {
     
     this.mIceCreamManager = new IceCreamManager_endless(this.kSprite,this.mCamera,this);
     this.mFireManager = new FireManager_endless(this.kSprite,this.mCamera,this.mIceCreamManager,this.mMapManager);
-    this.mPlayer = new Player_endless(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream);
+    this.mPlayer = new Player_endless(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream,this.kBeenHit,this.kFallDown,this.kTrap);
     this.mPlayer.initialize();
     
     this.mHealthUIManager = new HealthUIManager(this.kLife,this.mCamera,this.mPlayer);
@@ -126,6 +135,7 @@ EndlessPlayingScene.prototype.initialize = function () {
     this.mPlayerDirectionUI = new PlayerDirectionUI(this.kSprite,this.mPlayer);
     
     gEngine.AudioClips.playBackgroundAudio(this.kEndlessPlayingSceneBg);
+    gEngine.AudioClips.setCueVolume(30);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
