@@ -11,3 +11,15 @@ function selfAdapt(){
     //document.getElementById("rule").style.width=(window.innerWidth-length*r)+"px";
     div.style.left=((window.innerWidth-length*r)/2)+"px";
 }
+fullscreenSelect=function(){
+    var element=document.documentElement;
+    if(element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if(element.mozRequestFullScreen) {
+      element.mozRequestFullScreen();
+    } else if(element.webkitRequestFullscreen) {
+      element.webkitRequestFullscreen();
+    } else if(element.msRequestFullscreen) {
+      element.msRequestFullscreen();
+    }
+};
