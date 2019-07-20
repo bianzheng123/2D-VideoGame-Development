@@ -129,7 +129,6 @@ PlayUI.prototype.update = function(){
         
     }else{
         secondLeft=this.kPlayscene._VictoryFrameLast;
-        console.log("fdsfsd");
     }
     var minuteLeft=Math.floor(secondLeft/60);
     secondLeft=Math.floor(secondLeft%60);

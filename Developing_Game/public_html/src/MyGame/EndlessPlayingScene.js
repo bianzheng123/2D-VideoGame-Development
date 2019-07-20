@@ -23,6 +23,7 @@ function EndlessPlayingScene() {
     this.kEndlessPlayingSceneBg = "assets/AudioTest/EndlessPlayingSceneBackGround.mp3";
     //need the wav file(to play audio)
     this.kPlayerEatIceCream = "assets/AudioTest/EatIceCream.wav";
+    this.kWinBgm = "assets/AudioTest/Win.mp3";
     
     // The camera to view the scene
     this.mCamera = null;
@@ -70,6 +71,7 @@ EndlessPlayingScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kLife);
     gEngine.AudioClips.loadAudio(this.kEndlessPlayingSceneBg);
     gEngine.AudioClips.loadAudio(this.kPlayerEatIceCream);
+    gEngine.AudioClips.loadAudio(this.kWinBgm);
 };
 
 EndlessPlayingScene.prototype.unloadScene = function () {
@@ -77,9 +79,10 @@ EndlessPlayingScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBG);
     gEngine.Textures.unloadTexture(this.kAtlas);
     gEngine.Textures.unloadTexture(this.kSprite);
-    gEngine.Textures.loadTexture(this.kLife);
+    gEngine.Textures.unloadTexture(this.kLife);
     gEngine.AudioClips.unloadAudio(this.kEndlessPlayingSceneBg);
     gEngine.AudioClips.unloadAudio(this.kPlayerEatIceCream);
+    gEngine.AudioClips.unloadAudio(this.kWinBgm);
 };
 
 EndlessPlayingScene.prototype.initialize = function () {
@@ -122,7 +125,7 @@ EndlessPlayingScene.prototype.initialize = function () {
     this.mEventUI = new EventUI(this.kSprite,this.mPlayer,this.mCamera);
     this.mPlayerDirectionUI = new PlayerDirectionUI(this.kSprite,this.mPlayer);
     
-    gEngine.AudioClips.playACue(this.kEndlessPlayingSceneBg,40);
+    gEngine.AudioClips.playBackgroundAudio(this.kEndlessPlayingSceneBg);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -166,6 +169,9 @@ EndlessPlayingScene.prototype.update = function () {
         this._detectLost();
         if(this.isLost){
             this.stopUpdating = true;
+            gEngine.AudioClips.setCueVolume(30)
+            gEngine.AudioClips.playACue(this.kWinBgm,30);
+            gEngine.AudioClips.stopBackgroundAudio();
         }
         
         this.mFireManager.update();

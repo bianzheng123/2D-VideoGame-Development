@@ -73,8 +73,10 @@ FinishUI.prototype.draw = function () {
 };
 FinishUI.prototype.replaySelect=function(){
     if(this.isEndless){
+        gEngine.AudioClips.setCueVolume(0);
         gEngine.Core.startScene(new EndlessPlayingScene());
     }else{
+        gEngine.AudioClips.setCueVolume(0);
         gEngine.Core.startScene(new PlayScene());
     }
     
