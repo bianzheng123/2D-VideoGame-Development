@@ -1,5 +1,5 @@
 function selfAdapt(){
-    var ratio=10/9.8;
+    var ratio=10/9.5;
     var div=document.getElementById("LoadingIconParent");
     var canvas=document.getElementById("GLCanvas");
     var r=5/3;
