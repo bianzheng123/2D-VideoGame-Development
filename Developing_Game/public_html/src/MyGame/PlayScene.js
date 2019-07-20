@@ -20,6 +20,11 @@ function PlayScene() {
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kThermometer ="assets/thermometer.png";
     this.kPlaySceneBgm ="assets/AudioTest/PlaySceneBackGround.wav";
+    this.kWinBgm = "assets/AudioTest/Win.mp3";
+    this.kLoseBgm = "assets/AudioTest/Lose.mp3";
+    this.kBeenHit = "assets/AudioTest/BeenHit.wav";
+    this.kFallDown = "assets/AudioTest/FallDown.mp3";
+    this.kTrap = "assets/AudioTest/Trap.mp3";
     
     //need the wav file(to play audio)
     this.kPlayerEatIceCream = "assets/AudioTest/EatIceCream.wav";
@@ -43,6 +48,8 @@ function PlayScene() {
     this.timeLast = 0;
     this.timeLastFrameCount = 0;
     
+    this.hasWin_LosePlayOnce = false;
+    
     this.stopUpdating = false;
     this.isVictory = false;
     this.isLost = false;
@@ -63,6 +70,11 @@ PlayScene.prototype.loadScene = function () {
     
     gEngine.AudioClips.loadAudio(this.kPlaySceneBgm);
     gEngine.AudioClips.loadAudio(this.kPlayerEatIceCream);
+    gEngine.AudioClips.loadAudio(this.kWinBgm);
+    gEngine.AudioClips.loadAudio(this.kLoseBgm);
+    gEngine.AudioClips.loadAudio(this.kBeenHit);
+    gEngine.AudioClips.loadAudio(this.kFallDown);
+    gEngine.AudioClips.loadAudio(this.kTrap);
 };
 
 PlayScene.prototype.unloadScene = function () {
@@ -73,6 +85,11 @@ PlayScene.prototype.unloadScene = function () {
     
     gEngine.AudioClips.unloadAudio(this.kPlaySceneBgm);
     gEngine.AudioClips.unloadAudio(this.kPlayerEatIceCream);
+    gEngine.AudioClips.unloadAudio(this.kWinBgm);
+    gEngine.AudioClips.unloadAudio(this.kLoseBgm);
+    gEngine.AudioClips.unloadAudio(this.kBeenHit);
+    gEngine.AudioClips.unloadAudio(this.kFallDown);
+    gEngine.AudioClips.unloadAudio(this.kTrap);
 };
 
 PlayScene.prototype.initialize = function () {
@@ -99,16 +116,17 @@ PlayScene.prototype.initialize = function () {
     this.mPlayUI.initialize();
     this.mFinishUI = new FinishUI(this.kSprite,this.mCamera,this);
     this.mFinishUI.initialize();
-    this.mMapManager = new MapManager(this.kSprite,this.mCamera);
+    this.mMapManager = new MapManager(this.kSprite,this.mCamera,8);
     this.mMapManager.initialize();
     this.mShadowManager = new ShadowManager(this.kSprite,this.mCamera);
     
     
     this.mIceCreamManager = new IceCreamManager(this.kSprite,this.mCamera);
     this.mFireManager = new FireManager(this.kSprite,this.mCamera,this.mIceCreamManager);
-    this.mPlayer = new Player(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream);
+    this.mPlayer = new Player(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream,this.kBeenHit,this.kFallDown,this.kTrap);
     this.mPlayer.initialize();
-    gEngine.AudioClips.playACue(this.kPlaySceneBgm,40);
+    gEngine.AudioClips.playBackgroundAudio(this.kPlaySceneBgm);
+    gEngine.AudioClips.setCueVolume(30);
     this.mEventUI = new EventUI(this.kSprite,this.mPlayer,this.mCamera);
     this.mPlayerDirectionUI = new PlayerDirectionUI(this.kSprite,this.mPlayer);
 };
@@ -153,6 +171,7 @@ PlayScene.prototype.update = function () {
         
         this._approachVictory();
         if(this.isVictory){
+            this.playWin_LoseOnce = false;
             this.stopUpdating = true;
         }
         this._detectLost();
@@ -166,6 +185,19 @@ PlayScene.prototype.update = function () {
         this.mEventUI.update();
     }else{
         this.mFinishUI.update(this.mPlayer.eatIceCreamCount);
+        
+        if(this.isVictory && !this.hasWin_LosePlayOnce){
+            gEngine.AudioClips.setCueVolume(30);
+            gEngine.AudioClips.playACue(this.kWinBgm,30);
+            gEngine.AudioClips.stopBackgroundAudio();
+            this.hasWin_LosePlayOnce = true;
+            
+        }else if(this.isLost && !this.hasWin_LosePlayOnce){
+            gEngine.AudioClips.setCueVolume(30);
+            gEngine.AudioClips.playACue(this.kLoseBgm,30);
+            gEngine.AudioClips.stopBackgroundAudio();
+            this.hasWin_LosePlayOnce = true;
+        }
     }
     this.mGeneralUI.update();
     this.mPlayUI.update();

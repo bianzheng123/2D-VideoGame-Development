@@ -46,10 +46,10 @@ MapManager_endless.prototype.initialize = function(){
         for(j=0;j<this.kWidth;j++){
             var temp;
             if(this.mMapDesign[i][j]===1){
-                temp = new Grass_endless(this.kspriteTexture,j,this.kHeight - 1 - i,this.kCamera);
+                temp = new Grass(this.kspriteTexture,j,this.kHeight - 1 - i,this.kCamera);
                 temp.initialize();
             }else if(this.mMapDesign[i][j]===0){
-                temp = new Sand_endless(this.kspriteTexture,j,this.kHeight - 1 - i);
+                temp = new Sand(this.kspriteTexture,j,this.kHeight - 1 - i);
             }
             this.MapArray[j][this.kHeight - 1 - i]=temp;
         }

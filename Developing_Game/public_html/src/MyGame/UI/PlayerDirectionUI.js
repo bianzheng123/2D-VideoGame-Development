@@ -28,7 +28,7 @@ function PlayerDirectionUI(spriteTexture,player) {
     var relative_dirRight = this.directionPositionEnum.RIGHT;
     this.mPlayerDirectionUI.getXform().setPosition(this.mPlayer.getXform().getXPos() + relative_dirRight[0], this.mPlayer.getXform().getYPos() + relative_dirRight[1]);
     this.mPlayerDirectionUI.getXform().setSize(5,5);
-    this.mPlayerDirectionUI.setElementPixelPositions(513, 640, 256, 384);
+    this.mPlayerDirectionUI.setElementPixelPositions(515, 640, 256, 384);
     
         
     GameObject.call(this, this.mPlayerDirectionUI);

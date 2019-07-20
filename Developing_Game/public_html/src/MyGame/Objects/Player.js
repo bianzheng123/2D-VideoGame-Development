@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Player(spriteTexture,camera,fireManager,audio_EatIceCream) {
+function Player(spriteTexture,camera,fireManager,audio_EatIceCream,beenHit,fallDown,trap) {
     this.DirectionEnum={
         RIGHT: 0,
         TOPRIGHT: 1,
@@ -26,6 +26,9 @@ function Player(spriteTexture,camera,fireManager,audio_EatIceCream) {
         FLYING_ICE_CREAM:2,
         FALL:3
     };
+    this.kTrap = trap;
+    this.kBeenHit = beenHit;
+    this.kFallDown = fallDown;
     this.deathReason = this.DeathEnum.NOTDEAD;
     this.currentFrameIndex = 0;
     this.kPictureArray = [
@@ -40,7 +43,7 @@ function Player(spriteTexture,camera,fireManager,audio_EatIceCream) {
     this.walkingDirection = this.DirectionEnum.RIGHT;
     
     this.kHeight = 6.5;
-    this.kWidth = 6.5;
+    this.kWidth = 7;
     this.kGravityAcceleration = 1;
     this.kspriteTexture = spriteTexture;
     this.kincTemperatureCountMax = 60;//平均120帧主角上升1°
@@ -245,9 +248,9 @@ Player.prototype._walk = function(mPlayUI){
         }
         if(this.walkingDirection===this.DirectionEnum.RIGHT){
             this.mPlayer.setElementPixelPositions(this.kPictureArray[realIndex][0],
-            this.kPictureArray[realIndex][1],this.kPictureArray[realIndex][2],this.kPictureArray[realIndex][3]);
+            this.kPictureArray[realIndex][1]-1,this.kPictureArray[realIndex][2],this.kPictureArray[realIndex][3]);
         }else{
-            this.mPlayer.setElementPixelPositions(this.kPictureArray[realIndex][1],
+            this.mPlayer.setElementPixelPositions(this.kPictureArray[realIndex][1]-1,
             this.kPictureArray[realIndex][0],this.kPictureArray[realIndex][2],this.kPictureArray[realIndex][3]);
         }
 
@@ -353,6 +356,7 @@ Player.prototype._death = function(){
         this.mPlayer.setColor([0.8, 0.6, 0.2, 0]);
         switch(this.deathReason){
             case this.DeathEnum.FALL:
+                gEngine.AudioClips.playACue(this.kFallDown,30);
                 if(this.direction === this.DirectionEnum.BOTTOM || 
                     this.direction === this.DirectionEnum.BOTTOMRIGHT ||
                     this.direction === this.DirectionEnum.RIGHT ||
@@ -363,6 +367,7 @@ Player.prototype._death = function(){
                 }
                 break;
             case this.DeathEnum.FLYING_ICE_CREAM:
+                gEngine.AudioClips.playACue(this.kBeenHit,30);
                 if(this.direction === this.DirectionEnum.BOTTOM || 
                     this.direction === this.DirectionEnum.BOTTOMRIGHT ||
                     this.direction === this.DirectionEnum.RIGHT ||
@@ -373,6 +378,7 @@ Player.prototype._death = function(){
                 }
                 break;
             case this.DeathEnum.TRAP:
+                gEngine.AudioClips.playACue(this.kTrap,30);
                 if(this.direction === this.DirectionEnum.BOTTOM || 
                     this.direction === this.DirectionEnum.BOTTOMRIGHT ||
                     this.direction === this.DirectionEnum.RIGHT ||
@@ -463,11 +469,12 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
         this.mIsDead = true;
         this.deathReason = this.DeathEnum.FLYING_ICE_CREAM;
         mIceCreamArray[i] = null;
+        
     }else if(mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.NOT_MELT
             || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.HALF_MELT
             || mIceCreamArray[i].mState === mIceCreamArray[i].kStateEnum.FULL_MELT
             && this.canEatIceCream){
-        gEngine.AudioClips.playACue(this.kAudio_EatIceCream,40);
+        
         
         l = mIceCreamArray[i];
 
@@ -475,10 +482,12 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
             case l.kStateEnum.NOT_MELT:
                 this.temperature -= l.kDecTemperatureEnum.NOT_MELT; 
                 this.eatIceCreamCount++;
+                gEngine.AudioClips.playACue(this.kAudio_EatIceCream,40);
                 break;
             case l.kStateEnum.HALF_MELT:
                 this.temperature -= l.kDecTemperatureEnum.HALF_MELT;
                 this.eatIceCreamCount++;
+                gEngine.AudioClips.playACue(this.kAudio_EatIceCream,40);
                 break;
             case l.kStateEnum.FULL_MELT:
                 this.temperature -= l.kDecTemperatureEnum.FULL_MELT;    

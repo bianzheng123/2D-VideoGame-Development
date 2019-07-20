@@ -73,12 +73,12 @@ function IceCream(spriteTexture,Xindex,Yindex,buffNum) {
     
     switch(this.mBuff){
         case this.kBuffEnum.NO_BUFF:
-            this.mIceCream.setElementPixelPositions(this.kNoBuff_NotMelt_PixelPositions[0],this.kNoBuff_NotMelt_PixelPositions[1],this.kNoBuff_NotMelt_PixelPositions[2],this.kNoBuff_NotMelt_PixelPositions[3]);    
+            this.mIceCream.setElementPixelPositions(this.kNoBuff_NotMelt_PixelPositions[0]+2,this.kNoBuff_NotMelt_PixelPositions[1],this.kNoBuff_NotMelt_PixelPositions[2],this.kNoBuff_NotMelt_PixelPositions[3]);    
             break;
         case this.kBuffEnum.SPEED_UP_BUFF:
-            this.mIceCream.setElementPixelPositions(this.kSpeedUpBuff_NotMelt_PixelPositions[0],this.kSpeedUpBuff_NotMelt_PixelPositions[1],this.kSpeedUpBuff_NotMelt_PixelPositions[2],this.kSpeedUpBuff_NotMelt_PixelPositions[3]); break;
+            this.mIceCream.setElementPixelPositions(this.kSpeedUpBuff_NotMelt_PixelPositions[0]+2,this.kSpeedUpBuff_NotMelt_PixelPositions[1],this.kSpeedUpBuff_NotMelt_PixelPositions[2],this.kSpeedUpBuff_NotMelt_PixelPositions[3]); break;
         case this.kBuffEnum.FIRE_BUFF:
-            this.mIceCream.setElementPixelPositions(this.kFireBuff_NotMelt_PixelPositions[0],this.kFireBuff_NotMelt_PixelPositions[1],this.kFireBuff_NotMelt_PixelPositions[2],this.kFireBuff_NotMelt_PixelPositions[3]);   break;
+            this.mIceCream.setElementPixelPositions(this.kFireBuff_NotMelt_PixelPositions[0]+2,this.kFireBuff_NotMelt_PixelPositions[1],this.kFireBuff_NotMelt_PixelPositions[2],this.kFireBuff_NotMelt_PixelPositions[3]);   break;
         
     }
     GameObject.call(this,this.mIceCream);
