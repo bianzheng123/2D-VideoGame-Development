@@ -51,7 +51,7 @@ IceCreamManager.prototype._updateIceCream = function(){
         l = this.mIceCreamArray[i];
         if(l !== null){
             l.update();
-            l.shadow.update(l.mIceCream.getXform().getXPos(),l.mIceCream.getXform().getYPos() - 3.5);
+            l.shadow.update(l.mIceCream.getXform().getXPos(),l.mTargetPositionY-2.5);
         }
     }//update IceCream
 };
@@ -116,10 +116,10 @@ IceCreamManager.prototype.createIceCream = function(mapManager){
         
         l.mHasIceCream = true;
         var iceCream = new IceCream(this.kspriteTexture,l.kXindex,l.kYindex,buff);
-        var mIcecreamShadow = new Shadow(this.kspriteTexture,[iceCream.mIceCream.getXform()[0],iceCream.mIceCream.getXform().getYPos()-22,4,2]);
+        var mIcecreamShadow = new Shadow(this.kspriteTexture,[iceCream.mIceCream.getXform()[0],iceCream.mIceCream.getXform().getYPos()-22,6,2]);
         //document.getElementById("st10").innerHTML=iceCream.mIceCream.getXform().getXPos();
         var mCoco = new Coco(this.kspriteTexture,iceCream);
-        var mCocoShadow = new Shadow(this.kspriteTexture,[mCoco.getXform()[0],mCoco.getXform()[1]-20,6,2]);
+        var mCocoShadow = new Shadow(this.kspriteTexture,[mCoco.getXform()[0],mCoco.getXform()[1]-20,10,2]);
         mCoco.shadow=mCocoShadow;
         mCocoShadow.mCoco=mCoco;
         iceCream.shadow=mIcecreamShadow;
@@ -145,22 +145,21 @@ IceCreamManager.prototype.getBuff = function(){
 
 IceCreamManager.prototype.draw = function(){
     var i,l;
-
     for(i=0;i<this.mIceCreamArray.length;i++){
         l = this.mIceCreamArray[i];
         if(l !== null){
-            l.draw(this.kCamera);
             l.shadow.draw(this.kCamera);
+            l.draw(this.kCamera);
         }
     }
-    
     for(i=0;i<this.mCocoArray.length;i++){
         l = this.mCocoArray[i];
         if(l !== null){
-            l.draw(this.kCamera);
             l.shadow.draw(this.kCamera);
+            l.draw(this.kCamera);
         }
     }
+
 };
 
 

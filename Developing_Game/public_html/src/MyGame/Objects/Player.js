@@ -40,7 +40,7 @@ function Player(spriteTexture,camera,fireManager,audio_EatIceCream) {
     this.walkingDirection = this.DirectionEnum.RIGHT;
     
     this.kHeight = 6.5;
-    this.kWidth = 6.5;
+    this.kWidth = 7;
     this.kGravityAcceleration = 1;
     this.kspriteTexture = spriteTexture;
     this.kincTemperatureCountMax = 60;//平均120帧主角上升1°
@@ -245,9 +245,9 @@ Player.prototype._walk = function(mPlayUI){
         }
         if(this.walkingDirection===this.DirectionEnum.RIGHT){
             this.mPlayer.setElementPixelPositions(this.kPictureArray[realIndex][0],
-            this.kPictureArray[realIndex][1],this.kPictureArray[realIndex][2],this.kPictureArray[realIndex][3]);
+            this.kPictureArray[realIndex][1]-1,this.kPictureArray[realIndex][2],this.kPictureArray[realIndex][3]);
         }else{
-            this.mPlayer.setElementPixelPositions(this.kPictureArray[realIndex][1],
+            this.mPlayer.setElementPixelPositions(this.kPictureArray[realIndex][1]-1,
             this.kPictureArray[realIndex][0],this.kPictureArray[realIndex][2],this.kPictureArray[realIndex][3]);
         }
 
