@@ -29,6 +29,7 @@ function EndlessPlayingScene() {
     this.kTrap = "assets/AudioTest/Trap.mp3";
     this.kStoringForce = "assets/AudioTest/StoringForce.wav";
     this.kGiveOutForce = "assets/AudioTest/GiveOutForce.wav";
+    this.kShooterWeapon = "assets/AudioTest/ShooterWeapon.mp3";
     
     // The camera to view the scene
     this.mCamera = null;
@@ -83,6 +84,7 @@ EndlessPlayingScene.prototype.loadScene = function () {
     gEngine.AudioClips.loadAudio(this.kTrap);
     gEngine.AudioClips.loadAudio(this.kStoringForce);
     gEngine.AudioClips.loadAudio(this.kGiveOutForce);
+    gEngine.AudioClips.loadAudio(this.kShooterWeapon);
 };
 
 EndlessPlayingScene.prototype.unloadScene = function () {
@@ -99,6 +101,7 @@ EndlessPlayingScene.prototype.unloadScene = function () {
     gEngine.AudioClips.unloadAudio(this.kTrap);
     gEngine.AudioClips.unloadAudio(this.kStoringForce);
     gEngine.AudioClips.unloadAudio(this.kGiveOutForce);
+    gEngine.AudioClips.unloadAudio(this.kShooterWeapon);
     if(this.mFinishUI.levelSelect === "EndlessPlayingScene"){
         gEngine.Core.startScene(new EndlessPlayingScene());
     }else if(this.mFinishUI.levelSelect === "MyGame"){//levelSelect === "MyGame"
@@ -136,7 +139,7 @@ EndlessPlayingScene.prototype.initialize = function () {
     
     
     this.mIceCreamManager = new IceCreamManager(this.kSprite,this.mCamera,this,true);
-    this.mFireManager = new FireManager(this.kSprite,this.mCamera,this.mIceCreamManager,this.mMapManager);
+    this.mFireManager = new FireManager(this.kSprite,this.mCamera,this.mIceCreamManager,this.mMapManager,this.kShooterWeapon);
     this.mPlayer = new Player(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream,this.kBeenHit,this.kFallDown,this.kTrap,this.kStoringForce,this.kGiveOutForce,true);
     this.mPlayer.initialize();
     

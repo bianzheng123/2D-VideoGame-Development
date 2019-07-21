@@ -585,7 +585,7 @@ Player.prototype._increaseTempterature = function(){
         if(this.kIsEndless){
             this.temperature+=1.7;
         }else{
-            this.temperature+=5;
+            this.temperature+=1.1;
         }  
         
         this._incTemperatureFrameCount = 0;

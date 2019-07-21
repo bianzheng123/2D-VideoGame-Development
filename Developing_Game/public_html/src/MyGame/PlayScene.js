@@ -21,13 +21,13 @@ function PlayScene(mapIndex) {
     this.kThermometer ="assets/thermometer.png";
     this.kPlaySceneBgm ="assets/AudioTest/PlaySceneBackGround.wav";
     this.kWinBgm = "assets/AudioTest/Win.mp3";
-    this.kLoseBgm = "assets/AudioTest/Lose.mp3";
+    this.kLoseBgm = "assets/AudioTest/Lose.wav";
     this.kBeenHit = "assets/AudioTest/BeenHit.wav";
     this.kFallDown = "assets/AudioTest/FallDown.mp3";
     this.kTrap = "assets/AudioTest/Trap.mp3";
     this.kStoringForce = "assets/AudioTest/StoringForce.wav";
     this.kGiveOutForce = "assets/AudioTest/GiveOutForce.wav";
-    
+    this.kShooterWeapon = "assets/AudioTest/ShooterWeapon.mp3";
     //need the wav file(to play audio)
     this.kPlayerEatIceCream = "assets/AudioTest/EatIceCream.wav";
     
@@ -81,6 +81,7 @@ PlayScene.prototype.loadScene = function () {
     gEngine.AudioClips.loadAudio(this.kTrap);
     gEngine.AudioClips.loadAudio(this.kStoringForce);
     gEngine.AudioClips.loadAudio(this.kGiveOutForce);
+    gEngine.AudioClips.loadAudio(this.kShooterWeapon);
 };
 
 PlayScene.prototype.unloadScene = function () {
@@ -98,6 +99,7 @@ PlayScene.prototype.unloadScene = function () {
     gEngine.AudioClips.unloadAudio(this.kTrap);
     gEngine.AudioClips.unloadAudio(this.kStoringForce);
     gEngine.AudioClips.unloadAudio(this.kGiveOutForce);
+    gEngine.AudioClips.unloadAudio(this.kShooterWeapon);
     if(this.mFinishUI.levelSelect === "PlayScene" + this.mapIndex.toString()){
         gEngine.Core.startScene(new PlayScene(this.mapIndex));
     }else if(this.mFinishUI.levelSelect === "PlayScene" + (this.mapIndex + 1).toString()){
@@ -139,7 +141,7 @@ PlayScene.prototype.initialize = function () {
     
     
     this.mIceCreamManager = new IceCreamManager(this.kSprite,this.mCamera,false);
-    this.mFireManager = new FireManager(this.kSprite,this.mCamera,this.mIceCreamManager);
+    this.mFireManager = new FireManager(this.kSprite,this.mCamera,this.mIceCreamManager,this.kShooterWeapon);
     this.mPlayer = new Player(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream,this.kBeenHit,this.kFallDown,this.kTrap,this.kStoringForce,this.kGiveOutForce,false);
     this.mPlayer.initialize();
     gEngine.AudioClips.playBackgroundAudio(this.kPlaySceneBgm);
@@ -217,8 +219,6 @@ PlayScene.prototype.update = function () {
     }
     this.mGeneralUI.update();
     this.mPlayUI.update();
-
-
     
 };
 
