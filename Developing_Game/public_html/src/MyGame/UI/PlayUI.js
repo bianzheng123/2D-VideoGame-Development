@@ -17,6 +17,8 @@ function PlayUI(spriteTexture,camera,playscene,classicalMode) {
     this.fireButton = null;
     this.highScore = null;
     this.currentScore = null;
+    this.modeDisplay = null;
+    this.mapName = null;
     this.mHover = null;
     this.mClick = false;
     this.levelSelect=null;
@@ -171,6 +173,14 @@ PlayUI.prototype.initialize = function(){
     this.currentScore.setColor([0,0,0,1]);
     this.currentScore.getXform().setPosition(25,20);
     this.currentScore.setTextHeight(3);
+    this.modeDisplay=new FontRenderable(this.kClassicalMode?"Classical Mode":"Endless Mode");
+    this.modeDisplay.setColor([0,0,0,1]);
+    this.modeDisplay.getXform().setPosition(25,10);
+    this.modeDisplay.setTextHeight(3);    
+    this.mapName=new FontRenderable(this.kPlayscene.mMapManager.mapNames[this.kPlayscene.mapIndex]);
+    this.mapName.setColor([0,0,0,1]);
+    this.mapName.getXform().setPosition(25,5);
+    this.mapName.setTextHeight(3);
     this.joystickground=new SpriteRenderable(this.kspriteTexture);
     this.joystickground.setColor([1, 0.7, 0.1, 0]);
     this.joystickground.getXform().setPosition(-70,-35);
@@ -206,6 +216,8 @@ PlayUI.prototype.draw = function () {
     this.highScore.draw(this.mCamera);
     this.currentScore.draw(this.mCamera);
     this.mainMenuButton.draw(this.mCamera);
+    this.modeDisplay.draw(this.mCamera);
+    this.mapName.draw(this.mCamera);
 };
 PlayUI.prototype.pauseSelect = function(){
     this.kPlayscene.stopUpdating=!this.kPlayscene.stopUpdating;

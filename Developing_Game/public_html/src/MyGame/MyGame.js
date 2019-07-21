@@ -73,10 +73,10 @@ MyGame.prototype.initialize = function () {
             // sets the background to gray
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
-    this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[475,300],[300,50],"start game",6);
-    this.EndlessPlayingSceneButton = new UIButton(this.EndlessPlayingSceneSelect,this,[475,200],[300,50],"endless mode",6);
-    this.InstructionSceneButton = new UIButton(this.InstructionSceneSelect,this,[475,100],[300,50],"instruction",6);
-    this.UITitle = new UIText("Haha & Coco (alpha)",[475,450],8,1,0,[0,0,0,1]);
+    this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[475,300],[400,50],"Classical Mode",6);
+    this.EndlessPlayingSceneButton = new UIButton(this.EndlessPlayingSceneSelect,this,[475,200],[400,50],"Endless Mode",6);
+    this.InstructionSceneButton = new UIButton(this.InstructionSceneSelect,this,[475,100],[300,50],"Instruction",6);
+    this.UITitle = new UIText("Haha & Coco (beta)",[475,450],8,1,0,[0,0,0,1]);
     this.generalUI = new GeneralUI(this.kOnButton,this.mCamera);
     this.generalUI.initialize();
     gEngine.AudioClips.playBackgroundAudio(this.kMyGameBgm);
