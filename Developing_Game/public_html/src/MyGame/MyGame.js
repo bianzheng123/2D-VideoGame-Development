@@ -18,6 +18,8 @@ function MyGame() {
     this.kClickButton = "assets/AudioTest/NFF-finger-snap.wav";
     this.kOnButton = "assets/AudioTest/NFF-glued.wav";
     this.kBgClip = "assets/AudioTest/BGClip.mp3";
+    
+    this.kMyGameBgm = "assets/AudioTest/MyGameBackGround.mp3";
     // The camera to view the scene
     
     this.mCamera = null;
@@ -35,6 +37,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.AudioClips.loadAudio(this.kClickButton);
     gEngine.AudioClips.loadAudio(this.kOnButton);
     gEngine.AudioClips.loadAudio(this.kBgClip);
+    gEngine.AudioClips.loadAudio(this.kMyGameBgm);
     gEngine.Textures.loadTexture(this.kUIButton);
 };
 
@@ -46,6 +49,7 @@ MyGame.prototype.unloadScene = function () {
     gEngine.AudioClips.unloadAudio(this.kOnButton);
     gEngine.AudioClips.unloadAudio(this.kClickButton);
     gEngine.AudioClips.unloadAudio(this.kBgClip);
+    gEngine.AudioClips.unloadAudio(this.kMyGameBgm);
     
     gEngine.Textures.unloadTexture(this.kUIButton);
     if(this.LevelSelect==="PlayScene"){
@@ -71,6 +75,8 @@ MyGame.prototype.initialize = function () {
     this.UITitle = new UIText("Haha & Coco (alpha)",[475,450],8,1,0,[0,0,0,1]);
     this.generalUI = new GeneralUI(this.kOnButton,this.mCamera);
     this.generalUI.initialize();
+    gEngine.AudioClips.playBackgroundAudio(this.kMyGameBgm);
+    gEngine.AudioClips.setCueVolume(30);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -96,11 +102,14 @@ MyGame.prototype.update = function () {
 MyGame.prototype.PlaySceneSelect = function(){
     this.LevelSelect="PlayScene";
     this.clickAudio(this.PlaySceneButton);
+    gEngine.AudioClips.stopBackgroundAudio();
     gEngine.GameLoop.stop();
 };
 
 MyGame.prototype.EndlessPlayingSceneSelect = function(){
     this.LevelSelect = "EndlessPlayingScene";
+//    gEngine.AudioClips.setCueVolume(30);
+    gEngine.AudioClips.stopBackgroundAudio();
     this.clickAudio(this.EndlessPlayingSceneButton);
     gEngine.GameLoop.stop();
 };
