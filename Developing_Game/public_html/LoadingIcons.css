@@ -3,13 +3,13 @@
 */
 p {
   color: white;
-  font: 300 4em/150% Impact;
+  font: 300 2em/150% Arial;
   position: absolute;
-  z-index: 1;
+  z-index: 100;
   }
 
 .LoadingDotsAnimation {
-  font-size: 40px;
+  font-size: 2.5em;
 }
 
 .LoadingDotsAnimation span {
@@ -40,9 +40,9 @@ p {
   }
 }
         .LoadingSpinnerAnimation {
-  border: 16px solid #f3f3f3;
+/*  border: 16px solid rgb(190, 220, 223);*/
   border-radius: 50%;
-  border-top: 16px solid #3498db;
+  border-top: 16px solid rgb(157, 170, 208);
   width: 120px;
   height: 120px;
   animation: spin 2s linear infinite;
@@ -59,14 +59,14 @@ p {
     width: 100%;
     height: 30px;
     top:calc(50% + 120px);
-    background-color: grey;
+    background-color: rgb(216, 198, 141);
     position: absolute;
     z-index: 2;
   }
     #LoadingScreenBar {
         width: 0%;
         height: 30px;
-        background-color: green;
+        background-color: rgb(136, 184, 121);
         position: absolute;
         font-size: 30px;
         z-index: 3;
