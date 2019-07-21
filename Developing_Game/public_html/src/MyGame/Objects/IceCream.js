@@ -17,6 +17,7 @@ function IceCream(spriteTexture,Xindex,Yindex,buffNum,isEndless) {
     this.kWidth = 6;
     this.kHalfMeltTime = 10;
     this.kFullMeltTime = 20;
+    this.kTrapDisappearTime = 50;
     this.kNoBuff_NotMelt_PixelPositions = [768,960,0,256];
     this.kNoBuff_HalfMelt_PixelPositions = [960,1152,0,256];
     this.kNoBuff_FullMelt_PixelPositions = [1152,1344,64,192];
@@ -38,7 +39,8 @@ function IceCream(spriteTexture,Xindex,Yindex,buffNum,isEndless) {
         HALF_MELT: 1,
         FULL_MELT: 2,
         DROPING: 3,
-        FLYING: 4
+        FLYING: 4,
+        DISAPPEAR:5
     };
     this.kDecTemperatureEnum = {
         NOT_MELT: 5,
@@ -56,10 +58,11 @@ function IceCream(spriteTexture,Xindex,Yindex,buffNum,isEndless) {
     if(!this.kIsEndless){
         this.kfailingTime = 2;
     }
-    
+    this.isDead = false;
     this.canBeKnocked = false;
     this.failingDistanceX = 20;
     this.failingDistanceY = 20;//在两秒之内完成降落
+    this.relativeDistanceY = 1;//控制冰欺凌的相对位置
     this.failingFrameCount = 0;
     this.velocityX = this.failingDistanceX / (this.kfailingTime * 60);
     this.accerlateY = 2 * this.failingDistanceY / (this.kfailingTime * 60 * 60 * this.kfailingTime);
@@ -71,7 +74,7 @@ function IceCream(spriteTexture,Xindex,Yindex,buffNum,isEndless) {
     
     
     this.mIceCream = new SpriteRenderable(spriteTexture);
-    this.mIceCream.getXform().setPosition(this.mInitialPositionX ,this.mTargetPositionY + this.failingDistanceY + 1);
+    this.mIceCream.getXform().setPosition(this.mInitialPositionX ,this.mTargetPositionY + this.failingDistanceY + this.relativeDistanceY);
     this.mIceCream.getXform().setSize(this.kWidth, this.kHeight);
     this.mIceCream.setColor([0,0,0,0]);
     
@@ -91,13 +94,16 @@ function IceCream(spriteTexture,Xindex,Yindex,buffNum,isEndless) {
     switch(this.mBuff){
         case this.kBuffEnum.NO_BUFF:
             this.kHalfMeltTime = 10;
-            this.kFullMeltTime = 20;    break;
+            this.kFullMeltTime = 20;
+            this.kTrapDisappearTime = 33;   break;
         case this.kBuffEnum.FIRE_BUFF:
             this.kHalfMeltTime = 8;
-            this.kFullMeltTime = 16;    break;
+            this.kFullMeltTime = 16;
+            this.kTrapDisappearTime = 33;   break;
         case this.kBuffEnum.SPEED_UP_BUFF:
             this.kHalfMeltTime = 10;
-            this.kFullMeltTime = 20;    break;
+            this.kFullMeltTime = 20;
+            this.kTrapDisappearTime = 37;   break;
         
     }
     this.arrow = null;
@@ -137,7 +143,7 @@ IceCream.prototype._drop = function(){
     var pos = this.mIceCream.getXform().getPosition();
     if(this.failingFrameCount >= this.kfailingTime * 60){
         pos[0] = this.mTargetPositionX;
-        pos[1] = this.mTargetPositionY + 1;
+        pos[1] = this.mTargetPositionY + this.relativeDistanceY;
         this.mState = this.kStateEnum.NOT_MELT;
         this.canBeKnocked = false;
     }else{
@@ -179,8 +185,12 @@ IceCream.prototype._melt = function(){
                 case this.kBuffEnum.FIRE_BUFF:
                     this.mIceCream.setElementPixelPositions(this.kFireBuff_FullMelt_PixelPositions[0],this.kFireBuff_FullMelt_PixelPositions[1],this.kFireBuff_FullMelt_PixelPositions[2],this.kFireBuff_FullMelt_PixelPositions[3]);   break;
             }
-            
             this.mState = this.kStateEnum.FULL_MELT;
+            break;
+            
+        case this.kTrapDisappearTime * 60:
+            this.mState = this.kStateEnum.DISAPPEAR;
+            this.isDead = true;
             break;
     }
     

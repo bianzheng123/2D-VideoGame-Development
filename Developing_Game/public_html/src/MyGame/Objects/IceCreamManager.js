@@ -55,7 +55,7 @@ IceCreamManager.prototype.update = function (mapManager) {
         this.autoCreateIceCream(mapManager);
 //        console.log(this.createIceCreamCount);
     }
-    
+    this.destroyIceCream(mapManager);
     this._updateIceCream();
     this._updateCoco();
     this._optimization(this.mIceCreamArray);
@@ -140,6 +140,18 @@ IceCreamManager.prototype.autoCreateIceCream = function(mapManager){
         this.createIceCreamCount = 0;
     }else{
         this.createIceCreamCount++;
+    }
+};
+
+IceCreamManager.prototype.destroyIceCream = function(mapManager){
+    var i,l;
+    for(i=0;i<this.mIceCreamArray.length;i++){
+        l = this.mIceCreamArray[i];
+        if(l !== null && l.isDead){
+            mapManager.MapArray[l.kXindex][l.kYindex].mHasIceCream = false;
+            this.mIceCreamArray[i] = null;
+            l = null;
+        }
     }
 };
 
