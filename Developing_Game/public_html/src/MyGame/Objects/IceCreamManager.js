@@ -86,7 +86,7 @@ IceCreamManager.prototype._updateIceCream = function(){
         l = this.mIceCreamArray[i];
         if(l !== null){
             l.update();
-            l.shadow.update(l.mIceCream.getXform().getXPos(),l.mTargetPositionY-2.5);
+            l.shadow.update(l.mIceCream.getXform().getXPos(),l.mTargetPositionY-2);
             if(l.arrow!==null){
                 console.log("update arrow");
                 l.arrow.update(l.mIceCream.getXform().getXPos());
@@ -169,7 +169,7 @@ IceCreamManager.prototype.createIceCream = function(mapManager){
             var iceCreamArrow=new IceCreamArrow(this.kspriteTexture,[iceCream.mIceCream.getXform().getXPos(),30,4,4]);
             iceCream.arrow=iceCreamArrow;
         }
-        var mIcecreamShadow = new Shadow(this.kspriteTexture,[iceCream.mIceCream.getXform()[0],iceCream.mIceCream.getXform().getYPos()-22,6,2]);
+        var mIcecreamShadow = new Shadow(this.kspriteTexture,[iceCream.mIceCream.getXform()[0],iceCream.mIceCream.getXform().getYPos()-21,6,2]);
         var mCoco = new Coco(this.kspriteTexture,iceCream);
         var mCocoShadow = new Shadow(this.kspriteTexture,[mCoco.getXform()[0],mCoco.getXform()[1]-20,10,2]);
         mCoco.shadow=mCocoShadow;

@@ -71,7 +71,7 @@ function IceCream(spriteTexture,Xindex,Yindex,buffNum,isEndless) {
     
     
     this.mIceCream = new SpriteRenderable(spriteTexture);
-    this.mIceCream.getXform().setPosition(this.mInitialPositionX ,this.mTargetPositionY + this.failingDistanceY);
+    this.mIceCream.getXform().setPosition(this.mInitialPositionX ,this.mTargetPositionY + this.failingDistanceY + 1);
     this.mIceCream.getXform().setSize(this.kWidth, this.kHeight);
     this.mIceCream.setColor([0,0,0,0]);
     
@@ -137,7 +137,7 @@ IceCream.prototype._drop = function(){
     var pos = this.mIceCream.getXform().getPosition();
     if(this.failingFrameCount >= this.kfailingTime * 60){
         pos[0] = this.mTargetPositionX;
-        pos[1] = this.mTargetPositionY;
+        pos[1] = this.mTargetPositionY + 1;
         this.mState = this.kStateEnum.NOT_MELT;
         this.canBeKnocked = false;
     }else{
