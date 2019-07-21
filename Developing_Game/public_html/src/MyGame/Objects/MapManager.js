@@ -180,6 +180,7 @@ MapManager.prototype.initialize = function(){
     for(i=0;i<this.kHeight;i++){
         for(j=0;j<this.kWidth;j++){
             var temp;
+            console.log(this.mapIndex);
             if(this.mMapDesign[this.mapIndex][i][j]===1){
                 temp = new Grass(this.kspriteTexture,j,this.kHeight - 1 - i,this.kCamera);
                 temp.initialize();

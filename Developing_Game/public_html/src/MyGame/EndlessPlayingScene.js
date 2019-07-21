@@ -110,7 +110,7 @@ EndlessPlayingScene.prototype.unloadScene = function () {
     }else if(this.mFinishUI.levelSelect === "PlayScene" + (this.mapIndex - 1).toString()){
         gEngine.Core.startScene(new EndlessPlayingScene(this.mapIndex - 1));
     }else if((this.mFinishUI.levelSelect === "MyGame")||(this.mPlayUI.levelSelect==="MyGame")){
-        gEngine.Core.startScene(new EndlessPlayingScene());
+        gEngine.Core.startScene(new MyGame());
     }
 };
 
