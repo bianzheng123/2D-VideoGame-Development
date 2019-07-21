@@ -26,6 +26,7 @@ function MyGame() {
     
     this.mCamera = null;
     this.PlaySceneButton = null;
+    this.InstructionSceneButton = null;
     this.UITitle = null;
     this.generalUI = null;
     this.selectUI = null;
@@ -63,6 +64,8 @@ MyGame.prototype.unloadScene = function () {
         gEngine.Core.startScene(new PlayScene(this.LevelSelect));
     }else if(this.LevelSelect>=10&&this.LevelSelect<20){
         gEngine.Core.startScene(new EndlessPlayingScene(this.LevelSelect-10));
+    }else if(this.LevelSelect === "InstructionScene"){
+        gEngine.Core.startScene(new InstructionScene());
     }
 };
 
@@ -78,6 +81,8 @@ MyGame.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
     this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[475,250],[400,50],"Start Game",6);
+    this.InstructionSceneButton = new UIButton(this.InstructionSceneSelect,this,[475,150],[400,50],"Tutorial",6);
+    
     this.UITitle = new UIText("Haha & Coco (beta)",[475,450],8,1,0,[0,0,0,1]);
     this.generalUI = new GeneralUI(this.kOnButton,this.mCamera);
     this.generalUI.initialize();
@@ -95,9 +100,11 @@ MyGame.prototype.draw = function () {
 
     this.mCamera.setupViewProjection();   
     this.generalUI.draw(this.mCamera);
+    
     if(!this.selectUI.display){
         this.PlaySceneButton.draw(this.mCamera); 
         this.UITitle.draw(this.mCamera);
+        this.InstructionSceneButton.draw(this.mCamera);
     }else{
         this.selectUI.draw(this.mCamera);
     }
@@ -106,6 +113,7 @@ MyGame.prototype.draw = function () {
 MyGame.prototype.update = function () {
     if(!this.selectUI.display){
         this.PlaySceneButton.update();
+        this.InstructionSceneButton.update();
     }else{
         this.selectUI.update();
     }
@@ -120,6 +128,12 @@ MyGame.prototype.PlaySceneSelect = function(){
 //    this.clickAudio(this.PlaySceneButton);
 //    gEngine.AudioClips.stopBackgroundAudio();
 //    gEngine.GameLoop.stop();
+};
+MyGame.prototype.InstructionSceneSelect = function(){
+    this.LevelSelect="InstructionScene";    
+    this.clickAudio(this.PlaySceneButton);
+    gEngine.AudioClips.stopBackgroundAudio();
+    gEngine.GameLoop.stop();
 };
 
 MyGame.prototype.clickAudio = function (button) {

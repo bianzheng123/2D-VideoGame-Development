@@ -13,6 +13,7 @@
 
 function InstructionScene() {
     this.kUIButton = "assets/UI/SimpleButton.png";
+    this.kBackGround = "assets/Instruction.png";
     
     this.kClickButton = "assets/AudioTest/NFF-finger-snap.wav";
     this.kOnButton = "assets/AudioTest/NFF-glued.wav";
@@ -22,10 +23,9 @@ function InstructionScene() {
     // The camera to view the scene
     
     this.mCamera = null;
-    this.PlaySceneButton = null;
-    this.EndlessPlayingSceneButton = null;
     this.MyGameButton = null;
     this.generalUI = null;
+    this.mbg = null;
     this.LevelSelect = null;
 }
 gEngine.Core.inheritPrototype(InstructionScene, Scene);
@@ -38,6 +38,7 @@ InstructionScene.prototype.loadScene = function () {
     gEngine.AudioClips.loadAudio(this.kBgClip);
     gEngine.AudioClips.loadAudio(this.kMyGameBgm);
     gEngine.Textures.loadTexture(this.kUIButton);
+    gEngine.Textures.loadTexture(this.kBackGround);
 };
 
 InstructionScene.prototype.unloadScene = function () {
@@ -50,12 +51,9 @@ InstructionScene.prototype.unloadScene = function () {
     gEngine.AudioClips.unloadAudio(this.kBgClip);
     gEngine.AudioClips.unloadAudio(this.kMyGameBgm);
     
+    gEngine.Textures.unloadTexture(this.kBackGround);
     gEngine.Textures.unloadTexture(this.kUIButton);
-    if(this.LevelSelect==="PlayScene"){
-        gEngine.Core.startScene(new PlayScene(0));
-    }else if(this.LevelSelect === "EndlessPlayingScene"){
-        gEngine.Core.startScene(new EndlessPlayingScene());
-    }else if(this.LevelSelect === "MyGame"){
+    if(this.LevelSelect === "MyGame"){
         gEngine.Core.startScene(new MyGame());
     }
 };
@@ -71,12 +69,16 @@ InstructionScene.prototype.initialize = function () {
             // sets the background to gray
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
-    this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[475,300],[300,50],"start game",6);
-    this.EndlessPlayingSceneButton = new UIButton(this.EndlessPlayingSceneSelect,this,[475,200],[300,50],"endless mode",6);
     this.MyGameButton = new UIButton(this.MyGameSelect,this,[475,100],[300,50],"back",6);
     
     this.generalUI = new GeneralUI(this.kOnButton,this.mCamera);
     this.generalUI.initialize();
+    
+    this.mbg = new SpriteRenderable(this.kBackGround);
+    this.mbg.setColor([0, 0, 0, 0]);
+    this.mbg.getXform().setPosition(-15.5,-10);
+    this.mbg.getXform().setSize(140, 84);
+    this.mbg.setElementPixelPositions(0, 4093, 0, 2047);
     
     gEngine.AudioClips.playBackgroundAudio(this.kMyGameBgm);
     gEngine.AudioClips.setCueVolume(30);
@@ -89,38 +91,21 @@ InstructionScene.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     
     this.mCamera.setupViewProjection();    
+    this.mbg.draw(this.mCamera);
     this.generalUI.draw(this.mCamera);
-    this.PlaySceneButton.draw(this.mCamera); 
-    this.EndlessPlayingSceneButton.draw(this.mCamera);
     this.MyGameButton.draw(this.mCamera);
+    
 };
 
 InstructionScene.prototype.update = function () {
-    this.PlaySceneButton.update();
     this.generalUI.update();
-    this.EndlessPlayingSceneButton.update();
     this.MyGameButton.update();
-};
-
-InstructionScene.prototype.PlaySceneSelect = function(){
-    this.LevelSelect="PlayScene";
-    this.clickAudio(this.PlaySceneButton);
-    gEngine.AudioClips.stopBackgroundAudio();
-    gEngine.GameLoop.stop();
 };
 
 InstructionScene.prototype.MyGameSelect = function(){
     this.LevelSelect="MyGame";
     this.clickAudio(this.MyGameButton);
     gEngine.AudioClips.stopBackgroundAudio();
-    gEngine.GameLoop.stop();
-};
-
-InstructionScene.prototype.EndlessPlayingSceneSelect = function(){
-    this.LevelSelect = "EndlessPlayingScene";
-//    gEngine.AudioClips.setCueVolume(30);
-    gEngine.AudioClips.stopBackgroundAudio();
-    this.clickAudio(this.EndlessPlayingSceneButton);
     gEngine.GameLoop.stop();
 };
 
