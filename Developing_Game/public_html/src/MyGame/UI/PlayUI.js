@@ -116,7 +116,7 @@ PlayUI.prototype.update = function(){
         this.mClick=false;
         this.mFireClick=false;
         this.mJumpClick=false;
-        console.log("left mouse key released");
+//        console.log("left mouse key released");
         this.isAccumulating=false;
         this.isFire=false;
         this.fireButton.setColor([0,0,0,0.2]);
@@ -221,12 +221,12 @@ PlayUI.prototype.draw = function () {
 };
 PlayUI.prototype.pauseSelect = function(){
     this.kPlayscene.stopUpdating=!this.kPlayscene.stopUpdating;
-}
+};
 PlayUI.prototype.mainMenuSelect=function(){
     this.levelSelect = "MyGame";
     gEngine.AudioClips.setCueVolume(0);
     gEngine.GameLoop.stop();
-}
+};
     
 function getCookie(cname)
 {

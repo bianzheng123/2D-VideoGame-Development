@@ -88,13 +88,8 @@ FinishUI.prototype.draw = function () {
 };
 FinishUI.prototype.replaySelect=function(){
     var i=this.kPlayscene.mapIndex;
-    if(this.isEndless){
-        this.levelSelect = "EndlessPlayingScene";
-        gEngine.GameLoop.stop();
-    }else{
-        this.levelSelect = "PlayScene" + i.toString();
-        gEngine.GameLoop.stop();
-    }
+    this.levelSelect = "PlayScene" + i.toString();
+    gEngine.GameLoop.stop();
     gEngine.AudioClips.setCueVolume(0);
     
 };
@@ -105,6 +100,7 @@ FinishUI.prototype.mainMenuSelect=function(){
 };
 FinishUI.prototype.nextSelest=function(){
     var i=this.kPlayscene.mapIndex;
+    console.log("fsdfsd");
     this.levelSelect = "PlayScene" + (i+1).toString();
     gEngine.AudioClips.setCueVolume(0);
     gEngine.GameLoop.stop();

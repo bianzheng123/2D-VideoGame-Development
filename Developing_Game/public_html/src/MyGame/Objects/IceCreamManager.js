@@ -88,7 +88,7 @@ IceCreamManager.prototype._updateIceCream = function(){
             l.update();
             l.shadow.update(l.mIceCream.getXform().getXPos(),l.mTargetPositionY-2);
             if(l.arrow!==null){
-                console.log("update arrow");
+//                console.log("update arrow");
                 l.arrow.update(l.mIceCream.getXform().getXPos());
                 if(l.mIceCream.getXform().getYPos()<30){
                     l.arrow=null;
@@ -177,7 +177,7 @@ IceCreamManager.prototype.createIceCream = function(mapManager){
         l.mHasIceCream = true;
         var iceCream = new IceCream(this.kspriteTexture,l.kXindex,l.kYindex,buff,this.kIsEndless);
         if(iceCream.mIceCream.getXform().getYPos()>32){
-            console.log("create arrow");
+//            console.log("create arrow");
             var iceCreamArrow=new IceCreamArrow(this.kspriteTexture,[iceCream.mIceCream.getXform().getXPos(),30,4,4]);
             iceCream.arrow=iceCreamArrow;
         }
