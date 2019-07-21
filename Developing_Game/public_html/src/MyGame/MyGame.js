@@ -56,7 +56,7 @@ MyGame.prototype.unloadScene = function () {
     if(this.LevelSelect==="PlayScene"){
         gEngine.Core.startScene(new PlayScene(0));
     }else if(this.LevelSelect === "EndlessPlayingScene"){
-        gEngine.Core.startScene(new EndlessPlayingScene());
+        gEngine.Core.startScene(new EndlessPlayingScene(7));
     }else if(this.LevelSelect === "InstructionScene"){
         gEngine.Core.startScene(new InstructionScene());
     }

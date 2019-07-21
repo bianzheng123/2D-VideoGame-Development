@@ -106,7 +106,7 @@ PlayScene.prototype.unloadScene = function () {
         gEngine.Core.startScene(new PlayScene(this.mapIndex + 1));
     }else if(this.mFinishUI.levelSelect === "PlayScene" + (this.mapIndex - 1).toString()){
         gEngine.Core.startScene(new PlayScene(this.mapIndex - 1));
-    }else if(this.mFinishUI.levelSelect === "MyGame"){
+    }else if((this.mFinishUI.levelSelect === "MyGame")||(this.mPlayUI.levelSelect==="MyGame")){
         gEngine.Core.startScene(new MyGame());
     }
 };

@@ -1,22 +1,25 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function PlayUI(spriteTexture,camera,playscene,displayTimeLast) {
-    this.kDisplayTimeLast = displayTimeLast;
+function PlayUI(spriteTexture,camera,playscene,classicalMode) {
+    this.kClassicalMode = classicalMode;
     this.kspriteTexture=spriteTexture;
     this.mCamera=camera;
     this.kPlayscene=playscene;
     this.thermometer = null;
     this.thermometerPointer =null;
     this.countdown = null;
-    this.pauseButton = new UIButton(this.pauseSelect,this,[120,500],[150,40],"Pause",4);
+    this.pauseButton = new UIButton(this.pauseSelect,this,[120,450],[200,40],"Pause",4);
+    this.mainMenuButton = new UIButton(this.mainMenuSelect,this,[120,500],[200,40],"Main Menu",4);
     this.joystickground = null;
     this.joystick = null;
     this.jumpButton = null;
     this.fireButton = null;
-    
+    this.highScore = null;
+    this.currentScore = null;
     this.mHover = null;
     this.mClick = false;
+    this.levelSelect=null;
     this.DirectionEnum={
         RIGHT: 0,
         TOPRIGHT: 1,
@@ -124,7 +127,7 @@ PlayUI.prototype.update = function(){
     this.thermometer.update();
     this.thermometerPointer.update(this.kPlayscene.mPlayer.temperature);
     var secondLeft = null;
-    if(!this.kDisplayTimeLast){
+    if(!this.kClassicalMode){
         secondLeft = this.kPlayscene.timeLastFrameCount;
         
     }else{
@@ -135,21 +138,39 @@ PlayUI.prototype.update = function(){
     this.countdown.setText(minuteLeft+":"+(secondLeft<10?"0":"")+secondLeft);
     
     this.pauseButton.update();
+    this.mainMenuButton.update();
+    this.currentScore.setText("Current: "+this.kPlayscene.mPlayer.eatIceCreamCount);
+   
+    var mode=this.kClassicalMode?"C":"E";
+    var index=this.kPlayscene.mapIndex;
+    if(this.kPlayscene.mPlayer.eatIceCreamCount>(getCookie(mode+index)===""?0:getCookie(mode+index))){
+        setCookie(mode+index,this.kPlayscene.mPlayer.eatIceCreamCount,365000);
+        this.highScore.setText("Highest: "+this.kPlayscene.mPlayer.eatIceCreamCount);
+    }
 };
 
 PlayUI.prototype.initialize = function(){
     this.thermometer=new Thermometer(this.kspriteTexture,this.mCamera);
     this.thermometerPointer=new ThermometerPointer(this.kspriteTexture,this.mCamera);
-    if(this.kDisplayTimeLast){
+    if(this.kClassicalMode){
         this.countdown = new FontRenderable("3:00");
         
     }else{
         this.countdown = new FontRenderable("0:00");
     }
+    var mode=this.kClassicalMode?"C":"E";
+    var index=this.kPlayscene.mapIndex;
     this.countdown.setColor([0, 0, 0, 1]);
     this.countdown.getXform().setPosition(5,25);
     this.countdown.setTextHeight(6);
-    
+    this.highScore = new FontRenderable("Highest: "+(getCookie(mode+index)===""?0:getCookie(mode+index)));
+    this.highScore.setColor([0,0,0,1]);
+    this.highScore.getXform().setPosition(25,25);
+    this.highScore.setTextHeight(3);
+    this.currentScore=new FontRenderable("Current: "+"0");
+    this.currentScore.setColor([0,0,0,1]);
+    this.currentScore.getXform().setPosition(25,20);
+    this.currentScore.setTextHeight(3);
     this.joystickground=new SpriteRenderable(this.kspriteTexture);
     this.joystickground.setColor([1, 0.7, 0.1, 0]);
     this.joystickground.getXform().setPosition(-70,-35);
@@ -182,7 +203,34 @@ PlayUI.prototype.draw = function () {
     this.joystick.draw(this.mCamera);
     this.jumpButton.draw(this.mCamera);
     this.fireButton.draw(this.mCamera);
+    this.highScore.draw(this.mCamera);
+    this.currentScore.draw(this.mCamera);
+    this.mainMenuButton.draw(this.mCamera);
 };
 PlayUI.prototype.pauseSelect = function(){
     this.kPlayscene.stopUpdating=!this.kPlayscene.stopUpdating;
-    }
+}
+PlayUI.prototype.mainMenuSelect=function(){
+    this.levelSelect = "MyGame";
+    gEngine.AudioClips.setCueVolume(0);
+    gEngine.GameLoop.stop();
+}
+    
+function getCookie(cname)
+{
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0; i<ca.length; i++) 
+  {
+    var c = ca[i].trim();
+    if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+  }
+  return "";
+}
+function setCookie(cname,cvalue,exdays)
+{
+  var d = new Date();
+  d.setTime(d.getTime()+(exdays*24*60*60*1000));
+  var expires = "expires="+d.toGMTString();
+  document.cookie = cname + "=" + cvalue + "; " + expires;
+}

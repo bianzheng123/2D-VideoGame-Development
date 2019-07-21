@@ -11,7 +11,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function EndlessPlayingScene() {
+function EndlessPlayingScene(mapIndex) {
     //to Upload the background
     this.kBG = "assets/background.png";
     this.kSprite = "assets/sprite.png";
@@ -34,6 +34,7 @@ function EndlessPlayingScene() {
     // The camera to view the scene
     this.mCamera = null;
     
+    this.mapIndex=mapIndex;
     this.mBg = null;//background
     this.mMapManager = null;
     this.mIceCreamManager = null;
@@ -133,7 +134,7 @@ EndlessPlayingScene.prototype.initialize = function () {
     this.mPlayUI.initialize();
     this.mFinishUI = new FinishUI(this.kSprite,this.mCamera,this,true);
     this.mFinishUI.initialize();
-    this.mMapManager = new MapManager(this.kSprite,this.mCamera,7);
+    this.mMapManager = new MapManager(this.kSprite,this.mCamera,this.mapIndex);
     this.mMapManager.initialize();
     this.mShadowManager = new ShadowManager(this.kSprite,this.mCamera);
     
