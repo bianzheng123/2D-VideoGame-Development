@@ -87,6 +87,13 @@ IceCreamManager.prototype._updateIceCream = function(){
         if(l !== null){
             l.update();
             l.shadow.update(l.mIceCream.getXform().getXPos(),l.mTargetPositionY-2.5);
+            if(l.arrow!==null){
+                console.log("update arrow");
+                l.arrow.update(l.mIceCream.getXform().getXPos());
+                if(l.mIceCream.getXform().getYPos()<30){
+                    l.arrow=null;
+                }
+            }
         }
     }//update IceCream
 };
@@ -157,6 +164,11 @@ IceCreamManager.prototype.createIceCream = function(mapManager){
         
         l.mHasIceCream = true;
         var iceCream = new IceCream(this.kspriteTexture,l.kXindex,l.kYindex,buff,this.kIsEndless);
+        if(iceCream.mIceCream.getXform().getYPos()>32){
+            console.log("create arrow");
+            var iceCreamArrow=new IceCreamArrow(this.kspriteTexture,[iceCream.mIceCream.getXform().getXPos(),30,4,4]);
+            iceCream.arrow=iceCreamArrow;
+        }
         var mIcecreamShadow = new Shadow(this.kspriteTexture,[iceCream.mIceCream.getXform()[0],iceCream.mIceCream.getXform().getYPos()-22,6,2]);
         var mCoco = new Coco(this.kspriteTexture,iceCream);
         var mCocoShadow = new Shadow(this.kspriteTexture,[mCoco.getXform()[0],mCoco.getXform()[1]-20,10,2]);
@@ -197,6 +209,14 @@ IceCreamManager.prototype.draw = function(){
         if(l !== null){
             l.shadow.draw(this.kCamera);
             l.draw(this.kCamera);
+        }
+    }
+    for(i=0;i<this.mIceCreamArray.length;i++){
+        l = this.mIceCreamArray[i];
+        if(l !== null){
+            if(l.arrow!==null){
+                l.arrow.draw(this.kCamera);
+            }
         }
     }
 

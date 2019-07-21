@@ -100,7 +100,7 @@ function IceCream(spriteTexture,Xindex,Yindex,buffNum,isEndless) {
             this.kFullMeltTime = 20;    break;
         
     }
-    
+    this.arrow = null;
     GameObject.call(this,this.mIceCream);
     
     this.shadow = null;
