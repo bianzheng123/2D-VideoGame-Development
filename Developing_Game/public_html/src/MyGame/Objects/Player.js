@@ -393,8 +393,8 @@ Player.prototype._death = function(){
         this.health--;//
         switch(this.deathReason){
             case this.DeathEnum.FALL:
-                gEngine.AudioClips.setCueVolume(10);
-                gEngine.AudioClips.playACue(this.kFallDown,10);
+                gEngine.AudioClips.setCueVolume(20);
+                gEngine.AudioClips.playACue(this.kFallDown,20);
                 if(this.direction === this.DirectionEnum.BOTTOM || 
                     this.direction === this.DirectionEnum.BOTTOMRIGHT ||
                     this.direction === this.DirectionEnum.RIGHT ||
@@ -405,8 +405,8 @@ Player.prototype._death = function(){
                 }
                 break;
             case this.DeathEnum.FLYING_ICE_CREAM:
-                gEngine.AudioClips.setCueVolume(10);
-                gEngine.AudioClips.playACue(this.kBeenHit,10);
+                gEngine.AudioClips.setCueVolume(20);
+                gEngine.AudioClips.playACue(this.kBeenHit,20);
                 if(this.direction === this.DirectionEnum.BOTTOM || 
                     this.direction === this.DirectionEnum.BOTTOMRIGHT ||
                     this.direction === this.DirectionEnum.RIGHT ||
@@ -417,8 +417,8 @@ Player.prototype._death = function(){
                 }
                 break;
             case this.DeathEnum.TRAP:
-                gEngine.AudioClips.setCueVolume(10);
-                gEngine.AudioClips.playACue(this.kTrap,10);
+                gEngine.AudioClips.setCueVolume(20);
+                gEngine.AudioClips.playACue(this.kTrap,20);
                 if(this.direction === this.DirectionEnum.BOTTOM || 
                     this.direction === this.DirectionEnum.BOTTOMRIGHT ||
                     this.direction === this.DirectionEnum.RIGHT ||
