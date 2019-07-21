@@ -7,7 +7,7 @@ function IceCreamArrow(spriteTexture,xform) {
     this.mArrow.setColor([1,1,1, 0]);
     this.mArrow.getXform().setPosition(xform[0],xform[1]);
     this.mArrow.getXform().setSize(xform[2],xform[3]);
-    this.mArrow.setElementPixelPositions(0, 10, 0, 10);
+    this.mArrow.setElementPixelPositions(512, 640, 896, 1024);
     GameObject.call(this, this.mArrow);
 }
 gEngine.Core.inheritPrototype(IceCreamArrow, GameObject);

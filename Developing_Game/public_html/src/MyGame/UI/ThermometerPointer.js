@@ -12,7 +12,7 @@
 function ThermometerPointer(spriteTexture,camera) {
     this.kCamera = camera;
     this.mThermometerPointer = new SpriteRenderable(spriteTexture);
-    this.mThermometerPointer.setColor([0.2, 0.9, 0.6, 0.9]);
+    this.mThermometerPointer.setColor([0.2, 0.9, 0.6, 0]);
     this.mThermometerPointer.getXform().setPosition(-25,22);
     this.mThermometerPointer.getXform().setSize(5,2);
     this.mThermometerPointer.getXform().incRotationByDegree(90);
