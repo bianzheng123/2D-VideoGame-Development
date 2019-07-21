@@ -150,14 +150,13 @@ IceCreamManager.prototype.createIceCream = function(mapManager){
     //在这里实现coco
 
     var buff = this.getBuff();
-    console.log(tmp_arr.length);
     var index = Math.floor(Math.random() * tmp_arr.length);
     
     if(tmp_arr.length !== 0){
         l = tmp_arr[index];
         
         l.mHasIceCream = true;
-        var iceCream = new IceCream(this.kspriteTexture,l.kXindex,l.kYindex,buff);
+        var iceCream = new IceCream(this.kspriteTexture,l.kXindex,l.kYindex,buff,this.kIsEndless);
         var mIcecreamShadow = new Shadow(this.kspriteTexture,[iceCream.mIceCream.getXform()[0],iceCream.mIceCream.getXform().getYPos()-22,6,2]);
         var mCoco = new Coco(this.kspriteTexture,iceCream);
         var mCocoShadow = new Shadow(this.kspriteTexture,[mCoco.getXform()[0],mCoco.getXform()[1]-20,10,2]);

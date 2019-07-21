@@ -9,7 +9,8 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function IceCream(spriteTexture,Xindex,Yindex,buffNum) {
+function IceCream(spriteTexture,Xindex,Yindex,buffNum,isEndless) {
+    this.kIsEndless = isEndless;
     this.kXindex = Xindex;
     this.kYindex = Yindex;
     this.kHeight = 7;
@@ -51,7 +52,10 @@ function IceCream(spriteTexture,Xindex,Yindex,buffNum) {
     this.mInitialPositionX = 60;
     this.kFlyingVelocity = 0;//正确的速度在下面
     
-    this.kfailingTime = 2;
+    this.kfailingTime = 1;
+    if(!this.kIsEndless){
+        this.kfailingTime = 2;
+    }
     
     this.canBeKnocked = false;
     this.failingDistanceX = 20;
@@ -76,9 +80,11 @@ function IceCream(spriteTexture,Xindex,Yindex,buffNum) {
             this.mIceCream.setElementPixelPositions(this.kNoBuff_NotMelt_PixelPositions[0]+2,this.kNoBuff_NotMelt_PixelPositions[1],this.kNoBuff_NotMelt_PixelPositions[2],this.kNoBuff_NotMelt_PixelPositions[3]);    
             break;
         case this.kBuffEnum.SPEED_UP_BUFF:
-            this.mIceCream.setElementPixelPositions(this.kSpeedUpBuff_NotMelt_PixelPositions[0]+2,this.kSpeedUpBuff_NotMelt_PixelPositions[1],this.kSpeedUpBuff_NotMelt_PixelPositions[2],this.kSpeedUpBuff_NotMelt_PixelPositions[3]); break;
+            this.mIceCream.setElementPixelPositions(this.kSpeedUpBuff_NotMelt_PixelPositions[0]+2,this.kSpeedUpBuff_NotMelt_PixelPositions[1],this.kSpeedUpBuff_NotMelt_PixelPositions[2],this.kSpeedUpBuff_NotMelt_PixelPositions[3]); 
+            break;
         case this.kBuffEnum.FIRE_BUFF:
-            this.mIceCream.setElementPixelPositions(this.kFireBuff_NotMelt_PixelPositions[0]+2,this.kFireBuff_NotMelt_PixelPositions[1],this.kFireBuff_NotMelt_PixelPositions[2],this.kFireBuff_NotMelt_PixelPositions[3]);   break;
+            this.mIceCream.setElementPixelPositions(this.kFireBuff_NotMelt_PixelPositions[0]+2,this.kFireBuff_NotMelt_PixelPositions[1],this.kFireBuff_NotMelt_PixelPositions[2],this.kFireBuff_NotMelt_PixelPositions[3]);   
+            break;
         
     }
     
@@ -91,7 +97,7 @@ function IceCream(spriteTexture,Xindex,Yindex,buffNum) {
             this.kFullMeltTime = 16;    break;
         case this.kBuffEnum.SPEED_UP_BUFF:
             this.kHalfMeltTime = 10;
-            this.kHalfMeltTime = 20;    break;
+            this.kFullMeltTime = 20;    break;
         
     }
     
@@ -168,6 +174,7 @@ IceCream.prototype._melt = function(){
                 case this.kBuffEnum.NO_BUFF:
                     this.mIceCream.setElementPixelPositions(this.kNoBuff_FullMelt_PixelPositions[0],this.kNoBuff_FullMelt_PixelPositions[1],this.kNoBuff_FullMelt_PixelPositions[2],this.kNoBuff_FullMelt_PixelPositions[3]);    break;
                 case this.kBuffEnum.SPEED_UP_BUFF:
+                    
                     this.mIceCream.setElementPixelPositions(this.kSpeedUpBuff_FullMelt_PixelPositions[0],this.kSpeedUpBuff_FullMelt_PixelPositions[1],this.kSpeedUpBuff_FullMelt_PixelPositions[2],this.kSpeedUpBuff_FullMelt_PixelPositions[3]); break;
                 case this.kBuffEnum.FIRE_BUFF:
                     this.mIceCream.setElementPixelPositions(this.kFireBuff_FullMelt_PixelPositions[0],this.kFireBuff_FullMelt_PixelPositions[1],this.kFireBuff_FullMelt_PixelPositions[2],this.kFireBuff_FullMelt_PixelPositions[3]);   break;
@@ -176,6 +183,7 @@ IceCream.prototype._melt = function(){
             this.mState = this.kStateEnum.FULL_MELT;
             break;
     }
+    
     
     this.mFrameCount++;
 };

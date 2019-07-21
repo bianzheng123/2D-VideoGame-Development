@@ -93,7 +93,6 @@ MyGame.prototype.draw = function () {
 };
 
 MyGame.prototype.update = function () {
-    
     this.PlaySceneButton.update();
     this.generalUI.update();
     this.EndlessPlayingSceneButton.update();

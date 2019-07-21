@@ -98,7 +98,15 @@ PlayScene.prototype.unloadScene = function () {
     gEngine.AudioClips.unloadAudio(this.kTrap);
     gEngine.AudioClips.unloadAudio(this.kStoringForce);
     gEngine.AudioClips.unloadAudio(this.kGiveOutForce);
-    
+    if(this.mFinishUI.levelSelect === "PlayScene" + this.mapIndex.toString()){
+        gEngine.Core.startScene(new PlayScene(this.mapIndex));
+    }else if(this.mFinishUI.levelSelect === "PlayScene" + (this.mapIndex + 1).toString()){
+        gEngine.Core.startScene(new PlayScene(this.mapIndex + 1));
+    }else if(this.mFinishUI.levelSelect === "PlayScene" + (this.mapIndex - 1).toString()){
+        gEngine.Core.startScene(new PlayScene(this.mapIndex - 1));
+    }else if(this.mFinishUI.levelSelect === "MyGame"){
+        gEngine.Core.startScene(new MyGame());
+    }
 };
 
 PlayScene.prototype.initialize = function () {
@@ -135,7 +143,6 @@ PlayScene.prototype.initialize = function () {
     this.mPlayer = new Player(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream,this.kBeenHit,this.kFallDown,this.kTrap,this.kStoringForce,this.kGiveOutForce,false);
     this.mPlayer.initialize();
     gEngine.AudioClips.playBackgroundAudio(this.kPlaySceneBgm);
-    gEngine.AudioClips.setCueVolume(30);
     this.mEventUI = new EventUI(this.kSprite,this.mPlayer,this.mCamera);
     this.mPlayerDirectionUI = new PlayerDirectionUI(this.kSprite,this.mPlayer);
 };

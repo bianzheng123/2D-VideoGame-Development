@@ -99,6 +99,11 @@ EndlessPlayingScene.prototype.unloadScene = function () {
     gEngine.AudioClips.unloadAudio(this.kTrap);
     gEngine.AudioClips.unloadAudio(this.kStoringForce);
     gEngine.AudioClips.unloadAudio(this.kGiveOutForce);
+    if(this.mFinishUI.levelSelect === "EndlessPlayingScene"){
+        gEngine.Core.startScene(new EndlessPlayingScene());
+    }else if(this.mFinishUI.levelSelect === "MyGame"){//levelSelect === "MyGame"
+        gEngine.Core.startScene(new MyGame());
+    }
 };
 
 EndlessPlayingScene.prototype.initialize = function () {
@@ -143,7 +148,6 @@ EndlessPlayingScene.prototype.initialize = function () {
     this.mPlayerDirectionUI = new PlayerDirectionUI(this.kSprite,this.mPlayer);
     
     gEngine.AudioClips.playBackgroundAudio(this.kEndlessPlayingSceneBg);
-    gEngine.AudioClips.setCueVolume(30);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more

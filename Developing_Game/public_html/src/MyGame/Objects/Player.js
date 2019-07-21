@@ -282,6 +282,7 @@ Player.prototype._jump = function(mPlayUI){
     if(this.isJumping){
         if(!this.hasGiveOutForceAudio){
             this.hasGiveOutForceAudio = true;
+            gEngine.AudioClips.setCueVolume(30);
             gEngine.AudioClips.playACue(this.kGiveOutForce,30);
         }
         this.originalX+=this.speedX;
@@ -311,6 +312,7 @@ Player.prototype._jump = function(mPlayUI){
     if((accu)&&!this.isJumping){
         if(!this.hasStoringForceAudio){
             this.hasStoringForceAudio = true;
+            gEngine.AudioClips.setCueVolume(30);
             gEngine.AudioClips.playACue(this.kStoringForce,30);
         }
         if(this.kIsEndless){
@@ -391,6 +393,7 @@ Player.prototype._death = function(){
         this.health--;//
         switch(this.deathReason){
             case this.DeathEnum.FALL:
+                gEngine.AudioClips.setCueVolume(30);
                 gEngine.AudioClips.playACue(this.kFallDown,30);
                 if(this.direction === this.DirectionEnum.BOTTOM || 
                     this.direction === this.DirectionEnum.BOTTOMRIGHT ||
@@ -402,6 +405,7 @@ Player.prototype._death = function(){
                 }
                 break;
             case this.DeathEnum.FLYING_ICE_CREAM:
+                gEngine.AudioClips.setCueVolume(30);
                 gEngine.AudioClips.playACue(this.kBeenHit,30);
                 if(this.direction === this.DirectionEnum.BOTTOM || 
                     this.direction === this.DirectionEnum.BOTTOMRIGHT ||
@@ -413,6 +417,7 @@ Player.prototype._death = function(){
                 }
                 break;
             case this.DeathEnum.TRAP:
+                gEngine.AudioClips.setCueVolume(30);
                 gEngine.AudioClips.playACue(this.kTrap,30);
                 if(this.direction === this.DirectionEnum.BOTTOM || 
                     this.direction === this.DirectionEnum.BOTTOMRIGHT ||
@@ -580,7 +585,7 @@ Player.prototype._increaseTempterature = function(){
         if(this.kIsEndless){
             this.temperature+=1.7;
         }else{
-            this.temperature+=1.1;
+            this.temperature+=5;
         }  
         
         this._incTemperatureFrameCount = 0;

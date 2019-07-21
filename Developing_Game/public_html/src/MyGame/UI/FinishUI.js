@@ -16,6 +16,7 @@ function FinishUI(spriteTexture,camera,playscene,isEndless) {
     this.lostScene=null;
     this.timecount=1;
     this.darkness=null;
+    this.levelSelect = null;
 }
 FinishUI.prototype.initialize=function(){    
     this.winScene = new SpriteRenderable(this.kspriteTexture);
@@ -82,30 +83,31 @@ FinishUI.prototype.draw = function () {
 
 };
 FinishUI.prototype.replaySelect=function(){
-    
     if(this.isEndless){
-        gEngine.AudioClips.setCueVolume(0);
-        gEngine.Core.startScene(new EndlessPlayingScene());
+        this.levelSelect = "EndlessPlayingScene";
+        gEngine.GameLoop.stop();
     }else{
-        gEngine.AudioClips.setCueVolume(0);
         var i=this.kPlayscene.mapIndex;
-        this.kPlayscene.unloadScene();
-        this.kPlayscene=null;
-        gEngine.Core.startScene(new PlayScene(i));
+        this.levelSelect = "PlayScene" + i.toString();
+        gEngine.GameLoop.stop();
     }
-    
+    gEngine.AudioClips.setCueVolume(0);
     
 };
 FinishUI.prototype.mainMenuSelect=function(){
-    gEngine.Core.startScene(new MyGame());
+    this.levelSelect = "MyGame";
+    gEngine.AudioClips.setCueVolume(0);
+    gEngine.GameLoop.stop();
 };
 FinishUI.prototype.nextSelest=function(){
     var i=this.kPlayscene.mapIndex;
-    this.kPlayscene.unloadScene();
-    gEngine.Core.startScene(new PlayScene(i+1));
+    this.levelSelect = "PlayScene" + (i+1).toString();
+    gEngine.AudioClips.setCueVolume(0);
+    gEngine.GameLoop.stop();
 };
 FinishUI.prototype.preSelest=function(){
     var i=this.kPlayscene.mapIndex;
-    this.kPlayscene.unloadScene();
-    gEngine.Core.startScene(new PlayScene(i-1));
+    this.levelSelect = "PlayScene" + (i-1).toString();
+    gEngine.AudioClips.setCueVolume(0);
+    gEngine.GameLoop.stop();
 }
