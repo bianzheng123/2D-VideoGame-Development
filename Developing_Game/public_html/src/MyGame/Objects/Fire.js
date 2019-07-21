@@ -9,8 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Fire(spriteTexture,player,IceCreamManager,mapManager,shooterWeapon) {
-    this.kShooterWeanpon = shooterWeapon;
+function Fire(spriteTexture,player,IceCreamManager,mapManager) {
     this.kspeed = 1;
     this.kXsize = 2;
     this.kYsize = 2;
@@ -89,8 +88,6 @@ Fire.prototype._destroyTrap = function(){
                 this_xform.getYPos() <= ice_xform.getYPos() + l.kHeight / 2 && 
                 l.mState === l.kStateEnum.FULL_MELT){
                 this.kMapManager.MapArray[l.kXindex][l.kYindex].mHasIceCream = false;
-                gEngine.AudioClips.setCueVolume(30);
-                gEngine.AudioClips.playACue(this.kShooterWeanpon,30);
                 this.isDead = true;
                 l = null;
                 arr[i] = null;

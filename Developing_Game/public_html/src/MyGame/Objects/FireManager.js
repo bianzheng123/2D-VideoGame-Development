@@ -11,6 +11,7 @@
 
 function FireManager(spriteTexture,camera,iceCreamManager,mapManager,shooterWeapon) {
     this.kShooterWeapon = shooterWeapon;
+//    console.log(shooterWeapon);
     this.kspriteTexture = spriteTexture;
     this.kIceCreamManager = iceCreamManager;
     this.kMapManager = mapManager;
@@ -66,7 +67,9 @@ FireManager.prototype.draw = function(){
 };
 
 FireManager.prototype.createFire = function(player){
-    var fire = new Fire(this.kspriteTexture,player,this.kIceCreamManager,this.kMapManager,this.kShooterWeapon);
+    var fire = new Fire(this.kspriteTexture,player,this.kIceCreamManager,this.kMapManager);
+    gEngine.AudioClips.setCueVolume(30);
+    gEngine.AudioClips.playACue(this.kShooterWeapon,30);
     this.mFireArray.push(fire);
 };
 

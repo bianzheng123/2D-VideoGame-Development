@@ -18,7 +18,7 @@ function MapManager(spriteTexture,camera,mapIndex) {
     this.MapArray = new Array();//这个是二维数组
     this.mMapDesign =[ 
         [// The Lost World 迷失之境
-            [1, 1, 1, 0, 1, 1, 0, 1, 1, 1],
+            [1, 1, 1, 0, 1, 1, 0, 1, 1, 1],//10 * 10
             [0, 0, 1, 0, 0, 0, 0, 1, 0, 1],
             [1, 0, 1, 0, 1, 1, 1, 1, 0, 1],
             [1, 0, 1, 0, 1, 0, 0, 1, 0, 1],
@@ -51,7 +51,7 @@ function MapManager(spriteTexture,camera,mapIndex) {
             [1, 1, 1, 0, 0, 0, 0, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         ],
         [// Spiral Way 旋路
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -135,7 +135,7 @@ function MapManager(spriteTexture,camera,mapIndex) {
             [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
             [1, 0, 1, 0, 1, 0, 0, 1, 0, 1],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [1, 0, 1, 0, 1, 1, 0, 1, 0, 1],
+            [1, 0, 1, 0, 1, 1, 0, 1, 0, 1]
         ]
     ];
     this.mDrawLine = false;
