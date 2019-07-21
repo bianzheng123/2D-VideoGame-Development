@@ -103,10 +103,14 @@ EndlessPlayingScene.prototype.unloadScene = function () {
     gEngine.AudioClips.unloadAudio(this.kStoringForce);
     gEngine.AudioClips.unloadAudio(this.kGiveOutForce);
     gEngine.AudioClips.unloadAudio(this.kShooterWeapon);
-    if(this.mFinishUI.levelSelect === "EndlessPlayingScene"){
+    if(this.mFinishUI.levelSelect === "PlayScene" + this.mapIndex.toString()){
+        gEngine.Core.startScene(new EndlessPlayingScene(this.mapIndex));
+    }else if(this.mFinishUI.levelSelect === "PlayScene" + (this.mapIndex + 1).toString()){
+        gEngine.Core.startScene(new EndlessPlayingScene(this.mapIndex + 1));
+    }else if(this.mFinishUI.levelSelect === "PlayScene" + (this.mapIndex - 1).toString()){
+        gEngine.Core.startScene(new EndlessPlayingScene(this.mapIndex - 1));
+    }else if((this.mFinishUI.levelSelect === "MyGame")||(this.mPlayUI.levelSelect==="MyGame")){
         gEngine.Core.startScene(new EndlessPlayingScene());
-    }else if(this.mFinishUI.levelSelect === "MyGame"){//levelSelect === "MyGame"
-        gEngine.Core.startScene(new MyGame());
     }
 };
 
@@ -130,12 +134,12 @@ EndlessPlayingScene.prototype.initialize = function () {
     
     this.mGeneralUI = new GeneralUI(this.kAtlas,this.mCamera);
     this.mGeneralUI.initialize();    
-    this.mPlayUI = new PlayUI(this.kSprite,this.mCamera,this,false);
-    this.mPlayUI.initialize();
     this.mFinishUI = new FinishUI(this.kSprite,this.mCamera,this,true);
     this.mFinishUI.initialize();
     this.mMapManager = new MapManager(this.kSprite,this.mCamera,this.mapIndex);
     this.mMapManager.initialize();
+    this.mPlayUI = new PlayUI(this.kSprite,this.mCamera,this,false);
+    this.mPlayUI.initialize();
     this.mShadowManager = new ShadowManager(this.kSprite,this.mCamera);
     
     

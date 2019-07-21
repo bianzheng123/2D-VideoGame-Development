@@ -87,11 +87,11 @@ FinishUI.prototype.draw = function () {
 
 };
 FinishUI.prototype.replaySelect=function(){
+    var i=this.kPlayscene.mapIndex;
     if(this.isEndless){
         this.levelSelect = "EndlessPlayingScene";
         gEngine.GameLoop.stop();
     }else{
-        var i=this.kPlayscene.mapIndex;
         this.levelSelect = "PlayScene" + i.toString();
         gEngine.GameLoop.stop();
     }
