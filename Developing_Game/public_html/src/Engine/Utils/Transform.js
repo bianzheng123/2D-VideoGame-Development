@@ -292,3 +292,10 @@ Transform.prototype.getXform = function () {
     return matrix;
 };
 //</editor-fold>
+Transform.prototype.isIn=function(x,y){
+    var lb=this.mPosition[0]-this.mScale[0]/2;
+    var rb=this.mPosition[0]+this.mScale[0]/2;
+    var tb=this.mPosition[1]+this.mScale[1]/2;
+    var bb=this.mPosition[1]-this.mScale[1]/2;   
+    return x>lb&&x<rb&&y>bb&&y<tb;
+}
