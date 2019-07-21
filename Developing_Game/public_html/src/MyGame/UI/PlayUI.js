@@ -149,6 +149,11 @@ PlayUI.prototype.update = function(){
         setCookie(mode+index,this.kPlayscene.mPlayer.eatIceCreamCount,365000);
         this.highScore.setText("Highest: "+this.kPlayscene.mPlayer.eatIceCreamCount);
     }
+    if(this.kPlayscene.stopUpdating){
+        this.pauseButton.setTextString("Continue");
+    }else{
+        this.pauseButton.setTextString("Pause");
+    }
 };
 
 PlayUI.prototype.initialize = function(){
