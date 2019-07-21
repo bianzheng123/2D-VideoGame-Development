@@ -287,6 +287,19 @@ gEngine.Input = (function () {
         return (mIsKeyClicked[keyCode]);
     };
     
+    var isAnyKeyClicked = function(){
+        var i;
+        for(i=0;i<mIsKeyClicked.length;i++){
+            if(mIsKeyClicked[i])
+                return true;
+        }
+        for(i=0;i<mIsButtonClicked.length;i++){
+            if(mIsButtonClicked[i])
+                return true;
+        }
+        return false;
+    }
+    
      /**
      * returns if key is released.
      * @memberOf gEngine.Input
@@ -355,6 +368,7 @@ gEngine.Input = (function () {
         keys: kKeys,
 
         // Mouse support
+        isAnyKeyClicked: isAnyKeyClicked,
         isButtonPressed: isButtonPressed,
         isButtonClicked: isButtonClicked,
         isButtonReleased: isButtonReleased,

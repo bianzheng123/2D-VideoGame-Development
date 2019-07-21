@@ -23,7 +23,6 @@ function InstructionScene() {
     // The camera to view the scene
     
     this.mCamera = null;
-    this.MyGameButton = null;
     this.generalUI = null;
     this.mbg = null;
     this.LevelSelect = null;
@@ -69,16 +68,11 @@ InstructionScene.prototype.initialize = function () {
             // sets the background to gray
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
-    this.MyGameButton = new UIButton(this.MyGameSelect,this,[475,100],[300,50],"back",6);
-    
-    this.generalUI = new GeneralUI(this.kOnButton,this.mCamera);
-    this.generalUI.initialize();
-    
     this.mbg = new SpriteRenderable(this.kBackGround);
     this.mbg.setColor([0, 0, 0, 0]);
     this.mbg.getXform().setPosition(-15.5,-10);
     this.mbg.getXform().setSize(140, 84);
-    this.mbg.setElementPixelPositions(0, 4093, 0, 2047);
+    this.mbg.setElementPixelPositions(0, 2047, 0, 1180);
     
     gEngine.AudioClips.playBackgroundAudio(this.kMyGameBgm);
     gEngine.AudioClips.setCueVolume(30);
@@ -92,19 +86,17 @@ InstructionScene.prototype.draw = function () {
     
     this.mCamera.setupViewProjection();    
     this.mbg.draw(this.mCamera);
-    this.generalUI.draw(this.mCamera);
-    this.MyGameButton.draw(this.mCamera);
     
 };
 
 InstructionScene.prototype.update = function () {
-    this.generalUI.update();
-    this.MyGameButton.update();
+    if(gEngine.Input.isAnyKeyClicked()){
+        this.MyGameSelect();
+    }
 };
 
 InstructionScene.prototype.MyGameSelect = function(){
     this.LevelSelect="MyGame";
-    this.clickAudio(this.MyGameButton);
     gEngine.AudioClips.stopBackgroundAudio();
     gEngine.GameLoop.stop();
 };
