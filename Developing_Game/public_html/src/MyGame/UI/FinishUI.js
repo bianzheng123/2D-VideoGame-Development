@@ -44,8 +44,12 @@ FinishUI.prototype.update = function(iceCreamEatCount){
     }
     this.ReplayButton.update();
     this.MainMenuButton.update();
-    this.NextMapButton.update();
-    this.PreMapButton.update();
+    if(this.kPlayscene.mapIndex<9){
+        this.NextMapButton.update();
+    }
+    if(this.kPlayscene.mapIndex>0){
+        this.PreMapButton.update();
+    }
     this.iceCreamEatCountText.setText("Icecream you ate: " + iceCreamEatCount);
     this.timeLast.setText("Time you have survived: " + this.kPlayscene.timeLast);
 };
