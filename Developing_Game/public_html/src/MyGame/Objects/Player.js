@@ -158,10 +158,10 @@ Player.prototype.update = function (mIceCreamArray,mapManager,mPlayUI) {
             this._sprayFire(mPlayUI);
         }
         
-        if(gEngine.Input.isKeyPressed(gEngine.Input.keys.G)){
-            this.isSprayFire = true;
-            console.log("sprayFire: " + this.isSprayFire);
-        }
+//        if(gEngine.Input.isKeyPressed(gEngine.Input.keys.G)){
+//            this.isSprayFire = true;
+////            console.log("sprayFire: " + this.isSprayFire);
+//        }
         
     }else{
         this._death();
@@ -282,8 +282,8 @@ Player.prototype._jump = function(mPlayUI){
     if(this.isJumping){
         if(!this.hasGiveOutForceAudio){
             this.hasGiveOutForceAudio = true;
-            gEngine.AudioClips.setCueVolume(30);
-            gEngine.AudioClips.playACue(this.kGiveOutForce,30);
+            gEngine.AudioClips.setCueVolume(10);
+            gEngine.AudioClips.playACue(this.kGiveOutForce,10);
         }
         this.originalX+=this.speedX;
         this.originalY+=this.speedY;
@@ -312,8 +312,8 @@ Player.prototype._jump = function(mPlayUI){
     if((accu)&&!this.isJumping){
         if(!this.hasStoringForceAudio){
             this.hasStoringForceAudio = true;
-            gEngine.AudioClips.setCueVolume(30);
-            gEngine.AudioClips.playACue(this.kStoringForce,30);
+            gEngine.AudioClips.setCueVolume(10);
+            gEngine.AudioClips.playACue(this.kStoringForce,10);
         }
         if(this.kIsEndless){
             this.accumulateValue+=0.2;
@@ -393,8 +393,8 @@ Player.prototype._death = function(){
         this.health--;//
         switch(this.deathReason){
             case this.DeathEnum.FALL:
-                gEngine.AudioClips.setCueVolume(30);
-                gEngine.AudioClips.playACue(this.kFallDown,30);
+                gEngine.AudioClips.setCueVolume(10);
+                gEngine.AudioClips.playACue(this.kFallDown,10);
                 if(this.direction === this.DirectionEnum.BOTTOM || 
                     this.direction === this.DirectionEnum.BOTTOMRIGHT ||
                     this.direction === this.DirectionEnum.RIGHT ||
@@ -405,8 +405,8 @@ Player.prototype._death = function(){
                 }
                 break;
             case this.DeathEnum.FLYING_ICE_CREAM:
-                gEngine.AudioClips.setCueVolume(30);
-                gEngine.AudioClips.playACue(this.kBeenHit,30);
+                gEngine.AudioClips.setCueVolume(10);
+                gEngine.AudioClips.playACue(this.kBeenHit,10);
                 if(this.direction === this.DirectionEnum.BOTTOM || 
                     this.direction === this.DirectionEnum.BOTTOMRIGHT ||
                     this.direction === this.DirectionEnum.RIGHT ||
@@ -417,8 +417,8 @@ Player.prototype._death = function(){
                 }
                 break;
             case this.DeathEnum.TRAP:
-                gEngine.AudioClips.setCueVolume(30);
-                gEngine.AudioClips.playACue(this.kTrap,30);
+                gEngine.AudioClips.setCueVolume(10);
+                gEngine.AudioClips.playACue(this.kTrap,10);
                 if(this.direction === this.DirectionEnum.BOTTOM || 
                     this.direction === this.DirectionEnum.BOTTOMRIGHT ||
                     this.direction === this.DirectionEnum.RIGHT ||
@@ -522,12 +522,12 @@ Player.prototype._eatOrKnocked = function(mapManager,l,mIceCreamArray,i){
             case l.kStateEnum.NOT_MELT:
                 this.temperature -= l.kDecTemperatureEnum.NOT_MELT; 
                 this.eatIceCreamCount++;
-                gEngine.AudioClips.playACue(this.kAudio_EatIceCream,40);
+                gEngine.AudioClips.playACue(this.kAudio_EatIceCream,10);
                 break;
             case l.kStateEnum.HALF_MELT:
                 this.temperature -= l.kDecTemperatureEnum.HALF_MELT;
                 this.eatIceCreamCount++;
-                gEngine.AudioClips.playACue(this.kAudio_EatIceCream,40);
+                gEngine.AudioClips.playACue(this.kAudio_EatIceCream,10);
                 break;
             case l.kStateEnum.FULL_MELT:
                 this.temperature -= l.kDecTemperatureEnum.FULL_MELT;    

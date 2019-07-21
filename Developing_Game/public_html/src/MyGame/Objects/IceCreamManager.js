@@ -38,15 +38,15 @@ function IceCreamManager(spriteTexture,camera,endlessPlayingScene,isEndless) {
 }
 
 IceCreamManager.prototype.update = function (mapManager) {
-    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Z)){
-        this.createIceCream(mapManager);
-//        console.log("update");
-    }
+//    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Z)){
+//        this.createIceCream(mapManager);
+////        console.log("update");
+//    }
     
-    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.C)){
-        this.isAutoCreate = !this.isAutoCreate;
-        console.log("isAutoCreateIceCream: " + this.isAutoCreate);
-    }
+//    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.C)){
+//        this.isAutoCreate = !this.isAutoCreate;
+//        console.log("isAutoCreateIceCream: " + this.isAutoCreate);
+//    }
     
     if(this.isAutoCreate){
         if(this.kIsEndless){

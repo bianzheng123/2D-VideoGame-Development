@@ -200,8 +200,8 @@ EndlessPlayingScene.prototype.update = function () {
         this._detectLost();
         if(this.isLost){
             this.stopUpdating = true;
-            gEngine.AudioClips.setCueVolume(30);
-            gEngine.AudioClips.playACue(this.kWinBgm,30);
+            gEngine.AudioClips.setCueVolume(10);
+            gEngine.AudioClips.playACue(this.kWinBgm,10);
             gEngine.AudioClips.stopBackgroundAudio();
         }
         

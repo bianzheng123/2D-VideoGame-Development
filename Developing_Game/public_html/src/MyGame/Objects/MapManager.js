@@ -167,9 +167,9 @@ function MapManager(spriteTexture,camera,mapIndex) {
 }
 
 MapManager.prototype.update = function(){
-    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.X)){
-        this.mDrawLine = !this.mDrawLine;
-    }
+//    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.X)){
+//        this.mDrawLine = !this.mDrawLine;
+//    }
 };
 
 MapManager.prototype.initialize = function(){

@@ -84,7 +84,7 @@ MyGame.prototype.initialize = function () {
     this.selectUI = new SelectUI(this.kSprite,this.mCamera,this.kMapNames,this);
     this.selectUI.initialize();
     gEngine.AudioClips.playBackgroundAudio(this.kMyGameBgm);
-    gEngine.AudioClips.setCueVolume(30);
+    gEngine.AudioClips.setCueVolume(10);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -124,6 +124,6 @@ MyGame.prototype.PlaySceneSelect = function(){
 
 MyGame.prototype.clickAudio = function (button) {
     //console.log('play click');
-     gEngine.AudioClips.playACue(this.kClickButton,40);
+     gEngine.AudioClips.playACue(this.kClickButton,10);
      button.mPlayClickButtonAudio = false;
 };

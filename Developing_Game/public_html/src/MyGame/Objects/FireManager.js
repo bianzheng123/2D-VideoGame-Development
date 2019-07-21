@@ -68,8 +68,8 @@ FireManager.prototype.draw = function(){
 
 FireManager.prototype.createFire = function(player){
     var fire = new Fire(this.kspriteTexture,player,this.kIceCreamManager,this.kMapManager);
-    gEngine.AudioClips.setCueVolume(30);
-    gEngine.AudioClips.playACue(this.kShooterWeapon,30);
+    gEngine.AudioClips.setCueVolume(10);
+    gEngine.AudioClips.playACue(this.kShooterWeapon,10);
     this.mFireArray.push(fire);
 };
 
