@@ -134,10 +134,10 @@ SelectUI.prototype.getMouseIndex=function(){
             return i;
         }
     }
-    if(this.modeButtons[0].getXform().isIn(mousePos[0],mousePos[1])){
+    if(this.modeButtons[0].getXform().isIn(mousePos[0],mousePos[1])||this.classic.mXform.isIn(mousePos[0],mousePos[1])){
         return 12;
     }
-    if(this.modeButtons[1].getXform().isIn(mousePos[0],mousePos[1])){
+    if(this.modeButtons[1].getXform().isIn(mousePos[0],mousePos[1])||this.survive.mXform.isIn(mousePos[0],mousePos[1])){
         return 13;
     }
     return -1;

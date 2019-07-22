@@ -165,11 +165,15 @@ PlayUI.prototype.update = function(){
         setCookie(mode+index,this.kPlayscene.mPlayer.eatIceCreamCount,365000);
         this.highScore.setText("Highest: "+this.kPlayscene.mPlayer.eatIceCreamCount);
     }
-//    if(this.kPlayscene.stopUpdating){
-//        this.pauseButton.setTextString("Continue");
-//    }else{
-//        this.pauseButton.setTextString("Pause");
-//    }
+    if(this.kPlayscene.stopUpdating){
+        this.pauseButton.setPixelPosition(178,411,926,1140);
+        this.pauseButton.setHoverPixelPosition(495,712,926,1140);
+        this.pauseButton.setPressedPixelPosition(816,1036,926,1140);    
+    }else{
+        this.pauseButton.setPixelPosition(178,411,1410,1645);
+        this.pauseButton.setHoverPixelPosition(495,712,1410,1645);
+        this.pauseButton.setPressedPixelPosition(816,1036,1410,1645);        
+    }
     this.powerBarPointer.update(this.kPlayscene.mPlayer.accumulateValue);
 };
 

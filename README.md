@@ -26,13 +26,13 @@ You can also use the virtual joystick and buttons on the screen to operate if yo
 ## Acknowledgement
 
 ###  http://www.aigei.com/
-素材名字
-发力3_爱给网_aigei_com.wav
-被击倒03_爱给网_aigei_com.wav
-比赛成绩金光闪闪5(Game Achievement Bli_爱给网_aigei_com
-比赛成绩金光闪闪11(Game Achievement Bl_爱给网_aigei_com
-语言学1138_2_春天是在空气中(SFL1138_2_Sp_爱给网_aigei_com
-明确逃走_hit_(Clear Getaway _Hit_)_爱给网
+* 素材名字
+* 发力3_爱给网_aigei_com.wav
+* 被击倒03_爱给网_aigei_com.wav
+* 比赛成绩金光闪闪5(Game Achievement Bli_爱给网_aigei_com
+* 比赛成绩金光闪闪11(Game Achievement Bl_爱给网_aigei_com
+* 语言学1138_2_春天是在空气中(SFL1138_2_Sp_爱给网_aigei_com_
+* _明确逃走_hit_(Clear Getaway _Hit_)_爱给网
 
 ### http://www.mkcode.net/html/unity_jc/chuji/jinjie.html
 Unity3D初级课程之新手进阶素材：shooterWeapon 

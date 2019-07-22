@@ -158,9 +158,11 @@ MyGame.prototype.draw = function () {
         this.PlaySceneButton.draw(this.mCamera); 
         this.UITitle.draw(this.mCamera);
         this.InstructionSceneButton.draw(this.mCamera);
+        this.generalUI.draw(this.mCamera);
         this.AboutButton.draw(this.mCamera);
     }else if(this.selectUI.display){
         this.selectUI.draw(this.mCamera);
+        this.generalUI.draw(this.mCamera);
     }else if(this.mTutorialUI.display){
         this.mTutorialUI.draw(this.mCamera);
     }else if(this.mAboutUI.display){
@@ -208,7 +210,7 @@ MyGame.prototype.InstructionSceneSelect = function(){
     this.clickAudio(this.InstructionSceneButton);
 };
 MyGame.prototype.ReferenceSelect = function(){
-    window.open("https://bianzheng123.github.io/2D-VideoGame-Development/#Acknowledgement")
+    window.open("https://bianzheng123.github.io/2D-VideoGame-Development/#acknowledgement")
 
 }
 
