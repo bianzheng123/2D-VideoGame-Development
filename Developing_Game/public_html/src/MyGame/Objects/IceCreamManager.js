@@ -209,11 +209,13 @@ IceCreamManager.prototype.getBuff = function(){
 };
 
 IceCreamManager.prototype.beforePlayerDraw = function(){
-    var i;
+    var i,l;
     for(i=0;i<this.mIceCreamArray.length;i++){
-        if(this.mIceCreamArray[i] !== null && this.mIceCreamArray[i].mIceCream.getXform().getYPos() >= this.mPlayer.mPlayer.getXform().getYPos() - this.mPlayer.kCenterOffset){
-            this.mIceCreamArray[i].shadow.draw(this.kCamera);
-            this.mIceCreamArray[i].draw(this.kCamera);
+        l = this.mIceCreamArray[i];
+        if(l !== null && l.mIceCream.getXform().getYPos() >= this.mPlayer.mPlayer.getXform().getYPos() - this.mPlayer.kCenterOffset && 
+                l.kStateEnum.DROPING !== l.mState && l.kStateEnum.FLYING !== l.mState){
+            l.shadow.draw(this.kCamera);
+            l.draw(this.kCamera);
         }
     }
 };
@@ -221,9 +223,11 @@ IceCreamManager.prototype.beforePlayerDraw = function(){
 IceCreamManager.prototype.afterPlayerDraw = function(){
     var i,l;
     for(i=0;i<this.mIceCreamArray.length;i++){
-        if(this.mIceCreamArray[i] !== null && this.mIceCreamArray[i].mIceCream.getXform().getYPos() < this.mPlayer.mPlayer.getXform().getYPos() - this.mPlayer.kCenterOffset){
-            this.mIceCreamArray[i].shadow.draw(this.kCamera);
-            this.mIceCreamArray[i].draw(this.kCamera);
+        l = this.mIceCreamArray[i];
+        if(l !== null && (l.mIceCream.getXform().getYPos() < this.mPlayer.mPlayer.getXform().getYPos() - this.mPlayer.kCenterOffset 
+                || l.kStateEnum.DROPING === l.mState || l.kStateEnum.FLYING === l.mState)){
+            l.shadow.draw(this.kCamera);
+            l.draw(this.kCamera);
         }
     }
     for(i=0;i<this.mCocoArray.length;i++){

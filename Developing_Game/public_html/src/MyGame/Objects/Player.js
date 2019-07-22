@@ -440,7 +440,7 @@ Player.prototype._death = function(){
         if(this.mCountFrameDeath >= 120){
             this.mIsDeathCountStart = false;
             this.mIsDead = false;
-            this.getXform().setPosition(this.mLastXpos,this.mLastYpos + this.kHeight / 2);
+            this.getXform().setPosition(this.mLastXpos,this.mLastYpos + this.kCenterOffset);
             switch(this.deathReason){
                 case this.DeathEnum.FALL:
                     if(this.direction === this.DirectionEnum.BOTTOM || 
