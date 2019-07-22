@@ -7,7 +7,7 @@ function PowerBarPointer(spriteTexture,camera) {
     this.mPowerBarPointer.getXform().setPosition(25.3,-5);
     this.mPowerBarPointer.getXform().setSize(40,5);
     this.mPowerBarPointer.getXform().setRotationInDegree(90);
-    this.mPowerBarPointer.setElementPixelPositions(0, 1, 0, 1);
+    this.mPowerBarPointer.setElementPixelPositions(1, 1, 1, 1);
    GameObject.call(this, this.mPowerBarPointer);
 }
 gEngine.Core.inheritPrototype(PowerBarPointer, GameObject);

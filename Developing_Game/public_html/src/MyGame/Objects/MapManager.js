@@ -41,7 +41,7 @@ function MapManager(spriteTexture,camera,mapIndex) {
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         ],
-        [// Strips 条纹衬衫
+        [// Stripe 条纹衬衫
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -136,7 +136,8 @@ function MapManager(spriteTexture,camera,mapIndex) {
             [1, 0, 1, 0, 1, 0, 0, 1, 0, 1],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [1, 0, 1, 0, 1, 1, 0, 1, 0, 1]
-        ], [// Chess Life 棋局人生
+        ], 
+        [// Chess Life 棋局人生
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 1, 0, 0, 0, 1, 0],
             [0, 0, 0, 0, 0, 1, 0, 1, 1, 0],
@@ -164,14 +165,16 @@ function MapManager(spriteTexture,camera,mapIndex) {
     this.mapNames=[
         "The Lost World",
         "Doughnut",
-        "Strips",
+        "Stripe",
         "Spiral Way",
         "Tai Ji",
         "Meaning",
         "Code Life",
         "Plaid",
         "Sparkle",
-        "Jumping Master"
+        "Jumping Master",
+        "Chess Life",
+        "Mirror"
     ];
     this.mapChineseNames=[
         "迷失之境",
@@ -183,7 +186,9 @@ function MapManager(spriteTexture,camera,mapIndex) {
         "码上人生",
         "格子衬衫",
         "星火",
-        "跳跃高手"
+        "跳跃高手",
+        "棋局人生",
+        "镜像"
     ];
     this.mDrawLine = false;
     
