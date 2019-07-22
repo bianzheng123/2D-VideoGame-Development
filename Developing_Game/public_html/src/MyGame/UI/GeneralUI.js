@@ -14,7 +14,7 @@ GeneralUI.prototype.update = function(){
 GeneralUI.prototype.initialize = function(){
     //this.fullscreenButton = new UIButton(this.fullscreenSelect,this,[120,550],[200,40],"Fullscreen",4);
     this.fullscreenButton=new NiceButton(this.kspriteTexture,this.fullscreenSelect,this);
-    this.fullscreenButton.setPos(-77,26);
+    this.fullscreenButton.setPos(-80,26);
     this.fullscreenButton.setSize(5,5);
 };
 

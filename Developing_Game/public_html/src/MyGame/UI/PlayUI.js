@@ -11,9 +11,8 @@ function PlayUI(spriteTexture,buttonTexture,camera,playscene,classicalMode) {
     this.thermometer = null;
     this.thermometerPointer =null;
     this.powerBar = null;
+    this.powerBarPointer = null;
     this.countdown = null;
-//    this.pauseButton = new UIButton(this.pauseSelect,this,[120,450],[200,40],"Pause",4);
-//    this.mainMenuButton = new UIButton(this.mainMenuSelect,this,[120,500],[200,40],"Main Menu",4);
     this.pauseButton = new NiceButton(this.kbuttonTexture,this.pauseSelect,this);
     this.pauseButton.setPos(-80,10);
     this.pauseButton.setSize(5,5);
@@ -160,12 +159,14 @@ PlayUI.prototype.update = function(){
 //    }else{
 //        this.pauseButton.setTextString("Pause");
 //    }
+    this.powerBarPointer.update(this.kPlayscene.mPlayer.accumulateValue);
 };
 
 PlayUI.prototype.initialize = function(){
     this.thermometer=new Thermometer(this.kspriteTexture,this.mCamera);
     this.thermometerPointer=new ThermometerPointer(this.kspriteTexture,this.mCamera);
     this.powerBar = new PowerBar(this.kspriteTexture,this.mCamera);
+    this.powerBarPointer = new PowerBarPointer(this.kspriteTexture,this.mCamera);
     if(this.kClassicalMode){
         this.countdown = new FontRenderable("3:00");
         
@@ -175,23 +176,23 @@ PlayUI.prototype.initialize = function(){
     var mode=this.kClassicalMode?"C":"E";
     var index=this.kPlayscene.mapIndex;
     this.countdown.setColor([0, 0, 0, 1]);
-    this.countdown.getXform().setPosition(-67,23);
+    this.countdown.getXform().setPosition(-67,17);
     this.countdown.setTextHeight(5);
     this.highScore = new FontRenderable("Highest: "+(getCookie(mode+index)===""?0:getCookie(mode+index)));
     this.highScore.setColor([0,0,0,1]);
-    this.highScore.getXform().setPosition(30,25);
+    this.highScore.getXform().setPosition(23,25);
     this.highScore.setTextHeight(3);
     this.currentScore=new FontRenderable("Current: "+"0");
     this.currentScore.setColor([0,0,0,1]);
-    this.currentScore.getXform().setPosition(30,20);
+    this.currentScore.getXform().setPosition(23,20);
     this.currentScore.setTextHeight(3);
     this.modeDisplay=new FontRenderable(this.kClassicalMode?"Classical Mode":"Endless Mode");
     this.modeDisplay.setColor([0,0,0,1]);
-    this.modeDisplay.getXform().setPosition(-82,2);
+    this.modeDisplay.getXform().setPosition(-76,27);
     this.modeDisplay.setTextHeight(3);    
     this.mapName=new FontRenderable(this.kPlayscene.mMapManager.mapNames[this.kPlayscene.mapIndex]);
     this.mapName.setColor([0,0,0,1]);
-    this.mapName.getXform().setPosition(-82,-3);
+    this.mapName.getXform().setPosition(-76,23);
     this.mapName.setTextHeight(3);
     this.joystickground=new SpriteRenderable(this.kspriteTexture);
     this.joystickground.setColor([1, 0.7, 0.1, 0]);
@@ -219,7 +220,8 @@ PlayUI.prototype.initialize = function(){
 PlayUI.prototype.draw = function () {
     this.thermometer.draw(this.mCamera);
     this.thermometerPointer.draw(this.mCamera);
-    //this.powerBar.draw(this.mCamera);
+    this.powerBar.draw(this.mCamera);
+    this.powerBarPointer.draw(this.mCamera);
     this.countdown.draw(this.mCamera);
     this.pauseButton.draw(this.mCamera);
     this.joystickground.draw(this.mCamera);
