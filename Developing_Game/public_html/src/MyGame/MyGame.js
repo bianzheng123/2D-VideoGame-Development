@@ -105,7 +105,7 @@ MyGame.prototype.initialize = function () {
     bg.setColor([0, 0, 0, 0]);
     bg.getXform().setPosition(-15.5,-10);
     bg.getXform().setSize(140, 84);
-    bg.setElementPixelPositions(0, 4095, 0, 2047);
+    bg.setElementPixelPositions(0, 4095, 2047, 4095);
     this.mBuyIceCream = new GameObject(bg);
     
     this.UITitle = new UIText("Haha & Coco (beta)",[475,450],8,1,0,[0,0,0,1]);
