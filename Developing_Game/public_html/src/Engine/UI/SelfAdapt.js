@@ -23,3 +23,10 @@ fullscreenSelect=function(){
       element.msRequestFullscreen();
     }
 };
+
+getMousePosInWC=function(){
+    var mousePos = vec2.fromValues(gEngine.Input.getMousePosX(),gEngine.Input.getMousePosY());
+    mousePos[0]=(mousePos[0]-500)/(1000/140)-15.5;
+    mousePos[1]=(mousePos[1]-300)/(600/84)-10;
+    return mousePos;
+}

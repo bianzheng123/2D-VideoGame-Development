@@ -114,10 +114,7 @@ SelectUI.prototype.update=function(){
     
 }
 SelectUI.prototype.getMouseIndex=function(){
-    var mousePos = vec2.fromValues(gEngine.Input.getMousePosX(),
-                                gEngine.Input.getMousePosY());
-    mousePos[0]=(mousePos[0]-500)/(1000/140)-15.5;
-    mousePos[1]=(mousePos[1]-300)/(600/84)-10;
+    var mousePos=getMousePosInWC();
     var i;
     for(i=0;i<10;i++){
         if(this.mapButtons[i].getXform().isIn(mousePos[0],mousePos[1])){

@@ -44,10 +44,7 @@ function PlayUI(spriteTexture,camera,playscene,classicalMode) {
 }
 
 PlayUI.prototype.update = function(){
-    var mousePos = vec2.fromValues(gEngine.Input.getMousePosX(),
-                                gEngine.Input.getMousePosY());
-    mousePos[0]=(mousePos[0]-500)/(1000/140)-15.5;
-    mousePos[1]=(mousePos[1]-300)/(600/84)-10;
+    var mousePos=getMousePosInWC();
     //document.getElementById("st1").innerHTML=mousePos[0]+" "+mousePos[1];
 
     this.mHover = mousePos[0]>-80&&mousePos[0]<-60&&mousePos[1]>-45&&mousePos[1]<-25;
