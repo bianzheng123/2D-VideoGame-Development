@@ -122,7 +122,7 @@ EndlessPlayingScene.prototype.initialize = function () {
     this.mCamera = new Camera(
         vec2.fromValues(-15.5, -10), // position of the camera
         140,                     // width of camera
-        [0, 0, 1000, 600]         // viewport (orgX, orgY, width, height)
+        [0, 0, 1500, 900]         // viewport (orgX, orgY, width, height)
     );
     this.mCamera.setBackgroundColor([1,234/255,167/255, 1]);
             // sets the background to gray

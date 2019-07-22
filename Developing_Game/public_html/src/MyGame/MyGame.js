@@ -15,7 +15,7 @@ function MyGame() {
     this.kUIButton = "assets/UI/button.png";
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kInstruction = "assets/Instruction.png";
-    this.kAbout = "assets/About.jpg";
+    this.kAbout = "assets/About.png";
     
     this.kSprite = "assets/sprite.png";
     this.kMapNames = "assets/mapNames.png";
@@ -107,14 +107,14 @@ MyGame.prototype.initialize = function () {
     this.mCamera = new Camera(
         vec2.fromValues(-15.5, -10), // position of the camera
         140,                     // width of camera
-        [0, 0, 1000, 600]         // viewport (orgX, orgY, width, height)
+        [0, 0, 1500, 900]         // viewport (orgX, orgY, width, height)
     );
     this.mCamera.setBackgroundColor([1,234/255,167/255, 1]);
             // sets the background to gray
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
-    this.mAboutReturnButton = new UIButton(this.AboutReturnSelect,this,[300,50],[400,50],"Back",6);
-    this.mReferenceButton = new UIButton(this.ReferenceSelect,this,[600,50],[200,50],"Reference",6);
+    this.mAboutReturnButton = new UIButton(this.AboutReturnSelect,this,[200,50],[230,50],"Back",6);
+    this.mReferenceButton = new UIButton(this.ReferenceSelect,this,[1200,50],[200,50],"Acknowledgement",6);
     this.mAboutUI = new AboutUI(this.kAbout,this.mCamera);
     this.AboutButton = new UIButton(this.AboutSelect,this,[300,50],[250,50],"About",6);
     
@@ -135,7 +135,7 @@ MyGame.prototype.initialize = function () {
     bg.setElementPixelPositions(0, 4095, 2047, 4095);
     this.mBuyIceCream = new GameObject(bg);
     
-    this.UITitle = new UIText("Haha & Coco",[475,450],8,1,0,[0,0,0,1]);
+    this.UITitle = new UIText("Haha & Coco",[525,750],12,1,0,[0,0,0,1]);
     this.generalUI = new GeneralUI(this.kButtons,this.mCamera);
     this.generalUI.initialize();
     this.selectUI = new SelectUI(this.kSelectSprite,this.mCamera,this.kSelectSprite,this);
@@ -208,7 +208,8 @@ MyGame.prototype.InstructionSceneSelect = function(){
     this.clickAudio(this.InstructionSceneButton);
 };
 MyGame.prototype.ReferenceSelect = function(){
-    //write codes here
+    window.open("https://bianzheng123.github.io/2D-VideoGame-Development/#Acknowledgement")
+
 }
 
 MyGame.prototype.clickAudio = function (button) {

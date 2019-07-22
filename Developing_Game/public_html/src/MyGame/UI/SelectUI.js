@@ -19,8 +19,8 @@ function SelectUI(spriteTexture,camera,nameTexture,context) {
 }
 SelectUI.prototype.initialize=function(){
     var i;
-    this.backButton = new UIButton(this.BackSelect,this,[350,50],[150,50],"Back",5);
-    this.startButton = new UIButton(this.StartSelect,this,[650,50],[150,50],"Start",5);
+    this.backButton = new UIButton(this.BackSelect,this,[600,50],[180,60],"Back",9);
+    this.startButton = new UIButton(this.StartSelect,this,[950,50],[180,60],"Start",9);
     this.mapBox=new SpriteRenderable(this.spriteTexture);
     this.mapBox.setColor([0.9,0.9, 0.8,0]);
     this.mapBox.getXform().setPosition(-15.5,-5);
