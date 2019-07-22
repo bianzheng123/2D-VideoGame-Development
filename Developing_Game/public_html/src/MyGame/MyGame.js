@@ -41,6 +41,7 @@ function MyGame() {
     this.AboutButton = null;
     this.mAboutUI = null;
     this.mAboutReturnButton = null;
+    this.mReferenceButton = null;
     
     this.UITitle = null;
     this.generalUI = null;
@@ -113,6 +114,7 @@ MyGame.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
     this.mAboutReturnButton = new UIButton(this.AboutReturnSelect,this,[300,50],[400,50],"Back",6);
+    this.mReferenceButton = new UIButton(this.ReferenceSelect,this,[600,50],[200,50],"Reference",6);
     this.mAboutUI = new AboutUI(this.kAbout,this.mCamera);
     this.AboutButton = new UIButton(this.AboutSelect,this,[300,50],[250,50],"About",6);
     
@@ -164,6 +166,7 @@ MyGame.prototype.draw = function () {
     }else if(this.mAboutUI.display){
         this.mAboutUI.draw(this.mCamera);
         this.mAboutReturnButton.draw(this.mCamera);
+        this.mReferenceButton.draw(this.mCamera);
     }
 };
 
@@ -179,6 +182,7 @@ MyGame.prototype.update = function () {
     }else if(this.mAboutUI.display){
         this.mAboutUI.update();
         this.mAboutReturnButton.update();
+        this.mReferenceButton.update();
     }
     this.generalUI.update();
     
@@ -203,6 +207,9 @@ MyGame.prototype.InstructionSceneSelect = function(){
     this.mTutorialUI.display = true;
     this.clickAudio(this.InstructionSceneButton);
 };
+MyGame.prototype.ReferenceSelect = function(){
+    //write codes here
+}
 
 MyGame.prototype.clickAudio = function (button) {
     //console.log('play click');
