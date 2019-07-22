@@ -27,6 +27,7 @@ function PlayUI(spriteTexture,buttonTexture,camera,playscene,classicalMode) {
     this.currentScore = null;
     this.modeDisplay = null;
     this.mapName = null;
+    this.mapChineseName = null;
     this.mHover = null;
     this.mClick = false;
     this.levelSelect=null;
@@ -140,6 +141,7 @@ PlayUI.prototype.update = function(){
     }else{
         secondLeft=this.kPlayscene._VictoryFrameLast;
     }
+    secondLeft=Math.floor(secondLeft/60);
     var minuteLeft=Math.floor(secondLeft/60);
     secondLeft=Math.floor(secondLeft%60);
     this.countdown.setText(minuteLeft+":"+(secondLeft<10?"0":"")+secondLeft);
@@ -176,24 +178,28 @@ PlayUI.prototype.initialize = function(){
     var mode=this.kClassicalMode?"C":"E";
     var index=this.kPlayscene.mapIndex;
     this.countdown.setColor([0, 0, 0, 1]);
-    this.countdown.getXform().setPosition(-67,17);
+    this.countdown.getXform().setPosition(-63,17);
     this.countdown.setTextHeight(5);
     this.highScore = new FontRenderable("Highest: "+(getCookie(mode+index)===""?0:getCookie(mode+index)));
     this.highScore.setColor([0,0,0,1]);
-    this.highScore.getXform().setPosition(23,25);
-    this.highScore.setTextHeight(3);
+    this.highScore.getXform().setPosition(23,26);
+    this.highScore.setTextHeight(4);
     this.currentScore=new FontRenderable("Current: "+"0");
     this.currentScore.setColor([0,0,0,1]);
-    this.currentScore.getXform().setPosition(23,20);
-    this.currentScore.setTextHeight(3);
+    this.currentScore.getXform().setPosition(23,22);
+    this.currentScore.setTextHeight(4);
     this.modeDisplay=new FontRenderable(this.kClassicalMode?"Classical Mode":"Endless Mode");
     this.modeDisplay.setColor([0,0,0,1]);
-    this.modeDisplay.getXform().setPosition(-76,27);
-    this.modeDisplay.setTextHeight(3);    
+    this.modeDisplay.getXform().setPosition(-71,26);
+    this.modeDisplay.setTextHeight(4);    
     this.mapName=new FontRenderable(this.kPlayscene.mMapManager.mapNames[this.kPlayscene.mapIndex]);
     this.mapName.setColor([0,0,0,1]);
-    this.mapName.getXform().setPosition(-76,23);
-    this.mapName.setTextHeight(3);
+    this.mapName.getXform().setPosition(-71,22);
+    this.mapName.setTextHeight(4);    
+//    this.mapChineseName=new FontRenderable(this.kPlayscene.mMapManager.mapChineseNames[this.kPlayscene.mapIndex]);
+//    this.mapChineseName.setColor([0,0,0,1]);
+//    this.mapChineseName.getXform().setPosition(-71,17);
+//    this.mapChineseName.setTextHeight(4);
     this.joystickground=new SpriteRenderable(this.kspriteTexture);
     this.joystickground.setColor([1, 0.7, 0.1, 0]);
     this.joystickground.getXform().setPosition(-70,-35);
@@ -233,6 +239,7 @@ PlayUI.prototype.draw = function () {
     this.mainMenuButton.draw(this.mCamera);
     this.modeDisplay.draw(this.mCamera);
     this.mapName.draw(this.mCamera);
+//    this.mapChineseName.draw(this.mCamera);
 };
 PlayUI.prototype.pauseSelect = function(){
     this.kPlayscene.stopUpdating=!this.kPlayscene.stopUpdating;

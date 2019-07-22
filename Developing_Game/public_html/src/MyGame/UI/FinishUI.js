@@ -44,7 +44,7 @@ FinishUI.prototype.update = function(iceCreamEatCount){
     }
     this.ReplayButton.update();
     this.MainMenuButton.update();
-    if(this.kPlayscene.mapIndex<9){
+    if(this.kPlayscene.mapIndex<11){
         this.NextMapButton.update();
     }
     if(this.kPlayscene.mapIndex>0){
@@ -70,7 +70,7 @@ FinishUI.prototype.draw = function () {
         this.MainMenuButton.draw(this.mCamera); 
         this.iceCreamEatCountText.draw(this.mCamera);
         this.timeLast.draw(this.mCamera);
-        if(this.kPlayscene.mapIndex<9){
+        if(this.kPlayscene.mapIndex<11){
             this.NextMapButton.draw(this.mCamera);
         }
         if(this.kPlayscene.mapIndex>0){
