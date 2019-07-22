@@ -27,7 +27,7 @@ function EndlessPlayingScene(mapIndex) {
     this.kBeenHit = "assets/AudioTest/BeenHit.wav";
     this.kFallDown = "assets/AudioTest/FallDown.mp3";
     this.kTrap = "assets/AudioTest/Trap.mp3";
-    this.kStoringForce = "assets/AudioTest/StoringForce.wav";
+    this.kStoringForce = "assets/AudioTest/StoringForce.mp3";
     this.kGiveOutForce = "assets/AudioTest/GiveOutForce.wav";
     this.kShooterWeapon = "assets/AudioTest/ShooterWeapon.mp3";
     

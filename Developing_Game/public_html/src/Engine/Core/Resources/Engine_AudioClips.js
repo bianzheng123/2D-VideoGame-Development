@@ -25,6 +25,8 @@ gEngine.AudioClips = (function () {
     var mAudioContext = null;
     var mBgAudioNode = null;
     
+    var mStoringForceNode = null;
+    var mLoseNode = null;
     // volume control support
     // https://www.davrous.com/2015/11/05/creating-fun-immersive-audio-experiences-with-web-audio/
     // https://developer.mozilla.org/en-US/docs/Web/API/GainNode/gain
@@ -132,6 +134,39 @@ gEngine.AudioClips = (function () {
             sourceNode.connect(gainNode);
             gainNode.connect(mCueGainNode);
             gainNode.gain.value = volume * mVolumeMultiplier;
+        }
+    };
+    
+    /**
+     * playStoringForce, which is cue
+     * @memberOf gEngine.AudioClips
+     * @param {String} clipName
+     * @returns {void}
+     */
+    var playStoringForceAudio = function (clipName) {
+        var clipInfo = gEngine.ResourceMap.retrieveAsset(clipName);
+        if (clipInfo !== null) {
+
+            mStoringForceNode = mAudioContext.createBufferSource();
+            mStoringForceNode.buffer = clipInfo;
+            mStoringForceNode.loop = false;
+            mStoringForceNode.start(0);
+            
+            // connect volume accordingly
+            mStoringForceNode.connect(mBgGainNode);
+        }
+    };
+    
+    /**
+     * Stops current background audio clip if playing
+     * @memberOf gEngine.AudioClips
+     * @returns {void}
+     */
+    var stopStoringForceAudio = function () {
+        // Check if the audio is  playing.
+        if (mStoringForceNode !== null) {
+            mStoringForceNode.stop(0);
+            mStoringForceNode = null;
         }
     };
 
@@ -257,6 +292,8 @@ gEngine.AudioClips = (function () {
         unloadAudio: unloadAudio,
         playACue: playACue,
         playBackgroundAudio: playBackgroundAudio,
+        playStoringForceAudio:playStoringForceAudio,
+        stopStoringForceAudio:stopStoringForceAudio,
         setBackgroundVolume: setBackgroundVolume,
         incBackgroundVolume: incBackgroundVolume,
         setMasterVolume: setMasterVolume,
