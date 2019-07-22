@@ -37,13 +37,13 @@ function Grass(spriteTexture,Xindex,Yindex,camera) {
     this.mGrass.getXform().setSize(this.kXsize, this.kYsize);
     var randomN=Math.random();
     if(randomN<0.25){
-        this.mGrass.setElementPixelPositions(0, 256, 0, 256);
+        this.mGrass.setElementPixelPositions(0, 255, 0, 252);
     }else if(randomN<0.5){
-        this.mGrass.setElementPixelPositions(0, 256, 256, 505);
+        this.mGrass.setElementPixelPositions(0, 255, 256, 505);
     }else if(randomN<0.75){
-        this.mGrass.setElementPixelPositions(256, 505, 0, 256);
+        this.mGrass.setElementPixelPositions(257, 505, 0, 252);
     }else{
-        this.mGrass.setElementPixelPositions(256, 505, 256, 512);
+        this.mGrass.setElementPixelPositions(257, 505, 256, 505);
     }
     this.mHasIceCream = false;
    GameObject.call(this, this.mGrass);
