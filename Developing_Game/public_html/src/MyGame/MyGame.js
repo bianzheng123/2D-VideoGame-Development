@@ -14,6 +14,9 @@
 function MyGame() {
     this.kUIButton = "assets/UI/button.png";
     this.kUIButton = "assets/UI/SimpleButton.png";
+    this.kInstruction = "assets/Instruction.png";
+    this.kAbout = "assets/About.jpg";
+    
     this.kSprite = "assets/sprite.png";
     this.kMapNames = "assets/mapNames.png";
     this.kBg = "assets/EndlessBackGround.png";
@@ -30,7 +33,14 @@ function MyGame() {
     
     this.mCamera = null;
     this.PlaySceneButton = null;
+    
     this.InstructionSceneButton = null;
+    this.mTutorialUI = null;
+    
+    this.AboutButton = null;
+    this.mAboutUI = null;
+    this.mAboutReturnButton = null;
+    
     this.UITitle = null;
     this.generalUI = null;
     this.selectUI = null;
@@ -56,6 +66,8 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kWelcome_bg);
     gEngine.Textures.loadTexture(this.kWelcome_front);
     gEngine.Textures.loadTexture(this.kSelectSprite);
+    gEngine.Textures.loadTexture(this.kInstruction);
+    gEngine.Textures.loadTexture(this.kAbout);
 };
 
 MyGame.prototype.unloadScene = function () {
@@ -75,6 +87,8 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kWelcome_bg);
     gEngine.Textures.unloadTexture(this.kWelcome_front);
     gEngine.Textures.unloadTexture(this.kSelectSprite);
+    gEngine.Textures.unloadTexture(this.kInstruction);
+    gEngine.Textures.unloadTexture(this.kAbout);
     if(this.LevelSelect<12&&this.LevelSelect>=0){
         gEngine.Core.startScene(new PlayScene(this.LevelSelect));
     }else if(this.LevelSelect>=12&&this.LevelSelect<24){
@@ -95,8 +109,13 @@ MyGame.prototype.initialize = function () {
             // sets the background to gray
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
-    this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[475,250],[400,50],"Start Game",6);
-    this.InstructionSceneButton = new UIButton(this.InstructionSceneSelect,this,[475,150],[400,50],"Tutorial",6);
+    this.mAboutReturnButton = new UIButton(this.AboutReturnSelect,this,[300,50],[400,50],"Back",6);
+    this.mAboutUI = new AboutUI(this.kAbout,this.mCamera);
+    this.AboutButton = new UIButton(this.AboutSelect,this,[300,50],[400,50],"About",6);
+    
+    this.mTutorialUI = new TutorialUI(this.kInstruction,this.mCamera);
+    this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[300,250],[400,50],"Start Game",6);
+    this.InstructionSceneButton = new UIButton(this.InstructionSceneSelect,this,[300,150],[400,50],"Tutorial",6);
     
     var bgR = new SpriteRenderable(this.kWelcome_bg);
     bgR.setElementPixelPositions(0, 4095, 0, 2047);
@@ -118,6 +137,7 @@ MyGame.prototype.initialize = function () {
     this.selectUI.initialize();
     gEngine.AudioClips.playBackgroundAudio(this.kMyGameBgm);
     gEngine.AudioClips.setCueVolume(10);
+    
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -129,41 +149,57 @@ MyGame.prototype.draw = function () {
     this.mCamera.setupViewProjection();   
     this.generalUI.draw(this.mCamera);
     this.mBg.draw(this.mCamera);
-    if(!this.selectUI.display){
+    if(!this.selectUI.display && !this.mTutorialUI.display && !this.mAboutUI.display){
         this.mBuyIceCream.draw(this.mCamera);
         this.PlaySceneButton.draw(this.mCamera); 
         this.UITitle.draw(this.mCamera);
         this.InstructionSceneButton.draw(this.mCamera);
-        
-    }else{
+        this.AboutButton.draw(this.mCamera);
+    }else if(this.selectUI.display){
         this.selectUI.draw(this.mCamera);
+    }else if(this.mTutorialUI.display){
+        this.mTutorialUI.draw(this.mCamera);
+    }else if(this.mAboutUI.display){
+        this.mAboutUI.draw(this.mCamera);
+        this.mAboutReturnButton.draw(this.mCamera);
     }
 };
 
 MyGame.prototype.update = function () {
-    if(!this.selectUI.display){
+    if(!this.selectUI.display && !this.mTutorialUI.display && !this.mAboutUI.display){
         this.PlaySceneButton.update();
         this.InstructionSceneButton.update();
-    }else{
+        this.AboutButton.update();
+    }else if(this.selectUI.display){
         this.selectUI.update();
+    }else if(this.mTutorialUI.display){
+        this.mTutorialUI.update();
+    }else if(this.mAboutUI.display){
+        this.mAboutUI.update();
+        this.mAboutReturnButton.update();
     }
     this.generalUI.update();
+    
+    
     //this.EndlessPlayingSceneButton.update();
     //this.InstructionSceneButton.update();
 };
 
 MyGame.prototype.PlaySceneSelect = function(){
     this.selectUI.display=true;
-//    this.LevelSelect="PlayScene";    
-//    this.clickAudio(this.PlaySceneButton);
-//    gEngine.AudioClips.stopBackgroundAudio();
-//    gEngine.GameLoop.stop();
-};
-MyGame.prototype.InstructionSceneSelect = function(){
-    this.LevelSelect="InstructionScene";    
     this.clickAudio(this.PlaySceneButton);
-    gEngine.AudioClips.stopBackgroundAudio();
-    gEngine.GameLoop.stop();
+};
+MyGame.prototype.AboutSelect = function(){
+    this.mAboutUI.display = true;
+    this.clickAudio(this.AboutButton);
+}
+MyGame.prototype.AboutReturnSelect = function(){
+    this.mAboutUI.display = false;
+    this.clickAudio(this.AboutButton);
+}
+MyGame.prototype.InstructionSceneSelect = function(){
+    this.mTutorialUI.display = true;
+    this.clickAudio(this.InstructionSceneButton);
 };
 
 MyGame.prototype.clickAudio = function (button) {
