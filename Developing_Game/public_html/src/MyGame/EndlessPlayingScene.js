@@ -142,13 +142,14 @@ EndlessPlayingScene.prototype.initialize = function () {
     this.mPlayUI.initialize();
     this.mShadowManager = new ShadowManager(this.kSprite,this.mCamera);
     
-    
-    
+    this.mIceCreamManager = new IceCreamManager(this.kSprite,this.mCamera,this,true);
     this.mFireManager = new FireManager(this.kSprite,this.mCamera,this.mIceCreamManager,this.mMapManager,this.kShooterWeapon);
     this.mPlayer = new Player(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream,this.kBeenHit,this.kFallDown,this.kTrap,this.kStoringForce,this.kGiveOutForce,true);
     this.mPlayer.initialize();
-    this.mIceCreamManager = new IceCreamManager(this.kSprite,this.mCamera,this,true,this.mPlayer);
-//    this.mStateUI = new StateUI(this.mPlayer);
+    
+     
+
+    //    this.mStateUI = new StateUI(this.mPlayer);
     this.mHealthUIManager = new HealthUIManager(this.kLife,this.mCamera,this.mPlayer);
     this.mHealthUIManager.initialize();
     
@@ -168,9 +169,9 @@ EndlessPlayingScene.prototype.draw = function () {
     //this.mBg.draw(this.mCamera);
     this.mMapManager.draw();
     this.mShadowManager.draw();
-    this.mIceCreamManager.beforePlayerDraw();
+    this.mIceCreamManager.beforePlayerDraw(this.mPlayer);
     this.mPlayer.draw(this.mCamera);
-    this.mIceCreamManager.afterPlayerDraw();
+    this.mIceCreamManager.afterPlayerDraw(this.mPlayer);
     this.mGeneralUI.draw(this.mCamera);
     this.mPlayUI.draw(this.mCamera);
     this.mFireManager.draw();

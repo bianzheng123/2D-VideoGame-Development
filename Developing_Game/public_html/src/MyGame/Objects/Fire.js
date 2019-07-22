@@ -77,6 +77,7 @@ Fire.prototype._move = function(xform){
 Fire.prototype._destroyTrap = function(){
     var i,l;
     var this_xform = this.mFire.getXform();
+//    console.log(this.mIceCreamManager === null);
     var arr = this.mIceCreamManager.mIceCreamArray;
     for(i=0;i<arr.length;i++){
         l = arr[i];
