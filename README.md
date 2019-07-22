@@ -6,9 +6,11 @@ This repository is based on the game engine from repository Apress/build-your-ow
 * The Alpha folder is the alpha version to record. 2019/7/19
 * The Developing_Game folder is the game project we want to build, but currently not finished.
 
-The alpha verision of this game could be visited in https://bianzheng123.github.io/2D-VideoGame-Development/Alpha/public_html/.
+Alpha: https://bianzheng123.github.io/2D-VideoGame-Development/Alpha/public_html/.
 
-The unreleased version of this game could be visited in https://bianzheng123.github.io/2D-VideoGame-Development/Developing_Game/public_html/.
+Beta: https://bianzheng123.github.io/2D-VideoGame-Development/Beta/public_html/.
+
+Developing Game: https://bianzheng123.github.io/2D-VideoGame-Development/Developing_Game/public_html/.
 
 ## About this game
 
