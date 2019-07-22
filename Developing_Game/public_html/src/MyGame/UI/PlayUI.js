@@ -8,6 +8,7 @@ function PlayUI(spriteTexture,camera,playscene,classicalMode) {
     this.kPlayscene=playscene;
     this.thermometer = null;
     this.thermometerPointer =null;
+    this.powerBar = null;
     this.countdown = null;
     this.pauseButton = new UIButton(this.pauseSelect,this,[120,450],[200,40],"Pause",4);
     this.mainMenuButton = new UIButton(this.mainMenuSelect,this,[120,500],[200,40],"Main Menu",4);
@@ -159,6 +160,7 @@ PlayUI.prototype.update = function(){
 PlayUI.prototype.initialize = function(){
     this.thermometer=new Thermometer(this.kspriteTexture,this.mCamera);
     this.thermometerPointer=new ThermometerPointer(this.kspriteTexture,this.mCamera);
+    this.powerBar = new PowerBar(this.kspriteTexture,this.mCamera);
     if(this.kClassicalMode){
         this.countdown = new FontRenderable("3:00");
         
@@ -212,6 +214,7 @@ PlayUI.prototype.initialize = function(){
 PlayUI.prototype.draw = function () {
     this.thermometer.draw(this.mCamera);
     this.thermometerPointer.draw(this.mCamera);
+    //this.powerBar.draw(this.mCamera);
     this.countdown.draw(this.mCamera);
     this.pauseButton.draw(this.mCamera);
     this.joystickground.draw(this.mCamera);
