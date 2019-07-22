@@ -16,6 +16,7 @@ function MyGame() {
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kSprite = "assets/sprite.png";
     this.kMapNames = "assets/mapNames.png";
+    this.kBg = "assets/EndlessBackGround.png";
     
     this.kClickButton = "assets/AudioTest/NFF-finger-snap.wav";
     this.kOnButton = "assets/AudioTest/NFF-glued.wav";
@@ -30,8 +31,11 @@ function MyGame() {
     this.UITitle = null;
     this.generalUI = null;
     this.selectUI = null;
+    this.mBg = null;
     this.isSelecting = false;
     this.LevelSelect = null;
+    
+    this.mBuyIceCream = null;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -45,6 +49,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kUIButton);
     gEngine.Textures.loadTexture(this.kSprite);
     gEngine.Textures.loadTexture(this.kMapNames);
+    gEngine.Textures.loadTexture(this.kBg);
 };
 
 MyGame.prototype.unloadScene = function () {
@@ -60,6 +65,7 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kUIButton);
     gEngine.Textures.unloadTexture(this.kSprite);
     gEngine.Textures.unloadTexture(this.kMapNames);
+    gEngine.Textures.unloadTexture(this.kBg);
     if(this.LevelSelect<10&&this.LevelSelect>=0){
         gEngine.Core.startScene(new PlayScene(this.LevelSelect));
     }else if(this.LevelSelect>=10&&this.LevelSelect<20){
@@ -83,6 +89,20 @@ MyGame.prototype.initialize = function () {
     this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[475,250],[400,50],"Start Game",6);
     this.InstructionSceneButton = new UIButton(this.InstructionSceneSelect,this,[475,150],[400,50],"Tutorial",6);
     
+    var bgR = new SpriteRenderable(this.kBg);
+    bgR.setElementPixelPositions(0, 4095, 0, 2047);
+    bgR.getXform().setSize(140, 84);
+    bgR.getXform().setPosition(-15.5, -10);
+    this.mBg = new GameObject(bgR);
+    
+    var bg = new SpriteRenderable(this.kBg);
+    bg.setColor([1, 1, 1, 1]);
+    bg.getXform().setPosition(0,0);
+    bg.getXform().setSize(8, 8);
+    bg.setElementPixelPositions(0, 4095, 0, 2047);
+    this.mBuyIceCream = new GameObject(bg);
+    console.log(this.mBuyIceCream === null);
+    
     this.UITitle = new UIText("Haha & Coco (beta)",[475,450],8,1,0,[0,0,0,1]);
     this.generalUI = new GeneralUI(this.kOnButton,this.mCamera);
     this.generalUI.initialize();
@@ -100,11 +120,12 @@ MyGame.prototype.draw = function () {
 
     this.mCamera.setupViewProjection();   
     this.generalUI.draw(this.mCamera);
-    
+    this.mBg.draw(this.mCamera);
     if(!this.selectUI.display){
         this.PlaySceneButton.draw(this.mCamera); 
         this.UITitle.draw(this.mCamera);
         this.InstructionSceneButton.draw(this.mCamera);
+        this.mBuyIceCream.draw(this.mCamera);
     }else{
         this.selectUI.draw(this.mCamera);
     }
