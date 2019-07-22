@@ -14,13 +14,8 @@ function Player(spriteTexture,camera,fireManager,audio_EatIceCream,beenHit,fallD
     
     this.kSpeedUpSpeed = null;
     this.kOriginSpeed = null;
-    if(this.kIsEndless){
-        this.kSpeedUpSpeed = 0.5;
-        this.kOriginSpeed = 0.35;
-    }else{
-        this.kSpeedUpSpeed = 0.4;
-        this.kOriginSpeed = 0.2;
-    }
+    this.kSpeedUpSpeed = 0.45;
+    this.kOriginSpeed = 0.275;
     
     this.DirectionEnum={
         RIGHT: 0,
@@ -320,11 +315,7 @@ Player.prototype._jump = function(mPlayUI){
             gEngine.AudioClips.setCueVolume(10);
             gEngine.AudioClips.playACue(this.kStoringForce,10);
         }
-        if(this.kIsEndless){
-            this.accumulateValue+=0.2;
-        }else{
-            this.accumulateValue+=0.1;
-        }        
+        this.accumulateValue+=0.15;  
         
         var deltaH = -xform.getHeight()/200;
         var color=this.mPlayer.getColor();
@@ -346,7 +337,7 @@ Player.prototype._jump = function(mPlayUI){
         xform.setSize(this.kWidth,this.kHeight);
         this.normalYPos=xform.getYPos();
         this.normalXPos=xform.getXPos();
-        this.magnitude=this.accumulateValue/2;
+        this.magnitude=Math.sqrt(this.accumulateValue)*1.2;
         this.accumulateValue=0;
         this.speedX = this.magnitude*Math.cos(this.theta)*Math.cos(Math.PI*this.direction/4);
         this.speedY = this.magnitude*Math.cos(this.theta)*Math.sin(Math.PI*this.direction/4);
