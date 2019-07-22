@@ -9,8 +9,9 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function IceCreamManager(spriteTexture,camera,endlessPlayingScene,isEndless) {
+function IceCreamManager(spriteTexture,camera,endlessPlayingScene,isEndless,player) {
     this.kIsEndless = isEndless;
+    this.mPlayer = player;
     this.kEndlessPlayingScene = endlessPlayingScene;
     this.kDifficultCreatIceCreamCountEnum = {
         NO_DIFFICULT:1,
@@ -207,13 +208,22 @@ IceCreamManager.prototype.getBuff = function(){
     }
 };
 
-IceCreamManager.prototype.draw = function(){
+IceCreamManager.prototype.beforePlayerDraw = function(){
+    var i;
+    for(i=0;i<this.mIceCreamArray.length;i++){
+        if(this.mIceCreamArray[i] !== null && this.mIceCreamArray[i].mIceCream.getXform().getYPos() >= this.mPlayer.mPlayer.getXform().getYPos() - this.mPlayer.kCenterOffset){
+            this.mIceCreamArray[i].shadow.draw(this.kCamera);
+            this.mIceCreamArray[i].draw(this.kCamera);
+        }
+    }
+};
+
+IceCreamManager.prototype.afterPlayerDraw = function(){
     var i,l;
     for(i=0;i<this.mIceCreamArray.length;i++){
-        l = this.mIceCreamArray[i];
-        if(l !== null){
-            l.shadow.draw(this.kCamera);
-            l.draw(this.kCamera);
+        if(this.mIceCreamArray[i] !== null && this.mIceCreamArray[i].mIceCream.getXform().getYPos() < this.mPlayer.mPlayer.getXform().getYPos() - this.mPlayer.kCenterOffset){
+            this.mIceCreamArray[i].shadow.draw(this.kCamera);
+            this.mIceCreamArray[i].draw(this.kCamera);
         }
     }
     for(i=0;i<this.mCocoArray.length;i++){
@@ -231,7 +241,6 @@ IceCreamManager.prototype.draw = function(){
             }
         }
     }
-
 };
 
 

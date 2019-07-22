@@ -60,6 +60,7 @@ function Player(spriteTexture,camera,fireManager,audio_EatIceCream,beenHit,fallD
     
     this.kHeight = 6.5;
     this.kWidth = 7;
+    this.kCenterOffset = this.kHeight / 2;
     this.kGravityAcceleration = 1;
     this.kspriteTexture = spriteTexture;
     this.kincTemperatureCountMax = 60;//平均120帧主角上升1°

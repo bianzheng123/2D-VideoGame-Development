@@ -139,12 +139,11 @@ PlayScene.prototype.initialize = function () {
     this.mPlayUI.initialize();
     this.mShadowManager = new ShadowManager(this.kSprite,this.mCamera);
     
-    
-    this.mIceCreamManager = new IceCreamManager(this.kSprite,this.mCamera,false);
 //    console.log(this.kShooterWeapon);
     this.mFireManager = new FireManager(this.kSprite,this.mCamera,this.mIceCreamManager,this.mMapManager,this.kShooterWeapon);
     this.mPlayer = new Player(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream,this.kBeenHit,this.kFallDown,this.kTrap,this.kStoringForce,this.kGiveOutForce,false);
     this.mPlayer.initialize();
+    this.mIceCreamManager = new IceCreamManager(this.kSprite,this.mCamera,this,false,this.mPlayer);
     gEngine.AudioClips.playBackgroundAudio(this.kPlaySceneBgm);
     this.mEventUI = new EventUI(this.kSprite,this.mPlayer,this.mCamera);
     this.mPlayerDirectionUI = new PlayerDirectionUI(this.kSprite,this.mPlayer);
@@ -160,8 +159,9 @@ PlayScene.prototype.draw = function () {
     //this.mBg.draw(this.mCamera);
     this.mMapManager.draw();
     this.mShadowManager.draw();
+    this.mIceCreamManager.beforePlayerDraw();
     this.mPlayer.draw(this.mCamera);
-    this.mIceCreamManager.draw();
+    this.mIceCreamManager.afterPlayerDraw();
     this.mGeneralUI.draw(this.mCamera);
     this.mPlayUI.draw(this.mCamera);
     this.mFireManager.draw();
@@ -286,7 +286,7 @@ PlayScene.prototype._updatePlayerPositionByIndex = function(){
                 l = mapArr[i][j];
                 if((!this.mPlayer.isJumping) && 
                         l.kXpos - l.kXsize / 2 <= pos[0]  && pos[0] <= l.kXpos + l.kXsize / 2 &&
-                        l.kYpos - l.kYsize / 2 <= pos[1] - this.mPlayer.kHeight / 2 && pos[1] - this.mPlayer.kHeight / 2  <= l.kYpos + l.kYsize / 2){
+                        l.kYpos - l.kYsize / 2 <= pos[1] - this.mPlayer.kCenterOffset && pos[1] - this.mPlayer.kCenterOffset  <= l.kYpos + l.kYsize / 2){
                     this.mPlayer.mXindex = l.kXindex;
                     this.mPlayer.mYindex = l.kYindex;
                     if(l.kTag === "Grass"){
