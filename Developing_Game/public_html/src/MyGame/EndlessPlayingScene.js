@@ -284,7 +284,7 @@ EndlessPlayingScene.prototype._updatePlayerPositionByIndex = function(){
                 l = mapArr[i][j];
                 if((!this.mPlayer.isJumping) && 
                         l.kXpos - l.kXsize / 2 <= pos[0]  && pos[0] <= l.kXpos + l.kXsize / 2 &&
-                        l.kYpos - l.kYsize / 2 <= pos[1] - this.mPlayer.kHeight / 3 && pos[1] - this.mPlayer.kHeight / 3  <= l.kYpos + l.kYsize / 2){
+                        l.kYpos - l.kYsize / 2 <= pos[1] - this.mPlayer.kHeight / 2 && pos[1] - this.mPlayer.kHeight / 2  <= l.kYpos + l.kYsize / 2){
                     this.mPlayer.mXindex = l.kXindex;
                     this.mPlayer.mYindex = l.kYindex;
                     if(l.kTag === "Grass"){

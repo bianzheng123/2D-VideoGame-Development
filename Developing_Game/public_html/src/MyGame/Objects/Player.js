@@ -16,7 +16,7 @@ function Player(spriteTexture,camera,fireManager,audio_EatIceCream,beenHit,fallD
     this.kOriginSpeed = null;
     if(this.kIsEndless){
         this.kSpeedUpSpeed = 0.5;
-        this.kOriginSpeed = 0.4;
+        this.kOriginSpeed = 0.35;
     }else{
         this.kSpeedUpSpeed = 0.4;
         this.kOriginSpeed = 0.2;
@@ -174,50 +174,54 @@ Player.prototype.update = function (mIceCreamArray,mapManager,mPlayUI) {
 Player.prototype._walk = function(mPlayUI){
     this.isWalking=false;
     var xform = this.getXform();
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)||(mPlayUI.mJoystickDirection===(this.DirectionEnum.LEFT)&&mPlayUI.isWalking)){
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A)|| gEngine.Input.isKeyPressed(gEngine.Input.keys.Left) ||(mPlayUI.mJoystickDirection===(this.DirectionEnum.LEFT)&&mPlayUI.isWalking)){
         this.changeImageDirection(this.DirectionEnum.LEFT);
         this._changeDir(this.DirectionEnum.LEFT);
         xform.incXPosBy(-this.speed);
         this.isWalking=true;
     }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)||(mPlayUI.mJoystickDirection===(this.DirectionEnum.RIGHT)&&mPlayUI.isWalking)){
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D)|| gEngine.Input.isKeyPressed(gEngine.Input.keys.Right) || (mPlayUI.mJoystickDirection===(this.DirectionEnum.RIGHT)&&mPlayUI.isWalking)){
         this.changeImageDirection(this.DirectionEnum.RIGHT);
         this._changeDir(this.DirectionEnum.RIGHT);
         xform.incXPosBy(this.speed);
         this.isWalking=true;
     }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.W)||(mPlayUI.mJoystickDirection===(this.DirectionEnum.TOP)&&mPlayUI.isWalking)){
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.W)|| gEngine.Input.isKeyPressed(gEngine.Input.keys.Up) || (mPlayUI.mJoystickDirection===(this.DirectionEnum.TOP)&&mPlayUI.isWalking)){
         this._changeDir(this.DirectionEnum.TOP);
         xform.incYPosBy(this.speed);
         this.isWalking=true;
     }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.S)||(mPlayUI.mJoystickDirection===(this.DirectionEnum.BOTTOM)&&mPlayUI.isWalking)){
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.S)|| gEngine.Input.isKeyPressed(gEngine.Input.keys.Down) || (mPlayUI.mJoystickDirection===(this.DirectionEnum.BOTTOM)&&mPlayUI.isWalking)){
         this._changeDir(this.DirectionEnum.BOTTOM);
         xform.incYPosBy(-this.speed);
         this.isWalking=true;
     }
-    if((gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W))){
+    if((gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) || 
+            (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.Up))){
         this.changeImageDirection(this.DirectionEnum.LEFT);
         this._changeDir(this.DirectionEnum.TOPLEFT);
         xform.incXPosBy(this.speed*(1-Math.cos(Math.PI/4)));
         xform.incYPosBy(-this.speed*(1-Math.cos(Math.PI/4)));
         this.isWalking=true;
     }
-    if((gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S))){
+    if((gEngine.Input.isKeyPressed(gEngine.Input.keys.A)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) || 
+            (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.Down))){
         this.changeImageDirection(this.DirectionEnum.LEFT);
         this._changeDir(this.DirectionEnum.BOTTOMLEFT);
         xform.incXPosBy(this.speed*(1-Math.cos(Math.PI/4)));
         xform.incYPosBy(this.speed*(1-Math.cos(Math.PI/4)));
         this.isWalking=true;
     }
-    if((gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W))){        
+    if((gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) ||
+            (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.Up))){        
         this.changeImageDirection(this.DirectionEnum.RIGHT);
         this._changeDir(this.DirectionEnum.TOPRIGHT);
         xform.incXPosBy(-this.speed*(1-Math.cos(Math.PI/4)));
         xform.incYPosBy(-this.speed*(1-Math.cos(Math.PI/4)));
         this.isWalking=true;
     }
-    if((gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S))){        
+    if((gEngine.Input.isKeyPressed(gEngine.Input.keys.D)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) || 
+            (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)&&gEngine.Input.isKeyPressed(gEngine.Input.keys.Down))){        
         this.changeImageDirection(this.DirectionEnum.RIGHT);
         this._changeDir(this.DirectionEnum.BOTTOMRIGHT);
         xform.incXPosBy(-this.speed*(1-Math.cos(Math.PI/4)));
@@ -435,7 +439,7 @@ Player.prototype._death = function(){
         if(this.mCountFrameDeath >= 120){
             this.mIsDeathCountStart = false;
             this.mIsDead = false;
-            this.getXform().setPosition(this.mLastXpos,this.mLastYpos);
+            this.getXform().setPosition(this.mLastXpos,this.mLastYpos + this.kHeight / 2);
             switch(this.deathReason){
                 case this.DeathEnum.FALL:
                     if(this.direction === this.DirectionEnum.BOTTOM || 
