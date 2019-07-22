@@ -13,7 +13,7 @@
 
 function PlayScene(mapIndex) {
     //to Upload the background
-    this.kBG = "assets/background.png";
+    this.kBG = "assets/ClassicalBackGround.png";
     this.kSprite = "assets/sprite.png";
     this.kAtlas = "assets/white.png";
     this.kUIButton = "assets/UI/button.png";
@@ -116,7 +116,7 @@ PlayScene.prototype.initialize = function () {
     this.mCamera = new Camera(
         vec2.fromValues(-15.5, -10), // position of the camera
         140,                     // width of camera
-        [0,0,999,599]         // viewport (orgX, orgY, width, height)
+        [0,0,1000,600]         // viewport (orgX, orgY, width, height)
     );
     this.mCamera.setBackgroundColor([1,234/255,167/255, 1]);
             // sets the background to gray
@@ -124,9 +124,9 @@ PlayScene.prototype.initialize = function () {
     
     //set background
     var bgR = new SpriteRenderable(this.kBG);
-    bgR.setElementPixelPositions(0, 1023, 0, 1023);
-    bgR.getXform().setSize(100, 100);
-    bgR.getXform().setPosition(0, 0);
+    bgR.setElementPixelPositions(0, 4095, 0, 2047);
+    bgR.getXform().setSize(140, 84);
+    bgR.getXform().setPosition(-15.5, -10);
     this.mBg = new GameObject(bgR);
     
     this.mGeneralUI = new GeneralUI(this.kAtlas,this.mCamera);
@@ -157,7 +157,7 @@ PlayScene.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     
     this.mCamera.setupViewProjection();
-    //this.mBg.draw(this.mCamera);
+    this.mBg.draw(this.mCamera);
     this.mMapManager.draw();
     this.mShadowManager.draw();
     this.mIceCreamManager.beforePlayerDraw(this.mPlayer);
