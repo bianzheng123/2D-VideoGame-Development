@@ -15,10 +15,19 @@ function PlayUI(spriteTexture,buttonTexture,camera,playscene,classicalMode) {
     this.countdown = null;
     this.pauseButton = new NiceButton(this.kbuttonTexture,this.pauseSelect,this);
     this.pauseButton.setPos(-80,10);
-    this.pauseButton.setSize(5,5);
+    this.pauseButton.setSize(7,7);
+    this.pauseButton.setPixelPosition(178,411,1410,1645);
+    this.pauseButton.setHoverPixelPosition(495,712,1410,1645);
+    this.pauseButton.setPressedPixelPosition(816,1036,1410,1645);    
+//    this.pauseButton.setPixelPosition(178,411,926,1140);
+//    this.pauseButton.setHoverPixelPosition(495,712,926,1140);
+//    this.pauseButton.setPressedPixelPosition(816,1036,926,1140);
     this.mainMenuButton = new NiceButton(this.kbuttonTexture,this.mainMenuSelect,this);
     this.mainMenuButton.setPos(-80,18);
-    this.mainMenuButton.setSize(5,5);
+    this.mainMenuButton.setSize(7,7);
+    this.mainMenuButton.setPixelPosition(178,411,1652,1893);
+    this.mainMenuButton.setHoverPixelPosition(495,712,1652,1893);
+    this.mainMenuButton.setPressedPixelPosition(816,1036,1652,1893);
     this.joystickground = null;
     this.joystick = null;
     this.jumpButton = null;
@@ -167,11 +176,10 @@ PlayUI.prototype.update = function(){
 PlayUI.prototype.initialize = function(){
     this.thermometer=new Thermometer(this.kspriteTexture,this.mCamera);
     this.thermometerPointer=new ThermometerPointer(this.kspriteTexture,this.mCamera);
-    this.powerBar = new PowerBar(this.kspriteTexture,this.mCamera);
+    this.powerBar = new PowerBar(this.kbuttonTexture,this.mCamera);
     this.powerBarPointer = new PowerBarPointer(this.kspriteTexture,this.mCamera);
     if(this.kClassicalMode){
         this.countdown = new FontRenderable("3:00");
-        
     }else{
         this.countdown = new FontRenderable("0:00");
     }

@@ -49,11 +49,11 @@ NiceButton.prototype.setSize=function(width,height){
     this.mButton.getXform().setSize(width,height);
 };
 NiceButton.prototype.setPixelPosition=function(l,r,b,t){
-    this.normalPixelPosition[0]=[l,r,b,t];
+    this.pixelPosition[0]=[l,r,b,t];
 };
 NiceButton.prototype.setHoverPixelPosition=function(l,r,b,t){
-    this.hoverPixelPosition[1]=[l,r,b,t];
+    this.pixelPosition[1]=[l,r,b,t];
 };
 NiceButton.prototype.setPressedPixelPosition=function(l,r,b,t){
-    this.pressedPixelPosition[2]=[l,r,b,t];
+    this.pixelPosition[2]=[l,r,b,t];
 };

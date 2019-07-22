@@ -23,6 +23,7 @@ function MyGame() {
     this.kWelcome_bg = "assets/Welcome_bg.png";
     this.kWelcome_front = "assets/Welcome_front.png";
     this.kSelectSprite = "assets/selectScene.png";
+    this.kButtons = "assets/buttons.png";
     
     this.kClickButton = "assets/AudioTest/NFF-finger-snap.wav";
     this.kOnButton = "assets/AudioTest/NFF-glued.wav";
@@ -68,6 +69,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kSelectSprite);
     gEngine.Textures.loadTexture(this.kInstruction);
     gEngine.Textures.loadTexture(this.kAbout);
+    gEngine.Textures.loadTexture(this.kButtons);
 };
 
 MyGame.prototype.unloadScene = function () {
@@ -89,6 +91,7 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kSelectSprite);
     gEngine.Textures.unloadTexture(this.kInstruction);
     gEngine.Textures.unloadTexture(this.kAbout);
+    gEngine.Textures.unloadTexture(this.kButtons);
     if(this.LevelSelect<12&&this.LevelSelect>=0){
         gEngine.Core.startScene(new PlayScene(this.LevelSelect));
     }else if(this.LevelSelect>=12&&this.LevelSelect<24){
@@ -111,11 +114,11 @@ MyGame.prototype.initialize = function () {
     
     this.mAboutReturnButton = new UIButton(this.AboutReturnSelect,this,[300,50],[400,50],"Back",6);
     this.mAboutUI = new AboutUI(this.kAbout,this.mCamera);
-    this.AboutButton = new UIButton(this.AboutSelect,this,[300,50],[400,50],"About",6);
+    this.AboutButton = new UIButton(this.AboutSelect,this,[300,50],[250,50],"About",6);
     
     this.mTutorialUI = new TutorialUI(this.kInstruction,this.mCamera);
-    this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[300,250],[400,50],"Start Game",6);
-    this.InstructionSceneButton = new UIButton(this.InstructionSceneSelect,this,[300,150],[400,50],"Tutorial",6);
+    this.PlaySceneButton = new UIButton(this.PlaySceneSelect,this,[300,250],[250,50],"Start Game",6);
+    this.InstructionSceneButton = new UIButton(this.InstructionSceneSelect,this,[300,150],[250,50],"Tutorial",6);
     
     var bgR = new SpriteRenderable(this.kWelcome_bg);
     bgR.setElementPixelPositions(0, 4095, 0, 2047);
@@ -130,8 +133,8 @@ MyGame.prototype.initialize = function () {
     bg.setElementPixelPositions(0, 4095, 2047, 4095);
     this.mBuyIceCream = new GameObject(bg);
     
-    this.UITitle = new UIText("Haha & Coco (beta)",[475,450],8,1,0,[0,0,0,1]);
-    this.generalUI = new GeneralUI(this.kSelectSprite,this.mCamera);
+    this.UITitle = new UIText("Haha & Coco",[475,450],8,1,0,[0,0,0,1]);
+    this.generalUI = new GeneralUI(this.kButtons,this.mCamera);
     this.generalUI.initialize();
     this.selectUI = new SelectUI(this.kSelectSprite,this.mCamera,this.kSelectSprite,this);
     this.selectUI.initialize();
@@ -147,7 +150,6 @@ MyGame.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
     this.mCamera.setupViewProjection();   
-    this.generalUI.draw(this.mCamera);
     this.mBg.draw(this.mCamera);
     if(!this.selectUI.display && !this.mTutorialUI.display && !this.mAboutUI.display){
         this.mBuyIceCream.draw(this.mCamera);

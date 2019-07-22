@@ -59,7 +59,7 @@ p {
     width: 100%;
     height: 30px;
     top:calc(50% + 120px);
-    background-color: rgb(216, 198, 141);
+    background-color: rgb(229, 211, 136);
     position: absolute;
     z-index: 2;
   }

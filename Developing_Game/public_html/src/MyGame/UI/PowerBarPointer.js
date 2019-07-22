@@ -3,9 +3,9 @@
 function PowerBarPointer(spriteTexture,camera) {
     this.kCamera = camera;
     this.mPowerBarPointer = new SpriteRenderable(spriteTexture);
-    this.mPowerBarPointer.setColor([1,1,1, 1]);
-    this.mPowerBarPointer.getXform().setPosition(25.3,-5);
-    this.mPowerBarPointer.getXform().setSize(40,5);
+    this.mPowerBarPointer.setColor([229/255, 229/255, 229/255, 1]);
+    this.mPowerBarPointer.getXform().setPosition(25,-5);
+    this.mPowerBarPointer.getXform().setSize(40,4);
     this.mPowerBarPointer.getXform().setRotationInDegree(90);
     this.mPowerBarPointer.setElementPixelPositions(1, 1, 1, 1);
    GameObject.call(this, this.mPowerBarPointer);

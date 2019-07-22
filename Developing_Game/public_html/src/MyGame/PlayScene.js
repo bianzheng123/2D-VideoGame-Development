@@ -19,6 +19,7 @@ function PlayScene(mapIndex) {
     this.kUIButton = "assets/UI/button.png";
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kThermometer ="assets/thermometer.png";
+    this.kButtons ="assets/buttons.png";
     this.kPlaySceneBgm ="assets/AudioTest/PlaySceneBackGround.wav";
     this.kWinBgm = "assets/AudioTest/Win.mp3";
     this.kLoseBgm = "assets/AudioTest/Lose.wav";
@@ -71,6 +72,7 @@ PlayScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kSprite);
     gEngine.Textures.loadTexture(this.kBG);
     gEngine.Textures.loadTexture(this.kAtlas);
+    gEngine.Textures.loadTexture(this.kButtons);
     
     gEngine.AudioClips.loadAudio(this.kPlaySceneBgm);
     gEngine.AudioClips.loadAudio(this.kPlayerEatIceCream);
@@ -89,6 +91,7 @@ PlayScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBG);
     gEngine.Textures.unloadTexture(this.kAtlas);
     gEngine.Textures.unloadTexture(this.kSprite);
+    gEngine.Textures.unloadTexture(this.kButtons);
     
     gEngine.AudioClips.unloadAudio(this.kPlaySceneBgm);
     gEngine.AudioClips.unloadAudio(this.kPlayerEatIceCream);
@@ -129,13 +132,13 @@ PlayScene.prototype.initialize = function () {
     bgR.getXform().setPosition(-15.5, -10);
     this.mBg = new GameObject(bgR);
     
-    this.mGeneralUI = new GeneralUI(this.kAtlas,this.mCamera);
+    this.mGeneralUI = new GeneralUI(this.kButtons,this.mCamera);
     this.mGeneralUI.initialize();    
     this.mFinishUI = new FinishUI(this.kSprite,this.mCamera,this);
     this.mFinishUI.initialize();
     this.mMapManager = new MapManager(this.kSprite,this.mCamera,this.mapIndex);
     this.mMapManager.initialize();
-    this.mPlayUI = new PlayUI(this.kSprite,this.kSprite,this.mCamera,this,true);
+    this.mPlayUI = new PlayUI(this.kSprite,this.kButtons,this.mCamera,this,true);
     this.mPlayUI.initialize();
     this.mShadowManager = new ShadowManager(this.kSprite,this.mCamera);
     
