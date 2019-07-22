@@ -140,10 +140,11 @@ PlayScene.prototype.initialize = function () {
     this.mShadowManager = new ShadowManager(this.kSprite,this.mCamera);
     
 //    console.log(this.kShooterWeapon);
-    this.mIceCreamManager = new IceCreamManager(this.kSprite,this.mCamera,this,true);
+    this.mIceCreamManager = new IceCreamManager(this.kSprite,this.mCamera,this,false);
     this.mFireManager = new FireManager(this.kSprite,this.mCamera,this.mIceCreamManager,this.mMapManager,this.kShooterWeapon);
-    this.mPlayer = new Player(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream,this.kBeenHit,this.kFallDown,this.kTrap,this.kStoringForce,this.kGiveOutForce,true);
+    this.mPlayer = new Player(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream,this.kBeenHit,this.kFallDown,this.kTrap,this.kStoringForce,this.kGiveOutForce,false);
     this.mPlayer.initialize();
+    
     gEngine.AudioClips.playBackgroundAudio(this.kPlaySceneBgm);
     this.mEventUI = new EventUI(this.kSprite,this.mPlayer,this.mCamera);
     this.mPlayerDirectionUI = new PlayerDirectionUI(this.kSprite,this.mPlayer);
