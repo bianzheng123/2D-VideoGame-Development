@@ -23,7 +23,7 @@ FinishUI.prototype.initialize=function(){
     this.winScene.setColor([0.8, 0.6, 0.2, 0]);
     this.winScene.getXform().setPosition(-15.5, 0);
     this.winScene.getXform().setSize(30,40);
-    this.winScene.setElementPixelPositions(0, 256, 512, 832);    
+    this.winScene.setElementPixelPositions(0, 280, 512, 832);    
     this.lostScene = new SpriteRenderable(this.kspriteTexture);
     this.lostScene.setColor([0, 0.6, 0.8, 0]);
     this.lostScene.getXform().setPosition(-15.5, 0);
@@ -50,16 +50,16 @@ FinishUI.prototype.update = function(iceCreamEatCount){
     if(this.kPlayscene.mapIndex>0){
         this.PreMapButton.update();
     }
-    this.iceCreamEatCountText.setText("Icecream you ate: " + iceCreamEatCount);
+    this.iceCreamEatCountText.setText("Ice creams you ate: " + iceCreamEatCount);
     this.timeLast.setText("Time you have survived: " + this.kPlayscene.timeLast);
 };
 FinishUI.prototype.changePic=function(){
     this.firstPic=!this.firstPic;
     if(this.firstPic){
-        this.winScene.setElementPixelPositions(0, 256, 512, 832);    
+        this.winScene.setElementPixelPositions(0, 280, 520, 832);    
         this.lostScene.setElementPixelPositions(0, 256, 832, 1152);
     }else{
-        this.winScene.setElementPixelPositions(256, 512, 512, 832);    
+        this.winScene.setElementPixelPositions(280, 520, 520, 832);    
         this.lostScene.setElementPixelPositions(256, 512, 832, 1152);
     }
 };
