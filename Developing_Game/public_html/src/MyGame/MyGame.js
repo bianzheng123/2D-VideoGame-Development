@@ -19,6 +19,7 @@ function MyGame() {
     this.kBg = "assets/EndlessBackGround.png";
     this.kWelcome_bg = "assets/Welcome_bg.png";
     this.kWelcome_front = "assets/Welcome_front.png";
+    this.kSelectSprite = "assets/selectScene.png";
     
     this.kClickButton = "assets/AudioTest/NFF-finger-snap.wav";
     this.kOnButton = "assets/AudioTest/NFF-glued.wav";
@@ -54,6 +55,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kBg);
     gEngine.Textures.loadTexture(this.kWelcome_bg);
     gEngine.Textures.loadTexture(this.kWelcome_front);
+    gEngine.Textures.loadTexture(this.kSelectSprite);
 };
 
 MyGame.prototype.unloadScene = function () {
@@ -72,10 +74,11 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBg);
     gEngine.Textures.unloadTexture(this.kWelcome_bg);
     gEngine.Textures.unloadTexture(this.kWelcome_front);
-    if(this.LevelSelect<10&&this.LevelSelect>=0){
+    gEngine.Textures.unloadTexture(this.kSelectSprite);
+    if(this.LevelSelect<12&&this.LevelSelect>=0){
         gEngine.Core.startScene(new PlayScene(this.LevelSelect));
-    }else if(this.LevelSelect>=10&&this.LevelSelect<20){
-        gEngine.Core.startScene(new EndlessPlayingScene(this.LevelSelect-10));
+    }else if(this.LevelSelect>=12&&this.LevelSelect<24){
+        gEngine.Core.startScene(new EndlessPlayingScene(this.LevelSelect-12));
     }else if(this.LevelSelect === "InstructionScene"){
         gEngine.Core.startScene(new InstructionScene());
     }
@@ -86,7 +89,7 @@ MyGame.prototype.initialize = function () {
     this.mCamera = new Camera(
         vec2.fromValues(-15.5, -10), // position of the camera
         140,                     // width of camera
-        [0, 0, 999, 599]         // viewport (orgX, orgY, width, height)
+        [0, 0, 1000, 600]         // viewport (orgX, orgY, width, height)
     );
     this.mCamera.setBackgroundColor([1,234/255,167/255, 1]);
             // sets the background to gray
@@ -109,9 +112,9 @@ MyGame.prototype.initialize = function () {
     this.mBuyIceCream = new GameObject(bg);
     
     this.UITitle = new UIText("Haha & Coco (beta)",[475,450],8,1,0,[0,0,0,1]);
-    this.generalUI = new GeneralUI(this.kOnButton,this.mCamera);
+    this.generalUI = new GeneralUI(this.kSelectSprite,this.mCamera);
     this.generalUI.initialize();
-    this.selectUI = new SelectUI(this.kSprite,this.mCamera,this.kMapNames,this);
+    this.selectUI = new SelectUI(this.kSelectSprite,this.mCamera,this.kSelectSprite,this);
     this.selectUI.initialize();
     gEngine.AudioClips.playBackgroundAudio(this.kMyGameBgm);
     gEngine.AudioClips.setCueVolume(10);
