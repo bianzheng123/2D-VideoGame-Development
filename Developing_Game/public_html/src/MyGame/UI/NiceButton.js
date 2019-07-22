@@ -1,7 +1,8 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function NiceButton(spriteTexture,callback) {
+function NiceButton(spriteTexture,callback,context) {
     this.callback=callback;
+    this.mContext=context;
     this.mButton = new SpriteRenderable(spriteTexture);
     this.mButton.setColor([1, 0.91, 0.65, 0.1]);
     this.mButton.getXform().setPosition(0,0);
@@ -27,13 +28,13 @@ NiceButton.prototype.update=function(){
             this.status=this.statusEnum.HOVER;
         }
         if(gEngine.Input.isButtonReleased(0)){
-            this.callback();
+            this.callback.call(this.mContext);
         }
     }else{
         this.status=this.statusEnum.NORMAL;
     }
     this.setSpriteLocation(this.pixelPosition[this.status]);
-    console.log(this.status);
+    //console.log(this.status);
 };
 NiceButton.prototype.draw=function(camera){
     this.mButton.draw(camera);

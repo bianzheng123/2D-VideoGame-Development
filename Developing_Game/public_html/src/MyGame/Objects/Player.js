@@ -586,7 +586,13 @@ Player.prototype._increaseTempterature = function(){
             this.temperature+=1.7;
         }else{
             this.temperature+=1.1;
-        }  
+        }
+        if(this.temperature>100){
+            this.temperature=100;
+        }
+        if(this.temperature<0){
+            this.temperature=0;
+        }
         
         this._incTemperatureFrameCount = 0;
     }else{

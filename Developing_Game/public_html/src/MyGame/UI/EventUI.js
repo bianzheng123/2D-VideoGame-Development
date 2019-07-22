@@ -14,19 +14,19 @@ function EventUI(spriteTexture,player,camera) {
     this.mCamera = camera;
     
     this.lightColor = [0,0,0,0];
-    this.darkColor = [0.7,0.7,0.7,0.7];
+    this.darkColor = [0.6,0.6,0.6,0.6];
     
     this.mSpeedUpUI = new SpriteRenderable(spriteTexture);
     this.mSpeedUpUI.setColor([0, 0, 0, 0]);
-    this.mSpeedUpUI.getXform().setPosition(30, 15);
+    this.mSpeedUpUI.getXform().setPosition(-55, 17);
     this.mSpeedUpUI.getXform().setSize(5,5);
-    this.mSpeedUpUI.setElementPixelPositions(513, 640, 384, 512);
+    this.mSpeedUpUI.setElementPixelPositions(515, 640, 384, 511);
     
     this.mSprayFireUI = new SpriteRenderable(spriteTexture);
     this.mSprayFireUI.setColor([0, 0, 0, 0]);
-    this.mSprayFireUI.getXform().setPosition(25, 15);
+    this.mSprayFireUI.getXform().setPosition(-55, 11);
     this.mSprayFireUI.getXform().setSize(5,5);
-    this.mSprayFireUI.setElementPixelPositions(640, 768, 384, 512);
+    this.mSprayFireUI.setElementPixelPositions(641, 768, 384, 511);
     
         
 }
