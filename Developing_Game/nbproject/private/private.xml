@@ -5,10 +5,8 @@
         <group>
             <file>file:/D:/2D-VideoGame-Development/Developing_Game/public_html/src/MyGame/Objects/MapManager.js</file>
             <file>file:/D:/2D-VideoGame-Development/Developing_Game/public_html/src/MyGame/UI/PlayUI.js</file>
-            <file>file:/D:/2D-VideoGame-Development/Developing_Game/public_html/src/MyGame/UI/FinishUI.js</file>
-            <file>file:/D:/2D-VideoGame-Development/Developing_Game/public_html/src/MyGame/Objects/Player.js</file>
-            <file>file:/D:/2D-VideoGame-Development/Developing_Game/public_html/src/MyGame/UI/SelectUI.js</file>
-            <file>file:/D:/2D-VideoGame-Development/Developing_Game/public_html/src/Engine/Renderables/FontRenderable.js</file>
+            <file>file:/D:/2D-VideoGame-Development/Developing_Game/public_html/src/MyGame/MyGame.js</file>
+            <file>file:/D:/2D-VideoGame-Development/Developing_Game/public_html/index.html</file>
         </group>
     </open-files>
 </project-private>
