@@ -114,7 +114,7 @@ MyGame.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
     this.mAboutReturnButton = new UIButton(this.AboutReturnSelect,this,[200,50],[230,50],"Back",6);
-    this.mReferenceButton = new UIButton(this.ReferenceSelect,this,[1200,50],[200,50],"Acknowledgement",6);
+    this.mReferenceButton = new UIButton(this.ReferenceSelect,this,[1200,50],[200,50],"More",6);
     this.mAboutUI = new AboutUI(this.kAbout,this.mCamera);
     this.AboutButton = new UIButton(this.AboutSelect,this,[300,50],[250,50],"About",6);
     
@@ -210,7 +210,7 @@ MyGame.prototype.InstructionSceneSelect = function(){
     this.clickAudio(this.InstructionSceneButton);
 };
 MyGame.prototype.ReferenceSelect = function(){
-    window.open("https://bianzheng123.github.io/2D-VideoGame-Development/#acknowledgement")
+    window.open("https://hahacoco.top/about")
 
 }
 
