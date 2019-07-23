@@ -16,7 +16,7 @@ function Kunkun(spriteTexture) {
 gEngine.Core.inheritPrototype(Kunkun, GameObject);
 Kunkun.prototype.update=function(){
     this.timecount++;
-    var arr=this.getPositionArray(Math.floor(this.timecount/5));
+    var arr=this.getPositionArray(Math.floor(this.timecount/4.5));
     this.mKunkun.setElementPixelPositions(arr[0],arr[1],arr[2],arr[3]);
     if(this.timecount>this.maxcount*4.5){
         this.play=false;

@@ -200,7 +200,7 @@ PlayUI.prototype.initialize = function(){
     this.currentScore.setColor([0,0,0,1]);
     this.currentScore.getXform().setPosition(23,22);
     this.currentScore.setTextHeight(4);
-    this.modeDisplay=new FontRenderable(this.kClassicalMode?"Classic Mode":"Survive Mode");
+    this.modeDisplay=new FontRenderable(this.kClassicalMode?"Classical Mode":"Endless Mode");
     this.modeDisplay.setColor([0,0,0,1]);
     this.modeDisplay.getXform().setPosition(-71,26);
     this.modeDisplay.setTextHeight(4);    
