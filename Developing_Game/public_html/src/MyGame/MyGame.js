@@ -210,7 +210,7 @@ MyGame.prototype.InstructionSceneSelect = function(){
     this.clickAudio(this.InstructionSceneButton);
 };
 MyGame.prototype.ReferenceSelect = function(){
-    window.open("https://hahacoco.top/about");
+    window.open("https://hahacoco.top/about.html");
 
 }
 
