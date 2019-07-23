@@ -10,18 +10,17 @@ function Kunkun(spriteTexture) {
     this.play=false;
     this.timecount=1;
     this.maxcount=347;
+    this.isEnd = false;
     GameObject.call(this, this.mKunkun);
 }
 gEngine.Core.inheritPrototype(Kunkun, GameObject);
 Kunkun.prototype.update=function(){
-    if(this.play){
-        this.timecount++;
-        var arr=this.getPositionArray(Math.floor(this.timecount/4.5));
-        this.mKunkun.setElementPixelPositions(arr[0],arr[1],arr[2],arr[3]);
-        if(this.timecount>this.maxcount*4.5){
-            this.play=false;
-            this.timecount=0;
-        }
+    this.timecount++;
+    var arr=this.getPositionArray(Math.floor(this.timecount/4.5));
+    this.mKunkun.setElementPixelPositions(arr[0],arr[1],arr[2],arr[3]);
+    if(this.timecount>this.maxcount*4.5){
+        this.play=false;
+        this.timecount=0;
     }
 }
 Kunkun.prototype.draw=function(camera){

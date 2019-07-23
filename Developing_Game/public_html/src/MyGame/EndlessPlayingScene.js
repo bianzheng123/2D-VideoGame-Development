@@ -213,6 +213,7 @@ EndlessPlayingScene.prototype.update = function () {
             }
         }
         this.mKunkun.update();
+        
         this.mIceCreamManager.update(this.mMapManager);
         this.mMapManager.update();
         this._updatePlayerPositionByIndex();

@@ -26,7 +26,7 @@ gEngine.AudioClips = (function () {
     var mBgAudioNode = null;
     
     var mStoringForceNode = null;
-    var mLoseNode = null;
+    var mJiNiTaiMeiNode = null;
     // volume control support
     // https://www.davrous.com/2015/11/05/creating-fun-immersive-audio-experiences-with-web-audio/
     // https://developer.mozilla.org/en-US/docs/Web/API/GainNode/gain
@@ -169,6 +169,39 @@ gEngine.AudioClips = (function () {
             mStoringForceNode = null;
         }
     };
+    
+    /**
+     * playStoringForce, which is cue
+     * @memberOf gEngine.AudioClips
+     * @param {String} clipName
+     * @returns {void}
+     */
+    var playJiNiTaiMeiAudio = function (clipName) {
+        var clipInfo = gEngine.ResourceMap.retrieveAsset(clipName);
+        if (clipInfo !== null) {
+
+            mJiNiTaiMeiNode = mAudioContext.createBufferSource();
+            mJiNiTaiMeiNode.buffer = clipInfo;
+            mJiNiTaiMeiNode.loop = false;
+            mJiNiTaiMeiNode.start(0);
+            
+            // connect volume accordingly
+            mJiNiTaiMeiNode.connect(mBgGainNode);
+        }
+    };
+    
+    /**
+     * Stops current background audio clip if playing
+     * @memberOf gEngine.AudioClips
+     * @returns {void}
+     */
+    var stopJiNiTaiMeiAudio = function () {
+        // Check if the audio is  playing.
+        if (mJiNiTaiMeiNode !== null) {
+            mJiNiTaiMeiNode.stop(0);
+            mJiNiTaiMeiNode = null;
+        }
+    };
 
     /**
      * Play a audioclip on repeat. Stops current background clip if playing.
@@ -294,6 +327,8 @@ gEngine.AudioClips = (function () {
         playBackgroundAudio: playBackgroundAudio,
         playStoringForceAudio:playStoringForceAudio,
         stopStoringForceAudio:stopStoringForceAudio,
+        playJiNiTaiMeiAudio:playJiNiTaiMeiAudio,
+        stopJiNiTaiMeiAudio:stopJiNiTaiMeiAudio,
         setBackgroundVolume: setBackgroundVolume,
         incBackgroundVolume: incBackgroundVolume,
         setMasterVolume: setMasterVolume,
