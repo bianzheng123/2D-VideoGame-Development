@@ -234,33 +234,34 @@ EndlessPlayingScene.prototype.update = function () {
 
 EndlessPlayingScene.prototype._egg = function(){
     if(this.mPlayer.accumulateValue>0.15*60*10){//触发彩蛋
-            this.mKunkun.play=true;
+        this.mKunkun.play=true;
+        this.mPlayUI.pauseSelect();
+        gEngine.AudioClips.stopBackgroundAudio();
+        gEngine.AudioClips.playJiNiTaiMeiAudio(this.kJinitaimei);
+        this.mKunkun.mKunkun.getXform().setPosition(this.mPlayer.getXform().getXPos(),this.mPlayer.getXform().getYPos());
+        this.mPlayer.accumulateValue=0;
+        this.mPlayer.setBack();
+    }
+    if(this.mKunkun.play){
+        this.mPlayer.setBack();
+        this.mPlayer.accumulateValue=0;
+        gEngine.AudioClips.setCueVolume(0);
+        if(this.mKunkun.timecount>60 ){
+            if(gEngine.Input.isAnyKeyClicked()){//结束彩蛋
+                this.mKunkun.play=false;
+                this.mKunkun.timecount=0;
+            }
+        }
+        this.mKunkun.update();
+        if(!this.mKunkun.play){
+            gEngine.AudioClips.setCueVolume(30);
+            gEngine.AudioClips.stopJiNiTaiMeiAudio();
+            gEngine.AudioClips.playBackgroundAudio(this.kEndlessPlayingSceneBg);
             this.mPlayUI.pauseSelect();
-            gEngine.AudioClips.stopBackgroundAudio();
-            gEngine.AudioClips.playJiNiTaiMeiAudio(this.kJinitaimei);
-            this.mKunkun.mKunkun.getXform().setPosition(this.mPlayer.getXform().getXPos(),this.mPlayer.getXform().getYPos());
-            this.mPlayer.accumulateValue=0;
-            this.mPlayer.setBack();
         }
-        if(this.mKunkun.play){
-            this.mPlayer.setBack();
-            this.mPlayer.accumulateValue=0;
-            gEngine.AudioClips.setCueVolume(0);
-            if(this.mKunkun.timecount>60){
-                if(gEngine.Input.isAnyKeyClicked()){//结束彩蛋
-                    this.mKunkun.play=false;
-                    this.mKunkun.timecount=0;
-                }
-            }
-            this.mKunkun.update();
-            if(!this.mKunkun.play){
-                gEngine.AudioClips.setCueVolume(30);
-                gEngine.AudioClips.stopJiNiTaiMeiAudio();
-                gEngine.AudioClips.playBackgroundAudio(this.kPlaySceneBgm);
-                this.mPlayUI.pauseSelect();
-            }
-        }
-}
+
+    }
+};
 
 EndlessPlayingScene.prototype._countTime = function(){
     this.timeLastFrameCount++;
