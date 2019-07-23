@@ -202,12 +202,13 @@ PlayScene.prototype.update = function () {
                     this.mKunkun.timecount=0;
                 }
             }
+            this.mKunkun.update();
             if(!this.mKunkun.play){
                 gEngine.AudioClips.setCueVolume(30);
                     gEngine.AudioClips.stopJiNiTaiMeiAudio();
                     gEngine.AudioClips.playBackgroundAudio(this.kPlaySceneBgm);
             }
-            this.mKunkun.update();
+            
         }
         
         
