@@ -19,6 +19,7 @@ function EndlessPlayingScene(mapIndex) {
     this.kUIButton = "assets/UI/button.png";
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kThermometer ="assets/thermometer.png";
+    this.kKunkun ="assets/kunkun.png";
     this.kLife = "assets/life.png";
     this.kButtons = "assets/buttons.png";
     this.kEndlessPlayingSceneBg = "assets/AudioTest/EndlessPlayingSceneBackGround.mp3";
@@ -31,6 +32,7 @@ function EndlessPlayingScene(mapIndex) {
     this.kStoringForce = "assets/AudioTest/StoringForce.mp3";
     this.kGiveOutForce = "assets/AudioTest/GiveOutForce.wav";
     this.kShooterWeapon = "assets/AudioTest/ShooterWeapon.mp3";
+    this.kJinitaimei = "assets/AudioTest/jinitaimei.mp3";
     
     // The camera to view the scene
     this.mCamera = null;
@@ -41,6 +43,7 @@ function EndlessPlayingScene(mapIndex) {
     this.mIceCreamManager = null;
     this.mShadowManager = null;
     this.mPlayer = null;
+    this.mKunkun = null;
     this.mFireManager = null;
     this.mHealthUIManager = null;
     
@@ -79,6 +82,7 @@ EndlessPlayingScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kAtlas);
     gEngine.Textures.loadTexture(this.kLife);
     gEngine.Textures.loadTexture(this.kButtons);
+    gEngine.Textures.loadTexture(this.kKunkun);
     gEngine.AudioClips.loadAudio(this.kEndlessPlayingSceneBg);
     gEngine.AudioClips.loadAudio(this.kPlayerEatIceCream);
     gEngine.AudioClips.loadAudio(this.kWinBgm);
@@ -88,6 +92,7 @@ EndlessPlayingScene.prototype.loadScene = function () {
     gEngine.AudioClips.loadAudio(this.kStoringForce);
     gEngine.AudioClips.loadAudio(this.kGiveOutForce);
     gEngine.AudioClips.loadAudio(this.kShooterWeapon);
+    gEngine.AudioClips.loadAudio(this.kJinitaimei);
 };
 
 EndlessPlayingScene.prototype.unloadScene = function () {
@@ -97,6 +102,7 @@ EndlessPlayingScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kSprite);
     gEngine.Textures.unloadTexture(this.kLife);
     gEngine.Textures.unloadTexture(this.kButtons);
+    gEngine.Textures.unloadTexture(this.kKunkun);
     gEngine.AudioClips.unloadAudio(this.kEndlessPlayingSceneBg);
     gEngine.AudioClips.unloadAudio(this.kPlayerEatIceCream);
     gEngine.AudioClips.unloadAudio(this.kWinBgm);
@@ -106,6 +112,7 @@ EndlessPlayingScene.prototype.unloadScene = function () {
     gEngine.AudioClips.unloadAudio(this.kStoringForce);
     gEngine.AudioClips.unloadAudio(this.kGiveOutForce);
     gEngine.AudioClips.unloadAudio(this.kShooterWeapon);
+    gEngine.AudioClips.unloadAudio(this.kJinitaimei);
     if(this.mFinishUI.levelSelect === "PlayScene" + this.mapIndex.toString()){
         gEngine.Core.startScene(new EndlessPlayingScene(this.mapIndex));
     }else if(this.mFinishUI.levelSelect === "PlayScene" + (this.mapIndex + 1).toString()){
@@ -149,7 +156,7 @@ EndlessPlayingScene.prototype.initialize = function () {
     this.mFireManager = new FireManager(this.kSprite,this.mCamera,this.mIceCreamManager,this.mMapManager,this.kShooterWeapon);
     this.mPlayer = new Player(this.kSprite,this.mCamera,this.mFireManager,this.kPlayerEatIceCream,this.kBeenHit,this.kFallDown,this.kTrap,this.kStoringForce,this.kGiveOutForce,true);
     this.mPlayer.initialize();
-    
+    this.mKunkun=new Kunkun(this.kKunkun);
      
 
     //    this.mStateUI = new StateUI(this.mPlayer);
@@ -182,13 +189,30 @@ EndlessPlayingScene.prototype.draw = function () {
     this.mPlayerDirectionUI.draw(this.mCamera,this.mPlayer);
     this.mEventUI.draw();
     this.mHealthUIManager.draw();
+    this.mKunkun.draw(this.mCamera);
 //    this.mStateUI.draw(this.mCamera);
 };
 
 EndlessPlayingScene.prototype.update = function () {
     if(!this.stopUpdating){
         this._countTime();
-        
+        if(this.mPlayer.accumulateValue>0.15*60*10){//触发彩蛋
+            this.mKunkun.play=true;
+            this.mKunkun.mKunkun.getXform().setPosition(this.mPlayer.getXform().getXPos(),this.mPlayer.getXform().getYPos());
+            this.mPlayer.accumulateValue=0;
+            this.mPlayer.setBack();
+        }
+        if(this.mKunkun.play){
+            this.mPlayer.setBack();
+            this.mPlayer.accumulateValue=0;
+            if(this.mKunkun.timecount>60){
+                if(gEngine.Input.isAnyKeyClicked()){//结束彩蛋
+                    this.mKunkun.play=false;
+                    this.mKunkun.timecount=0;
+                }
+            }
+        }
+        this.mKunkun.update();
         this.mIceCreamManager.update(this.mMapManager);
         this.mMapManager.update();
         this._updatePlayerPositionByIndex();

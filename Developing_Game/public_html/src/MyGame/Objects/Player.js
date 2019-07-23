@@ -348,11 +348,13 @@ Player.prototype._jump = function(mPlayUI){
         this.expectedX=this.originalX+expectedDist*Math.cos(Math.PI*this.direction/4);
         this.expectedY=this.originalY+expectedDist*Math.sin(Math.PI*this.direction/4);
         this.isJumping=true;
-        this.mPlayer.setColor([0.8, 0.6, 0.2, 0]);
-        this.mPlayer.setElementPixelPositions(this.pleft,this.pright,this.pbottom,this.ptop);
+       this.setBack();
     } 
 };
-
+Player.prototype.setBack=function(){
+     this.mPlayer.setColor([0.8, 0.6, 0.2, 0]);
+     this.mPlayer.setElementPixelPositions(this.pleft,this.pright,this.pbottom,this.ptop);
+}
 Player.prototype.changeImageDirection=function(walkingDirection){
     this.walkingDirection=walkingDirection;
     if(walkingDirection===this.DirectionEnum.LEFT){

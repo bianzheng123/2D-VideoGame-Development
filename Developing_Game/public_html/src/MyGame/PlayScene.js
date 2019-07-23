@@ -20,12 +20,14 @@ function PlayScene(mapIndex) {
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kThermometer ="assets/thermometer.png";
     this.kButtons ="assets/buttons.png";
+    this.kKunkun ="assets/kunkun.png";
     this.kPlaySceneBgm ="assets/AudioTest/PlaySceneBackGround.wav";
     this.kWinBgm = "assets/AudioTest/Win.mp3";
     this.kLoseBgm = "assets/AudioTest/Lose.wav";
     this.kBeenHit = "assets/AudioTest/BeenHit.wav";
     this.kFallDown = "assets/AudioTest/FallDown.mp3";
     this.kTrap = "assets/AudioTest/Trap.mp3";
+    this.kJinitaimei = "assets/AudioTest/jinitaimei.mp3";
     this.kStoringForce = "assets/AudioTest/StoringForce.mp3";
     this.kGiveOutForce = "assets/AudioTest/GiveOutForce.wav";
     this.kShooterWeapon = "assets/AudioTest/ShooterWeapon.mp3";
@@ -41,6 +43,7 @@ function PlayScene(mapIndex) {
     this.mShadowManager = null;
     this.mPlayer = null;
     this.mFireManager = null;
+    this.mKunkun = null;
     
     this.mGeneralUI = null;
     this.mPlayUI = null;
@@ -73,6 +76,7 @@ PlayScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kBG);
     gEngine.Textures.loadTexture(this.kAtlas);
     gEngine.Textures.loadTexture(this.kButtons);
+    gEngine.Textures.loadTexture(this.kKunkun);
     
     gEngine.AudioClips.loadAudio(this.kPlaySceneBgm);
     gEngine.AudioClips.loadAudio(this.kPlayerEatIceCream);
@@ -84,6 +88,7 @@ PlayScene.prototype.loadScene = function () {
     gEngine.AudioClips.loadAudio(this.kStoringForce);
     gEngine.AudioClips.loadAudio(this.kGiveOutForce);
     gEngine.AudioClips.loadAudio(this.kShooterWeapon);
+    gEngine.AudioClips.loadAudio(this.kJinitaimei);
 };
 
 PlayScene.prototype.unloadScene = function () {
@@ -92,6 +97,7 @@ PlayScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kAtlas);
     gEngine.Textures.unloadTexture(this.kSprite);
     gEngine.Textures.unloadTexture(this.kButtons);
+    gEngine.Textures.unloadTexture(this.kKunkun);
     
     gEngine.AudioClips.unloadAudio(this.kPlaySceneBgm);
     gEngine.AudioClips.unloadAudio(this.kPlayerEatIceCream);
@@ -103,6 +109,7 @@ PlayScene.prototype.unloadScene = function () {
     gEngine.AudioClips.unloadAudio(this.kStoringForce);
     gEngine.AudioClips.unloadAudio(this.kGiveOutForce);
     gEngine.AudioClips.unloadAudio(this.kShooterWeapon);
+    gEngine.AudioClips.unloadAudio(this.kJinitaimei);
     if(this.mFinishUI.levelSelect === "PlayScene" + this.mapIndex.toString()){
         gEngine.Core.startScene(new PlayScene(this.mapIndex));
     }else if(this.mFinishUI.levelSelect === "PlayScene" + (this.mapIndex + 1).toString()){
@@ -141,7 +148,7 @@ PlayScene.prototype.initialize = function () {
     this.mPlayUI = new PlayUI(this.kSprite,this.kButtons,this.mCamera,this,true);
     this.mPlayUI.initialize();
     this.mShadowManager = new ShadowManager(this.kSprite,this.mCamera);
-    
+    this.mKunkun=new Kunkun(this.kKunkun);
 //    console.log(this.kShooterWeapon);
     this.mIceCreamManager = new IceCreamManager(this.kSprite,this.mCamera,this,false);
     this.mFireManager = new FireManager(this.kSprite,this.mCamera,this.mIceCreamManager,this.mMapManager,this.kShooterWeapon);
@@ -171,11 +178,29 @@ PlayScene.prototype.draw = function () {
     this.mFireManager.draw();
     this.mPlayerDirectionUI.draw(this.mCamera,this.mPlayer);
     this.mEventUI.draw();
+    this.mKunkun.draw(this.mCamera);
     this.mFinishUI.draw(this.mCamera);
 };
 
 PlayScene.prototype.update = function () {
     if(!this.stopUpdating){
+        if(this.mPlayer.accumulateValue>0.15*60*10){//触发彩蛋
+            this.mKunkun.play=true;
+            this.mKunkun.mKunkun.getXform().setPosition(this.mPlayer.getXform().getXPos(),this.mPlayer.getXform().getYPos());
+            this.mPlayer.accumulateValue=0;
+            this.mPlayer.setBack();
+        }
+        if(this.mKunkun.play){
+            this.mPlayer.setBack();
+            this.mPlayer.accumulateValue=0;
+            if(this.mKunkun.timecount>60){
+                if(gEngine.Input.isAnyKeyClicked()){//结束彩蛋
+                    this.mKunkun.play=false;
+                    this.mKunkun.timecount=0;
+                }
+            }
+        }
+        this.mKunkun.update();
         this.timeLastFrameCount++;
         this.timeLast = Number.parseFloat(this.timeLastFrameCount / 60).toFixed(1);
         
