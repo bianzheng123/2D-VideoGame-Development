@@ -23,6 +23,8 @@ You can also use the virtual joystick and buttons on the screen to operate if yo
 
 ## Gallery
 
+![Poster](Gallery/poster.jpg)
+
 ![Start Scene](Gallery/screenshoot1.png)
 
 ![Selecting mode and map](Gallery/screenshoot2.png)
